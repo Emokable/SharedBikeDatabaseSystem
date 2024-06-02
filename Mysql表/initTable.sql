@@ -51,56 +51,75 @@ CREATE TABLE Admin (
     avatar VARCHAR(255),
     birthday DATE
 );
-
 DELIMITER //
+
 CREATE TRIGGER insert_ride_record_trigger
 BEFORE INSERT ON RideRecord
 FOR EACH ROW
 BEGIN
     DECLARE rider_count INT;
     DECLARE bike_count INT;
-    
+    DECLARE chars CHAR(52);
+    DECLARE username VARCHAR(8);
+    DECLARE length INT;
+    DECLARE start_date DATE;
+    DECLARE end_date DATE;
+    DECLARE random_days INT;
+    DECLARE birthday DATE;
+    DECLARE random_value DECIMAL(10, 8);
+    DECLARE random_gender DECIMAL(10, 8);
+    DECLARE random_status DECIMAL(10, 8);
+
     -- 检查rider是否存在
     SELECT COUNT(*) INTO rider_count FROM Rider WHERE userid = NEW.userid;
     
     IF rider_count = 0 THEN
         -- 生成随机用户名
-        SET @chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        SET @username = '';
-        SET @length = 8;
-        WHILE @length > 0 DO
-            SET @username = CONCAT(@username, SUBSTRING(@chars, FLOOR(RAND() * LENGTH(@chars) + 1), 1));
-            SET @length = @length - 1;
+        SET chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        SET username = '';
+        SET length = 8;
+        WHILE length > 0 DO
+            SET username = CONCAT(username, SUBSTRING(chars, FLOOR(1 + RAND() * 52), 1));
+            SET length = length - 1;
         END WHILE;
 
         -- 生成随机生日（1950年至今的随机日期）
-        SET @start_date = '1950-01-01';
-        SET @end_date = CURDATE();
-        SET @random_days = FLOOR(RAND() * DATEDIFF(@end_date, @start_date));
-        SET @birthday = DATE_ADD(@start_date, INTERVAL @random_days DAY);
+        SET start_date = '1950-01-01';
+        SET end_date = CURDATE();
+        SET random_days = FLOOR(RAND() * DATEDIFF(end_date, start_date));
+        SET birthday = DATE_ADD(start_date, INTERVAL random_days DAY);
 
         -- 插入到Rider表
+        SET random_gender = RAND();
         INSERT INTO Rider (userid, username, gender, password, phone_number, avatar, birthday)
-        VALUES (NEW.userid, @username, 
-                CASE WHEN RAND() < 0.5 THEN 'male' ELSE 'female' END, 
-                SUBSTRING(MD5(RAND()) FROM 1 FOR 8), 
+        VALUES (NEW.userid, username, 
+                CASE 
+                    WHEN random_gender < 0.4 THEN 'male' 
+                    WHEN random_gender < 0.6 THEN 'female' 
+                    ELSE 'other' 
+                END, 
+                SUBSTRING(MD5(RAND()), 1, 8), 
                 FLOOR(RAND() * 10000000), 
                 'default.jpg', 
-                @birthday);
+                birthday);
     END IF;
+
     -- 检查bike是否存在
     SELECT COUNT(*) INTO bike_count FROM Bike WHERE bikeid = NEW.bikeid;
     IF bike_count = 0 THEN
         -- 插入到Bike表
+        SET random_status = RAND();
         INSERT INTO Bike (bikeid, brand, release_date, warranty_period, status)
         VALUES (NEW.bikeid, 'Hellobike', 
                 DATE_ADD(NOW(), INTERVAL -FLOOR(RAND() * 365) DAY), 
                 FLOOR(RAND() * 3) + 1, 
-                CASE WHEN RAND() < 0.8 THEN 'available' ELSE 'locked' END);
+                CASE 
+                    WHEN random_status < 1/3 THEN 'available' 
+                    WHEN random_status < 2/3 THEN 'locked' 
+                    ELSE 'damaged' 
+                END);
     END IF;
 END;
 //
 
 DELIMITER ;
-
-
