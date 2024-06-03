@@ -7,8 +7,11 @@ import java.util.List;
 
 @Mapper
 public interface NoParkingZoneMapper {
-    @Select("SELECT * FROM NoParkingZone")
-    List<NoParkingZone> getAllNoParkingZones();
+    @Select("SELECT * FROM NoParkingZone ORDER BY ${sortColumn} ${sortOrder} LIMIT #{limit} OFFSET #{offset}")
+    List<NoParkingZone> getAllNoParkingZones(@Param("sortColumn") String sortColumn,
+                                             @Param("sortOrder") String sortOrder,
+                                             @Param("limit") int limit,
+                                             @Param("offset") int offset);
 
     @Select("SELECT * FROM NoParkingZone WHERE zone_id = #{id}")
     NoParkingZone getNoParkingZoneById(int id);
@@ -19,4 +22,6 @@ public interface NoParkingZoneMapper {
 
     @Delete("DELETE FROM NoParkingZone WHERE zone_id = #{id}")
     void deleteNoParkingZone(int id);
+
+
 }

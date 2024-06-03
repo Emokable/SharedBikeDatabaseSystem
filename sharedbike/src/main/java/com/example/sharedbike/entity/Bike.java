@@ -10,6 +10,8 @@ public class Bike {
     private String brand;
     private Date releaseDate;
     private int warrantyPeriod;
+    private float LocationX;
+    private float LocationY;
     private Status status;
 
     // Getters and setters

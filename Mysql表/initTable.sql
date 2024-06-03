@@ -1,7 +1,7 @@
 -- 创建骑行者表
 CREATE TABLE Rider (
     userid INT  PRIMARY KEY,
-    username VARCHAR(50)  UNIQUE,
+    username VARCHAR(50) ,
     gender ENUM('male', 'female', 'other') ,
     password VARCHAR(255) ,
     phone_number VARCHAR(20),
@@ -15,6 +15,8 @@ CREATE TABLE Bike (
     brand VARCHAR(50) ,
     release_date DATE,
     warranty_period INT,
+		location_x FLOAT,
+		location_y FLOAT,
     status ENUM('available', 'locked', 'damaged') DEFAULT 'available'
 );
 
@@ -72,7 +74,6 @@ BEGIN
 
     -- 检查rider是否存在
     SELECT COUNT(*) INTO rider_count FROM Rider WHERE userid = NEW.userid;
-    
     IF rider_count = 0 THEN
         -- 生成随机用户名
         SET chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -82,7 +83,6 @@ BEGIN
             SET username = CONCAT(username, SUBSTRING(chars, FLOOR(1 + RAND() * 52), 1));
             SET length = length - 1;
         END WHILE;
-
         -- 生成随机生日（1950年至今的随机日期）
         SET start_date = '1950-01-01';
         SET end_date = CURDATE();
@@ -109,15 +109,24 @@ BEGIN
     IF bike_count = 0 THEN
         -- 插入到Bike表
         SET random_status = RAND();
-        INSERT INTO Bike (bikeid, brand, release_date, warranty_period, status)
+        INSERT INTO Bike (bikeid, brand, release_date, warranty_period,location_x ,
+		location_y,  status)
         VALUES (NEW.bikeid, 'Hellobike', 
                 DATE_ADD(NOW(), INTERVAL -FLOOR(RAND() * 365) DAY), 
                 FLOOR(RAND() * 3) + 1, 
+								NEW.end_location_x,
+								NEW.end_location_y,
                 CASE 
                     WHEN random_status < 1/3 THEN 'available' 
                     WHEN random_status < 2/3 THEN 'locked' 
                     ELSE 'damaged' 
                 END);
+    ELSE
+        -- Update Bike location
+        UPDATE Bike
+        SET location_x = NEW.end_location_x, 
+            location_y = NEW.end_location_y
+        WHERE bikeid = NEW.bikeid;
     END IF;
 END;
 //

@@ -1,6 +1,7 @@
 package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.NoParkingZone;
+import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.NoParkingZoneMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +15,10 @@ public class NoParkingZoneController {
     private NoParkingZoneMapper noParkingZoneMapper;
 
     @GetMapping
-    public List<NoParkingZone> getAllNoParkingZones() {
-        return noParkingZoneMapper.getAllNoParkingZones();
-    }
+    public List<NoParkingZone> getAllNoParkingZones(String sortColumn, String sortOrder,int limit,int offset) {
+            return noParkingZoneMapper.getAllNoParkingZones(sortColumn,sortOrder,limit,offset);
+        }
+
 
     @GetMapping("/{id}")
     public NoParkingZone getNoParkingZoneById(@PathVariable int id) {

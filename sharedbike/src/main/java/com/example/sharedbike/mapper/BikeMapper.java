@@ -7,16 +7,26 @@ import java.util.List;
 
 @Mapper
 public interface BikeMapper {
-    @Select("SELECT * FROM Bike")
-    List<Bike> getAllBikes();
 
-    @Select("SELECT * FROM Bike WHERE bikeid = #{id}")
-    Bike getBikeById(int id);
 
-    @Insert("INSERT INTO Bike(bikeid,brand, release_date, warranty_period, status) VALUES(#{bikeid},#{brand}, #{releaseDate}, #{warrantyPeriod}, #{status})")
-    @Options(useGeneratedKeys = true, keyProperty = "bikeid")
-    void saveBike(Bike bike);
 
-    @Delete("DELETE FROM Bike WHERE bikeid = #{id}")
-    void deleteBike(int id);
+        @Select("SELECT * FROM Bike WHERE bikeid = #{id}")
+        Bike getBikeById(int id);
+
+        @Insert("INSERT INTO Bike(bikeid, brand, release_date, warranty_period, location_x, location_y, status) VALUES(#{bikeid}, #{brand}, #{releaseDate}, #{warrantyPeriod}, #{LocationX}, #{LocationY}, #{status})")
+        @Options(useGeneratedKeys = true, keyProperty = "bikeid")
+        void saveBike(Bike bike);
+
+        @Delete("DELETE FROM Bike WHERE bikeid = #{id}")
+        void deleteBike(int id);
+
+        @Select("SELECT * FROM Bike ORDER BY ${sortBy} ${sortOrder} LIMIT #{offset}, #{size}")
+        List<Bike> getAllBikes(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
+
+        @Select("SELECT * FROM Bike WHERE bikeid LIKE CONCAT('%', #{keyword}, '%') OR brand LIKE CONCAT('%', #{keyword}, '%') OR release_date LIKE CONCAT('%', #{keyword}, '%')")
+        List<Bike> searchBikes(@Param("keyword") String keyword);
+
+        @Select("SELECT * FROM Bike WHERE location_x BETWEEN #{startX} AND #{endX} AND location_y BETWEEN #{startY} AND #{endY} AND status = 'available'")
+        List<Bike> searchBikesByLocation(@Param("startX") float startX, @Param("startY") float startY, @Param("endX") float endX, @Param("endY") float endY);
+
 }

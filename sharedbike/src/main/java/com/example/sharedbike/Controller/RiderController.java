@@ -2,6 +2,7 @@ package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.RiderMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,12 @@ public class RiderController {
     private RiderMapper riderMapper;
 
     @GetMapping
-    public List<Rider> getAllRiders() {
-        return riderMapper.getAllRiders();
+    public List<Rider> getAllRiders(String sortColumn, String sortOrder,int limit,int offset) {
+        return riderMapper.getAllRiders(sortColumn,sortOrder,limit,offset);
+    }
+    @GetMapping("/search")
+    public List<Rider> searchRiders(String keyword) {
+        return riderMapper.searchRiders(keyword);
     }
 
     @GetMapping("/{id}")
