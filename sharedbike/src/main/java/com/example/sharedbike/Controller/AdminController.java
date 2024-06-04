@@ -14,9 +14,18 @@ public class AdminController {
     private AdminMapper adminMapper;
 
     @GetMapping
-    public List<Admin> getAllAdmins() {
-        return adminMapper.getAllAdmins();
+    public List<Admin> getAllAdmins( @RequestParam(required = false, defaultValue = "1") int page,
+                                     @RequestParam(required = false, defaultValue = "10") int size,
+                                     @RequestParam(required = false, defaultValue = "adminid") String sortBy,
+                                     @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        int offset = (page - 1) * size;
+        return adminMapper.getAllAdmins(offset, size, sortBy, sortOrder);
     }
+    @GetMapping("/search")
+    public List<Admin> searchAdmins(String keyword) {
+        return adminMapper.searchAdmins(keyword);
+    }
+
 
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable int id) {

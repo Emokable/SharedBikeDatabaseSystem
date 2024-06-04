@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 @Data
 public class Admin {
-    private int admin_id;
+    private int adminid;
     private Privileges privileges;
     private String username;
     private Gender gender;

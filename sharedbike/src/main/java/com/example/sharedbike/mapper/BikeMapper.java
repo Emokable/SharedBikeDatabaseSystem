@@ -19,8 +19,6 @@ public interface BikeMapper {
 
         @Delete("DELETE FROM Bike WHERE bikeid = #{id}")
         void deleteBike(int id);
-
-        @Select("SELECT * FROM Bike ORDER BY ${sortBy} ${sortOrder} LIMIT #{offset}, #{size}")
         List<Bike> getAllBikes(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
 
         @Select("SELECT * FROM Bike WHERE bikeid LIKE CONCAT('%', #{keyword}, '%') OR brand LIKE CONCAT('%', #{keyword}, '%') OR release_date LIKE CONCAT('%', #{keyword}, '%')")

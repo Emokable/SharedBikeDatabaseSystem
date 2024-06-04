@@ -7,8 +7,7 @@ import java.util.List;
 
 @Mapper
 public interface RiderMapper {
-//    @Select("SELECT * FROM Rider")
-//    List<Rider> getAllRiders();
+
     @Select("SELECT * FROM Rider ORDER BY ${sortColumn} ${sortOrder} LIMIT #{limit} OFFSET #{offset}")
     List<Rider> getAllRiders(@Param("sortColumn") String sortColumn,
                              @Param("sortOrder") String sortOrder,
