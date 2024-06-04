@@ -23,12 +23,12 @@ public class BikeController {
         return bikeMapper.getAllBikes(offset, size, sortBy, sortOrder);
     }
 
-    @GetMapping("/bikes/search")
+    @GetMapping("/search")
     public List<Bike> searchBikes(@RequestParam String keyword) {
         return bikeMapper.searchBikes(keyword);
     }
 
-    @GetMapping("/bikes/location")
+    @GetMapping("/location")
     public List<Bike> searchBikesByLocation(
             @RequestParam float startX,
             @RequestParam float startY,

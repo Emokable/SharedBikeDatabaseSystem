@@ -15,8 +15,12 @@ public class RiderController {
     private RiderMapper riderMapper;
 
     @GetMapping
-    public List<Rider> getAllRiders(String sortColumn, String sortOrder,int limit,int offset) {
-        return riderMapper.getAllRiders(sortColumn,sortOrder,limit,offset);
+    public List<Rider> getAllRiders(@RequestParam(required = false, defaultValue = "1") int page,
+                                    @RequestParam(required = false, defaultValue = "10") int size,
+                                    @RequestParam(required = false, defaultValue = "userid") String sortBy,
+                                    @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        int offset = (page - 1) * size ;
+        return riderMapper.getAllRiders(offset, size, sortBy, sortOrder);
     }
     @GetMapping("/search")
     public List<Rider> searchRiders(String keyword) {
