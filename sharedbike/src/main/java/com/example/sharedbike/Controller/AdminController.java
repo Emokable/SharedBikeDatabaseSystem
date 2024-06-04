@@ -16,7 +16,7 @@ public class AdminController {
     @GetMapping
     public List<Admin> getAllAdmins( @RequestParam(required = false, defaultValue = "1") int page,
                                      @RequestParam(required = false, defaultValue = "10") int size,
-                                     @RequestParam(required = false, defaultValue = "adminid") String sortBy,
+                                     @RequestParam(required = false, defaultValue = "admin_id") String sortBy,
                                      @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
         int offset = (page - 1) * size;
         return adminMapper.getAllAdmins(offset, size, sortBy, sortOrder);
@@ -32,11 +32,14 @@ public class AdminController {
         return adminMapper.getAdminById(id);
     }
 
-    @PostMapping
-    public void saveAdmin(@RequestBody Admin admin) {
-        adminMapper.saveAdmin(admin);
+    @PostMapping("/insert")
+    public void insertAdmin(@RequestBody Admin admin) {
+        adminMapper.insertAdmin(admin);
     }
-
+    @PutMapping("/update")
+    public void updateAdmin(@RequestBody Admin admin) {
+        adminMapper.updateAdmin(admin);
+    }
     @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable int id) {
         adminMapper.deleteAdmin(id);
