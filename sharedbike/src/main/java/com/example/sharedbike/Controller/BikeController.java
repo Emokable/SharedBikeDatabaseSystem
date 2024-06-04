@@ -51,6 +51,12 @@ public class BikeController {
     public void deleteBike(@PathVariable int id) {
         bikeMapper.deleteBike(id);
     }
+    @PutMapping("/update")
+    void updateBikestatus(@RequestParam int id, @RequestParam String Status){
+        bikeMapper.updateBikestatus(id,Status);
+
+    }
+
 
 
 }
