@@ -2,13 +2,14 @@ package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.service.AdminService;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpSession;
 
 @RestController
 public class SessionController {
@@ -17,18 +18,22 @@ public class SessionController {
     private AdminService adminService;
 
     @PostMapping("/login")
-    public String login(@RequestBody Admin user, HttpSession session) {
-        Admin authenticatedUser = adminService.authenticate(user.getUsername(), user.getPassword());
-        if (authenticatedUser != null) {
-            session.setAttribute("user", authenticatedUser);
+    public String login(@RequestBody Admin user) {
+        Subject subject = SecurityUtils.getSubject();
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
+
+        try {
+            subject.login(token);
             return "{\"message\": \"登录成功\", \"redirect\": \"/swagger-ui.html\"}";
+        } catch (Exception e) {
+            return "{\"message\": \"账号或密码错误\"}";
         }
-        return "{\"message\": \"账号或密码错误\"}";
     }
+
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        // 注销 删除Session
-        session.removeAttribute("user");
+    public String logout() {
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
         return "logout success";
     }
 }
