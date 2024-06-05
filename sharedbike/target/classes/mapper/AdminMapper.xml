@@ -17,8 +17,17 @@
     <update id="updateAdmin" parameterType="com.example.sharedbike.entity.Admin">
         UPDATE admin
         SET
-            username=#{username},
             privileges = #{privileges},
+            gender = #{gender},
+            password = #{password},
+            phone_number = #{phoneNumber},
+            avatar = #{avatar},
+            birthday = #{birthday}
+        WHERE admin_id = #{adminid}
+    </update>
+    <update id="updateAdmin2" parameterType="com.example.sharedbike.entity.Admin">
+        UPDATE admin
+        SET
             gender = #{gender},
             password = #{password},
             phone_number = #{phoneNumber},

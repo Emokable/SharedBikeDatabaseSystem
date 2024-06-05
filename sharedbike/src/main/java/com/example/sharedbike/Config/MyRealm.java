@@ -57,7 +57,7 @@ public class MyRealm extends AuthorizingRealm {
                     authorizationInfo.addRole("superuser");
                     authorizationInfo.addStringPermission("read");
                     authorizationInfo.addStringPermission("write");
-                    authorizationInfo.addStringPermission("delete");
+                    authorizationInfo.addStringPermission("manage");
                     break;
                 default:
                     break;

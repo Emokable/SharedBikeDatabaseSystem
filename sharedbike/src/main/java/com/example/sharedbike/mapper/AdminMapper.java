@@ -18,6 +18,7 @@ public interface AdminMapper {
     @Delete("DELETE FROM Admin WHERE admin_id = #{admin_id}")
     void deleteAdmin(int admin_id);
     void updateAdmin(Admin admin);
+    void updateAdmin2(Admin admin);
     @Select("SELECT * FROM Admin WHERE username = #{username}")
     Admin findByUsername(String username);
 }

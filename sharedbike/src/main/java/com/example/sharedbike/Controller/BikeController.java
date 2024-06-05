@@ -47,7 +47,7 @@ public class BikeController {
     public void saveBike(@RequestBody Bike bike) {
         bikeMapper.saveBike(bike);
     }
-    @RequiresPermissions("delete")
+    @RequiresPermissions("write")
     @DeleteMapping("/{id}")
     public void deleteBike(@PathVariable int id) {
         bikeMapper.deleteBike(id);

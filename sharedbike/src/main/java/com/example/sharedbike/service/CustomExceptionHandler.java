@@ -1,4 +1,4 @@
-package com.example.sharedbike.Controller;
+package com.example.sharedbike.service;
 
 import org.apache.shiro.authz.UnauthorizedException;
 import org.springframework.http.HttpStatus;
