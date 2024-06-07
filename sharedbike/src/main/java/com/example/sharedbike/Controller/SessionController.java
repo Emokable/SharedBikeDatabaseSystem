@@ -2,6 +2,7 @@ package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.service.AdminService;
+import com.example.sharedbike.result.LoginException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
@@ -18,15 +19,15 @@ public class SessionController {
     private AdminService adminService;
 
     @PostMapping("/login")
-    public String login(@RequestBody Admin user) {
+    public String login(@RequestBody Admin user) throws LoginException {
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername(), user.getPassword());
 
         try {
             subject.login(token);
-            return "{\"message\": \"登录成功\", \"redirect\": \"/swagger-ui.html\"}";
+            return "登录成功！";
         } catch (Exception e) {
-            return "{\"message\": \"账号或密码错误\"}";
+            throw new LoginException("login fail.");
         }
     }
 

@@ -77,8 +77,8 @@
         })
             .then(response => response.json())
             .then(data => {
-                if (data.message === '登录成功') {
-                    window.location.href = data.redirect; // 重定向到Swagger UI
+                if (data.code === 100) {
+                    window.location.href = "/swagger-ui.html"; // 重定向到Swagger UI
                 } else {
                     document.getElementById('message').textContent = data.message;
                 }

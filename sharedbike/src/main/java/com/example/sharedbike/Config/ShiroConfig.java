@@ -81,6 +81,7 @@ public class ShiroConfig {
         // 配置拦截器
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/login", "anon"); // 登录接口不拦截
+        filterChainDefinitionMap.put("/api/login", "anon"); // 登录接口不拦截
         filterChainDefinitionMap.put("/static/**", "anon"); // 静态资源不拦截
         filterChainDefinitionMap.put("/logout", "logout"); // 注销接口
         filterChainDefinitionMap.put("/**", "authc"); // 其他接口需要登录
