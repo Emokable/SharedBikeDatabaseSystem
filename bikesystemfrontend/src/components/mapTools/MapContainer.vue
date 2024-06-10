@@ -11,7 +11,7 @@ const bikeID = ref('');
 const getLocation = () => {
   // Your code here
   axios
-        .post('http://localhost:8080/bikeLocation', {
+        .post('http://localhost:8088/location', {
           bikeID: parseInt(bikeID.value)
         })
         .then(successResponse => {

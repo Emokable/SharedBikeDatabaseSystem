@@ -78,6 +78,7 @@
             .then(response => response.json())
             .then(data => {
                 if (data.code === 100) {
+                    localStorage.setItem('token', data.token);
                     window.location.href = "/swagger-ui.html"; // 重定向到Swagger UI
                 } else {
                     document.getElementById('message').textContent = data.message;
