@@ -68,7 +68,24 @@ public class ShiroConfig {
 		registration.setEnabled(false);
 		return registration;
 	}
-
+	@Bean
+	public HashedCredentialsMatcher hashedCredentialsMatcher() {
+		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher();
+		matcher.setHashAlgorithmName("sha-1");
+		matcher.setHashIterations(16);
+		matcher.setStoredCredentialsHexEncoded(true);
+		return matcher;
+	}
+	/**
+	 * ShiroRealm 配置，需实现 Realm 接口
+	 */
+	@Bean
+	public ShiroRealm shiroRealm() {
+		ShiroRealm shiroRealm = new ShiroRealm();
+		//设置shiroRealm的密码验证的匹配器
+		shiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
+		return shiroRealm;
+	}
 	@Bean
 	public JwtFilter jwtFilter() {
 		return new JwtFilter();
@@ -126,26 +143,15 @@ public class ShiroConfig {
 	@Bean
 	JwtRealm jwtRealm() {
 		JwtRealm jwtRealm = new JwtRealm();
-		// 设置加密算法
+//		// 设置加密算法
 		CredentialsMatcher credentialsMatcher = new JwtCredentialsMatcher();
-		// 设置加密次数
+//		// 设置加密次数
 		jwtRealm.setCredentialsMatcher(credentialsMatcher);
 		return jwtRealm;
 	}
 
-	/**
-	 * ShiroRealm 配置，需实现 Realm 接口
-	 */
-	@Bean
-	ShiroRealm shiroRealm() {
-		ShiroRealm shiroRealm = new ShiroRealm();
-		// 设置加密算法
-		HashedCredentialsMatcher credentialsMatcher = new HashedCredentialsMatcher("SHA-1");
-		// 设置加密次数
-		credentialsMatcher.setHashIterations(16);
-		shiroRealm.setCredentialsMatcher(credentialsMatcher);
-		return shiroRealm;
-	}
+
+
 
 	/**
 	 * 配置 SecurityManager

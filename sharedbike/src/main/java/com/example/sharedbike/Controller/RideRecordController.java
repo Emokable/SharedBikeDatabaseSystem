@@ -3,6 +3,7 @@ package com.example.sharedbike.Controller;
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
 import com.example.sharedbike.mapper.RideRecordMapper;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 public class RideRecordController {
     @Autowired
     private RideRecordMapper rideRecordMapper;
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
     public List<Bike> getAllRideRecords(
             @RequestParam(required = false, defaultValue = "1") int page,
@@ -24,32 +25,32 @@ public class RideRecordController {
         int offset = (page - 1) * size;
         return rideRecordMapper.getAllRideRecords(offset, size, sortBy, sortOrder);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<RideRecord> searchRideRecords(@RequestParam String keyword) {
         return rideRecordMapper.searchRideRecords(keyword);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")
     public RideRecord getRideRecordById(@PathVariable int id) {
         return rideRecordMapper.getRideRecordById(id);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/userid/{userid}")
     public List<RideRecord> getRideRecordUserId(@PathVariable int userid) {
         return rideRecordMapper.getRideRecordUserId(userid);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/bikeid/{bikeid}")
     public List<RideRecord> getRideRecordBikeId(@PathVariable int bikeid) {
         return rideRecordMapper.getRideRecordBikeId(bikeid);
     }
-    @RequiresPermissions("write")
+    @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @PostMapping
     public void saveRideRecord(@RequestBody RideRecord rideRecord) {
         rideRecordMapper.saveRideRecord(rideRecord);
     }
-    @RequiresPermissions("write")
+    @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @DeleteMapping("/{id}")
     public void deleteRideRecord(@PathVariable int id) {
         rideRecordMapper.deleteRideRecord(id);

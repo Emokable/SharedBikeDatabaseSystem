@@ -2,6 +2,7 @@ package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.mapper.BikeMapper;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ import java.util.List;
 public class BikeController {
     @Autowired
     private BikeMapper bikeMapper;
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/bikes")
     public List<Bike> getAllBikes(
             @RequestParam(required = false, defaultValue = "1") int page,
@@ -23,12 +24,12 @@ public class BikeController {
         int offset = (page - 1) * size;
         return bikeMapper.getAllBikes(offset, size, sortBy, sortOrder);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Bike> searchBikes(@RequestParam String keyword) {
         return bikeMapper.searchBikes(keyword);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/location")
     public List<Bike> searchBikesByLocation(
             @RequestParam float startX,
@@ -37,22 +38,22 @@ public class BikeController {
             @RequestParam float endY) {
         return bikeMapper.searchBikesByLocation(startX, startY, endX, endY);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")
     public Bike getBikeById(@PathVariable int id) {
         return bikeMapper.getBikeById(id);
     }
-    @RequiresPermissions("write")
+    @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @PostMapping
     public void saveBike(@RequestBody Bike bike) {
         bikeMapper.saveBike(bike);
     }
-    @RequiresPermissions("write")
+    @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @DeleteMapping("/{id}")
     public void deleteBike(@PathVariable int id) {
         bikeMapper.deleteBike(id);
     }
-    @RequiresPermissions("write")
+    @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @PutMapping("/update")
     void updateBikestatus(@RequestParam int id, @RequestParam String Status){
         bikeMapper.updateBikestatus(id,Status);

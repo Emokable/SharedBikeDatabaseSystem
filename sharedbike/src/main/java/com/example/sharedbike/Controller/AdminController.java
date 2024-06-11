@@ -3,7 +3,10 @@ package com.example.sharedbike.Controller;
 import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.entity.DTO.AdminUpdateDTO;
 import com.example.sharedbike.mapper.AdminMapper;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +23,7 @@ import org.apache.shiro.subject.Subject;
 public class AdminController {
     @Autowired
     private AdminMapper adminMapper;
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
     public List<Admin> getAllAdmins( @RequestParam(required = false, defaultValue = "1") int page,
                                      @RequestParam(required = false, defaultValue = "10") int size,
@@ -29,27 +32,46 @@ public class AdminController {
         int offset = (page - 1) * size;
         return adminMapper.getAllAdmins(offset, size, sortBy, sortOrder);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Admin> searchAdmins(String keyword) {
         return adminMapper.searchAdmins(keyword);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")
     public Admin getAdminById(@PathVariable int id) {
         return adminMapper.getAdminById(id);
     }
-    @RequiresPermissions("manage")
+    @RequiresPermissions("superuser")
     @PostMapping("/insert")
     public void insertAdmin(@RequestBody Admin admin) {
         adminMapper.insertAdmin(admin);
     }
-    @RequiresPermissions("manage")
+    @RequiresPermissions("superuser")
     @PutMapping("/update")
     public void updateAdmin(@RequestBody Admin admin) {
+        Subject currentUser = SecurityUtils.getSubject();
+        Admin currentAdmin = (Admin) currentUser.getPrincipal();
+        currentAdmin.setAdminid(admin.getAdminid());
+        currentAdmin.setPrivileges(admin.getPrivileges());
+        currentAdmin.setGender(admin.getGender());
+        if (admin.getPassword() != null) {
+            // 盐值
+            ByteSource salt = ByteSource.Util.bytes(currentAdmin.getUsername());
+            // 设置哈希算法和迭代次数
+            String hashAlgorithmName = "SHA-1";
+            int hashIterations = 16;
+            // 使用 SimpleHash 进行加密
+            SimpleHash hash = new SimpleHash(hashAlgorithmName, currentAdmin.getUsername(), salt, hashIterations);
+            String encryptedPassword = hash.toHex();
+            currentAdmin.setPassword(encryptedPassword);
+        }
+            currentAdmin.setPhoneNumber(admin.getPhoneNumber());
+            currentAdmin.setAvatar(admin.getAvatar());
+            currentAdmin.setBirthday(admin.getBirthday());
         adminMapper.updateAdmin(admin);
     }
-    @RequiresPermissions("read")
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @PutMapping("/update2")
     public void updateAdmin2(@RequestBody AdminUpdateDTO adminUpdateDTO) {
         // 获取当前用户的ID
@@ -62,7 +84,15 @@ public class AdminController {
             currentAdmin.setGender(adminUpdateDTO.getGender());
         }
         if (adminUpdateDTO.getPassword() != null) {
-            currentAdmin.setPassword(adminUpdateDTO.getPassword());
+            // 盐值
+            ByteSource salt = ByteSource.Util.bytes(currentAdmin.getUsername());
+            // 设置哈希算法和迭代次数
+            String hashAlgorithmName = "SHA-1";
+            int hashIterations = 16;
+            // 使用 SimpleHash 进行加密
+            SimpleHash hash = new SimpleHash(hashAlgorithmName, currentAdmin.getUsername(), salt, hashIterations);
+            String encryptedPassword = hash.toHex();
+            currentAdmin.setPassword(encryptedPassword);
         }
         if (adminUpdateDTO.getPhoneNumber() != null) {
             currentAdmin.setPhoneNumber(adminUpdateDTO.getPhoneNumber());
@@ -77,9 +107,11 @@ public class AdminController {
         adminMapper.updateAdmin2(currentAdmin);
     }
 
-    @RequiresPermissions("manage")
+    @RequiresPermissions("superuser")
     @DeleteMapping("/{id}")
     public void deleteAdmin(@PathVariable int id) {
         adminMapper.deleteAdmin(id);
     }
+
+
 }

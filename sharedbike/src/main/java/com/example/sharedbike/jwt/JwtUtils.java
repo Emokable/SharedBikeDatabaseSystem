@@ -20,7 +20,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JwtUtils {
 
-	// 过期时间60分钟
+	// 过期时间5分钟
 	private static final long EXPIRE_TIME = 60 * 60 * 1000;
 
 	// 私钥
@@ -40,9 +40,7 @@ public class JwtUtils {
 			return true;
 		} catch (JWTVerificationException exception) {
 			return false;
-		} catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+		}
     }
 
 	/**
@@ -66,7 +64,7 @@ public class JwtUtils {
 			Algorithm algorithm = Algorithm.HMAC256(secret);
 			// 附带username，nickname信息
 			return JWT.create().withClaim("username", username).withExpiresAt(date).sign(algorithm);
-		} catch (JWTCreationException | UnsupportedEncodingException e) {
+		} catch (JWTCreationException e) {
 			return null;
 		}
 	}
@@ -107,7 +105,7 @@ public class JwtUtils {
 			}
 			// 附带username，nickname信息
 			return builer.sign(algorithm);
-		} catch (JWTCreationException | UnsupportedEncodingException e) {
+		} catch (JWTCreationException e) {
 			return null;
 		}
 	}
@@ -115,9 +113,9 @@ public class JwtUtils {
 	/**
 	 * 生成16位随机盐
 	 */
-	public static String generateSalt() {
-		SecureRandomNumberGenerator secureRandom = new SecureRandomNumberGenerator();
-		String hex = secureRandom.nextBytes(16).toHex();
-		return hex;
-	}
+//	public static String generateSalt() {
+//		SecureRandomNumberGenerator secureRandom = new SecureRandomNumberGenerator();
+//		String hex = secureRandom.nextBytes(16).toHex();
+//		return hex;
+//	}
 }

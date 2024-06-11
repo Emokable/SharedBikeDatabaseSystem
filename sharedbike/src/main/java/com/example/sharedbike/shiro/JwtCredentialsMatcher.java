@@ -31,7 +31,7 @@ public class JwtCredentialsMatcher implements CredentialsMatcher {
 			JWTVerifier verifier = JWT.require(algorithm).withClaim("username", username).build();
 			verifier.verify(token);
 			return true;
-		} catch (JWTVerificationException | UnsupportedEncodingException e) {
+		} catch (JWTVerificationException e) {
 			logger.error(e.getMessage());
 		}
 		return false;

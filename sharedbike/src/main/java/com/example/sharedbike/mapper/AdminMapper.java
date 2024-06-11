@@ -21,4 +21,5 @@ public interface AdminMapper {
     void updateAdmin2(Admin admin);
     @Select("SELECT * FROM Admin WHERE username = #{username}")
     Admin findByUsername(String username);
+
 }
