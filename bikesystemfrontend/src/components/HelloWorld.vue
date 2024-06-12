@@ -1,58 +1,62 @@
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-11 09:50:41
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-11 18:09:48
+-->
+<script setup lang="ts">
+</script>
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
+  <div class="greetings">
+    <h1 class="green"> 
+      单车管理系统
+    </h1>
+    <h3>
+      Everything is bicycle.
+    </h3>
   </div>
 </template>
 
-<script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.greetings {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 使文字居中 */
+  justify-content: center;
+  height: 100vh; /* 使内容占满整个视口高度 */
+  background-color: #2e2d2d;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 4.6rem;
+  position: relative;
+  top: -10px;
+  /* 使用渐变色 */
+  background: linear-gradient(to right, #007BFF, #0410b9);
+  /* 创建背景的剪裁区域 */
+  -webkit-background-clip: text;
+  /* 使文本颜色透明以显示背景 */
+  -webkit-text-fill-color: transparent;
+}
+
 h3 {
-  margin: 40px 0 0;
+  font-size: 1.2rem;
+  /* 使用渐变色 */
+  background: linear-gradient(to right, #007BFF, #666);
+  /* 创建背景的剪裁区域 */
+  -webkit-background-clip: text;
+  /* 使文本颜色透明以显示背景 */
+  -webkit-text-fill-color: transparent;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.greetings h1,
+.greetings h3 {
+  text-align: center;
+  margin-bottom: 1rem; /* 增加下边距 */
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
+
 </style>
