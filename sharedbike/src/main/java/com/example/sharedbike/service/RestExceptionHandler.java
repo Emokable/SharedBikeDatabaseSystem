@@ -1,7 +1,8 @@
 package com.example.sharedbike.service;
 
+import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.result.LoginException;
-import com.example.sharedbike.result.Result;
+//import com.example.sharedbike.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,9 +22,9 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Result<String> handleGeneralException(Exception e) {
+    public BaseResponse<String> handleGeneralException(Exception e) {
         log.error("全局异常信息 ex={}", e.getMessage(), e);
-        return Result.fail("Fail!");
+        return BaseResponse.fail("Fail!");
     }
 
     /**
@@ -33,9 +34,9 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler(LoginException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Result<String> handleBusinessException(LoginException e) {
+    public BaseResponse<String> handleBusinessException(LoginException e) {
         log.warn("业务异常 ex={}", e.getMessage(), e);
-        return Result.loginFail("Fail!");
+        return BaseResponse.loginFail("Fail!");
     }
 
 

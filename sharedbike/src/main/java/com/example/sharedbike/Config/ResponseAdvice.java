@@ -1,5 +1,6 @@
 package com.example.sharedbike.Config;
 
+import com.example.sharedbike.domin.BaseResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.springframework.core.MethodParameter;
-import com.example.sharedbike.result.Result;
+//import com.example.sharedbike.result.Result;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
@@ -31,14 +32,14 @@ public class ResponseAdvice implements ResponseBodyAdvice<Object> {
                                   ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse) {
         if (o instanceof String) {
             try {
-                return objectMapper.writeValueAsString(Result.success(o));
+                return objectMapper.writeValueAsString(BaseResponse.success(o));
             } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
             }
         }
-        if(o instanceof Result){
+        if(o instanceof BaseResponse){
             return o;
         }
-        return Result.success(o);
+        return BaseResponse.success(o);
     }
 }
