@@ -69,7 +69,7 @@ public class AdminController {
             currentAdmin.setPhoneNumber(admin.getPhoneNumber());
             currentAdmin.setAvatar(admin.getAvatar());
             currentAdmin.setBirthday(admin.getBirthday());
-        adminMapper.updateAdmin(admin);
+        adminMapper.updateAdmin(currentAdmin);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @PutMapping("/update2")

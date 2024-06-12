@@ -6,8 +6,8 @@ import org.apache.shiro.util.ByteSource;
 public class PasswordEncryption {
     public static void main(String[] args) {
         // 用户名和密码
-        String username = "qwe";
-        String password = "123456";
+        String username = "abc";
+        String password = "123";
 
         // 盐值
         ByteSource salt = ByteSource.Util.bytes(username);
