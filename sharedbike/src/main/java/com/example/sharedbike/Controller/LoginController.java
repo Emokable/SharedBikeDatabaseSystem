@@ -4,6 +4,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
 import com.example.sharedbike.domin.BaseResponse;
+import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.jwt.JwtUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -12,25 +13,21 @@ import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 public class LoginController {
 
 	@PostMapping(value = "/login")
-	public Object userLogin(@RequestParam(name = "username", required = true) String userName,
-			@RequestParam(name = "password", required = true) String password, ServletResponse response) {
+	public Object userLogin(@RequestBody Admin admin, ServletResponse response) {
 
 		// 获取当前用户主体
 		Subject subject = SecurityUtils.getSubject();
 		String msg = null;
 		boolean loginSuccess = false;
 		// 将用户名和密码封装成 UsernamePasswordToken 对象
-		UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
+		UsernamePasswordToken token = new UsernamePasswordToken(admin.getUsername(), admin.getPassword());
 		try {
 			subject.login(token);
 			msg = "登录成功。";
@@ -47,7 +44,7 @@ public class LoginController {
 		BaseResponse<Object> ret = new BaseResponse<Object>();
 		if (loginSuccess) {
 			// 若登录成功，签发 JWT token
-			String jwtToken = JwtUtils.sign(userName, JwtUtils.SECRET);
+			String jwtToken = JwtUtils.sign(admin.getUsername(), JwtUtils.SECRET);
 			// 将签发的 JWT token 设置到 HttpServletResponse 的 Header 中
 			((HttpServletResponse) response).setHeader(JwtUtils.AUTH_HEADER, jwtToken);
 			// 

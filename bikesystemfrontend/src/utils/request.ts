@@ -6,14 +6,15 @@ const service = axios.create({
 	withCredentials: false, // 跨域请求时是否需要访问凭证
 	timeout: 3 * 1000, // 请求超时时间
 	headers: { // 请求头
+		
 	}
 })
 
 // 请求拦截器
 service.interceptors.request.use(config => {
 	// 这里可以进行请求加密等操作。如添加token,cookie，修改数据传输格式等。
-	config.headers['token'] = '';
-	config.headers['Content-type'] = 'application/json';
+	config.headers['token'] = '11';
+
 	return config;
 })
 

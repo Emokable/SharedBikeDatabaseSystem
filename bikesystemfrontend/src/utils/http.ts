@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-12 18:50:14
+ * @LastEditTime: 2024-06-12 19:51:30
  */
 import request from './request';
 
@@ -19,12 +19,11 @@ export const http = {
         return request(config);	
     },
     
-    post(url, data, headers) {
+    post(url, data) {
         const config = {
             method: 'POST',
             url: url,
-            data: data ? data : {},
-            headers: headers ? headers : {}
+            data: data ? data : {}
         }
         return request(config);	
     }

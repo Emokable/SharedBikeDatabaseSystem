@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-11 21:10:48
+ * @LastEditTime: 2024-06-12 19:29:56
  */
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -60,14 +60,7 @@ const router = createRouter({
     {
       path: '/mapPanel',
       name: 'MapPanel',
-      component: () => import('../components/MapPanel.vue'),
-      children: [
-        {
-          path: '/mapPanel/mapContainer',
-          name: 'MapPanel',
-          component: () => import('../components/MapContainer.vue')
-        }
-      ]
+      component: () => import('../components/MapPanel.vue')
     }
   ]
 })

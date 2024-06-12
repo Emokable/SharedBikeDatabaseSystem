@@ -1,8 +1,10 @@
 package com.example.sharedbike.service;
 
+import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.result.LoginException;
 import com.example.sharedbike.result.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.ShiroException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,16 +28,13 @@ public class RestExceptionHandler {
         return Result.fail("Fail!");
     }
 
-    /**
-     * 处理登录失败异常。
-     * @param e the LoginException
-     * @return Result<String>
-     */
-    @ExceptionHandler(LoginException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Result<String> handleBusinessException(LoginException e) {
-        log.warn("业务异常 ex={}", e.getMessage(), e);
-        return Result.loginFail("Fail!");
+    // 捕捉shiro的异常
+    @ExceptionHandler(ShiroException.class)
+    public Object handleShiroException(ShiroException e) {
+        BaseResponse<Object> ret = new BaseResponse<Object>();
+        ret.setErrCode(401);
+        ret.setMsg(e.getMessage());
+        return ret;
     }
 
 
