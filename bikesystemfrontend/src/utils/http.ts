@@ -4,26 +4,30 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-12 19:51:30
+ * @LastEditTime: 2024-06-12 22:11:22
  */
 import request from './request';
 
 export const http = {
-    get(url, params, headers) {
+    get(url: string, token?: string) {
         const config = {
             method: 'GET',
             url: url,
-            params: params ? params : {},
-            headers: headers ? headers : {}
+            if(token) {
+                Headers['x-authorization'] = token
+            }
         }
         return request(config);	
     },
     
-    post(url, data) {
+    post(url, data, token?: string) {
         const config = {
             method: 'POST',
             url: url,
-            data: data ? data : {}
+            data: data ? data : {},
+            if(token) {
+                Headers['x-authorization'] = token
+            }
         }
         return request(config);	
     }
