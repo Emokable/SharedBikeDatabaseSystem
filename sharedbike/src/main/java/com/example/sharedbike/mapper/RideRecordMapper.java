@@ -28,4 +28,6 @@ public interface RideRecordMapper {
             "OR start_time LIKE CONCAT('%', #{keyword}, '%')" +
             "OR track LIKE CONCAT('%', #{keyword}, '%')")
     List<RideRecord> searchRideRecords(@Param("keyword") String keyword);
+    @Select("SELECT  COUNT(*) FROM RideRecord")
+    int getCount();
 }

@@ -25,6 +25,11 @@ public class RiderController {
         return riderMapper.getAllRiders(offset, size, sortBy, sortOrder);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/count")
+    public int getCount() {
+        return riderMapper.getCount();
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Rider> searchRiders(String keyword) {
         return riderMapper.searchRiders(keyword);

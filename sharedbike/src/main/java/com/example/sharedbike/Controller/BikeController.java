@@ -25,6 +25,11 @@ public class BikeController {
         return bikeMapper.getAllBikes(offset, size, sortBy, sortOrder);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/count")
+    public int getCount() {
+        return bikeMapper.getCount();
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Bike> searchBikes(@RequestParam String keyword) {
         return bikeMapper.searchBikes(keyword);

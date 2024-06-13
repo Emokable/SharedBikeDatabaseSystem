@@ -33,6 +33,11 @@ public class AdminController {
         return adminMapper.getAllAdmins(offset, size, sortBy, sortOrder);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/count")
+    public int getCount() {
+        return adminMapper.getCount();
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Admin> searchAdmins(String keyword) {
         return adminMapper.searchAdmins(keyword);

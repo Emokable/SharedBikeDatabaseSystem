@@ -30,4 +30,6 @@ public interface NoParkingZoneMapper {
 
     @Delete("DELETE FROM NoParkingZone WHERE zone_id = #{id}")
     void deleteNoParkingZone(int id);
+    @Select("SELECT  COUNT(*) FROM NoParkingZone")
+    int getCount();
 }

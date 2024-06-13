@@ -20,7 +20,11 @@ public class NoParkingZoneController {
     public List<NoParkingZone> getAllNoParkingZones(String sortColumn, String sortOrder,int limit,int offset) {
             return noParkingZoneMapper.getAllNoParkingZones(sortColumn,sortOrder,limit,offset);
         }
-
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/count")
+    public int getCount() {
+        return noParkingZoneMapper.getCount();
+    }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")
     public NoParkingZone getNoParkingZoneById(@PathVariable int id) {

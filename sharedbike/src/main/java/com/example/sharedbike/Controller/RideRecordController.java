@@ -26,6 +26,11 @@ public class RideRecordController {
         return rideRecordMapper.getAllRideRecords(offset, size, sortBy, sortOrder);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/count")
+    public int getCount() {
+        return rideRecordMapper.getCount();
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<RideRecord> searchRideRecords(@RequestParam String keyword) {
         return rideRecordMapper.searchRideRecords(keyword);

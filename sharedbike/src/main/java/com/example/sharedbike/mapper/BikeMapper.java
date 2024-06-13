@@ -28,5 +28,6 @@ public interface BikeMapper {
         List<Bike> searchBikesByLocation(@Param("startX") float startX, @Param("startY") float startY, @Param("endX") float endX, @Param("endY") float endY);
         @Update("UPDATE Bike SET status = #{status} WHERE bikeid = #{id}")
         void updateBikestatus(@Param("id")int id, @Param("status") String status);
-
+        @Select("SELECT  COUNT(*) FROM Bike")
+        int getCount();
 }

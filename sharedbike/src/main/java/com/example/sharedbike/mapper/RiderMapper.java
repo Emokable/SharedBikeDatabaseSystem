@@ -34,4 +34,6 @@ public interface RiderMapper {
             "OR birthday LIKE CONCAT('%', #{keyword}, '%'))" +
             "</if>" +
             "</script>")    List<Rider> searchRiders(@Param("keyword") String keyword);
+    @Select("SELECT  COUNT(*) FROM Rider")
+    int getCount();
 }
