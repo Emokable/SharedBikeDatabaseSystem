@@ -20,8 +20,8 @@ public interface RideRecordMapper {
     @Insert("INSERT INTO RideRecord(orderid,bikeid, userid, start_time, start_location_x, start_location_y, end_time, end_location_x, end_location_y, track) VALUES(#{orderid}, #{bikeid}, #{userid}, #{startTime}, #{startLocationX}, #{startLocationY}, #{endTime}, #{endLocationX}, #{endLocationY}, #{track})")
     @Options(useGeneratedKeys = true, keyProperty = "orderid")
     void saveRideRecord(RideRecord rideRecord);
-    @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
-    List<RideRecord> searchRideRecord(@Param("keyword") String keyword, @Param("searchBy") String searchBy);
+   // @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
+    List<RideRecord> searchRideRecord(@Param("keyword") String keyword, @Param("searchBy") String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
 
     @Delete("DELETE FROM RideRecord WHERE orderid = #{id}")
     void deleteRideRecord(int id);

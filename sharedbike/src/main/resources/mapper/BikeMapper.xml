@@ -10,5 +10,13 @@
         </if>
         LIMIT #{size} OFFSET #{offset}
     </select>
-
+    <select id="searchBikes" resultType="com.example.sharedbike.entity.Bike">
+        SELECT * FROM Bike
+        where {$sortBy} LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY ${sortBy}
+        <if test="sortOrder != null">
+            ${sortOrder}
+        </if>
+        LIMIT #{size} OFFSET #{offset}
+    </select>
 </mapper>

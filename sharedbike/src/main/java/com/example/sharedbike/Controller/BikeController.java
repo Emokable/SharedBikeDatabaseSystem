@@ -31,8 +31,9 @@ public class BikeController {
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
-    public List<Bike> searchBikes(@RequestParam String keyword,@RequestParam String searchBy ) {
-        return bikeMapper.searchBikes(keyword,searchBy);
+    public List<Bike> searchBikes(@RequestParam String keyword,@RequestParam String searchBy,@RequestParam int page,@RequestParam int size,@RequestParam String sortOrder ) {
+        int offset = (page - 1) * size;
+        return bikeMapper.searchBikes(keyword,searchBy,offset,size,sortOrder);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/location")
