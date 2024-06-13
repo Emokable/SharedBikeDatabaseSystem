@@ -1,35 +1,44 @@
-/*
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-12 14:35:25
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-12 22:11:22
- */
 import request from './request';
 
 export const http = {
-    get(url: string, token?: string) {
+    get(url, token?: string) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
         const config = {
             method: 'GET',
             url: url,
-            if(token) {
-                Headers['x-authorization'] = token
-            }
-        }
-        return request(config);	
+            headers: headers
+        };
+
+        return request(config);
     },
-    
+
     post(url, data, token?: string) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
         const config = {
             method: 'POST',
             url: url,
             data: data ? data : {},
-            if(token) {
-                Headers['x-authorization'] = token
-            }
+            headers: headers
         }
-        return request(config);	
+        return request(config);
+    },
+
+    delete(url, token?: string) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'DELETE',
+            url: url,
+            headers: headers
+        }
+        return request(config);
     }
 }
- 

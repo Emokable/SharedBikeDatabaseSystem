@@ -4,10 +4,9 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-12 19:29:56
+ * @LastEditTime: 2024-06-13 03:12:08
  */
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,14 +27,14 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/login',
-      name: 'Login',
-      component: () => import('../components/AdminLogin.vue')
-    },
-    {
       path: '/profile',
       name: 'Profile',
       component: () => import('../views/PersonHome.vue')
+    },
+    {
+      path: '/table',
+      name: 'Table',
+      component: () => import('../components/Table.vue')
     },
     {
       path: '/search/user',
@@ -53,15 +52,36 @@ const router = createRouter({
       component: () => import('../components/search/RecordSearch.vue')
     },
     {
-      path: '/search/noparking',
+      path: '/search/noParking',
       name: 'SearchNoParking',
       component: () => import('../components/search/NoParkingSearch.vue')
     },
     {
       path: '/mapPanel',
       name: 'MapPanel',
-      component: () => import('../components/MapPanel.vue')
+      component: () => import('../views/MapPanel.vue')
+    },
+    {
+      path: '/bikeView',
+      name: 'BikeView',
+      component: () => import('../views/BikeView.vue')
+    },
+    {
+      path: '/recordView',
+      name: 'RecordView',
+      component: () => import('../views/RecordView.vue')
+    },
+    {
+      path: '/noParkingView',
+      name: 'NoParkingView',
+      component: () => import('../views/NoParkingView.vue')
+    },
+    {
+      path: '/riderView',
+      name: 'RiderView',
+      component: () => import('../views/RiderView.vue')
     }
+
   ]
 })
 

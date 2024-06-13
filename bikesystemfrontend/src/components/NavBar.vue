@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 15:01:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-12 23:37:31
+ * @LastEditTime: 2024-06-13 14:21:52
 -->
 <template>
     <el-menu
@@ -34,7 +34,7 @@
       </div>
       <div class="user-visible" v-show="store.isLogged">、
         <el-sub-menu index="personSpace">
-          <template #title>个人中心</template>
+          <template #title>用户中心</template>
           <el-menu-item index="/Profile">个人信息管理</el-menu-item>
           <el-button plain @click="logout">
           退出
@@ -42,19 +42,16 @@
         </el-sub-menu>
       </div>
       <el-sub-menu index="workSpace">
-        <template #title>数据中心</template>
-        <el-sub-menu index="ws-search">
-          <template #title>数据查询</template>
-          <el-menu-item index="/mapPanel">地图信息查询</el-menu-item>
-          <el-menu-item index="/search/user">用户信息查询</el-menu-item>
-          <el-menu-item index="/search/bike">自行车信息查询</el-menu-item>
-          <el-menu-item index="/search/record">骑行记录查询</el-menu-item>
-          <el-menu-item index="/search/noparking">禁停区查询</el-menu-item>
-        </el-sub-menu>
+        <template #title>数据管理中心</template>
+        <el-menu-item index="/mapPanel">信息分析</el-menu-item>
+        <el-menu-item index="/riderView">骑行者管理</el-menu-item>
+        <el-menu-item index="/bikeView">自行车管理</el-menu-item>
+        <el-menu-item index="/recordView">骑行记录</el-menu-item>
+        <el-menu-item index="/noParkingView">禁停区</el-menu-item>
       </el-sub-menu>
     </el-menu>
 
-    <el-dialog v-model="loginFormVisible" title="登录" width="500">
+    <el-dialog v-model="loginFormVisible" title="登录" width="500" class="center-dialog">
     <el-form :model="userForm">
       <el-form-item label="用户名：" :label-width="formLabelWidth">
         <el-input v-model="userForm.username" autocomplete="off" />
@@ -123,4 +120,5 @@ const handleSelect = (key: string, keyPath: string[]) => {
   display: flex;
   align-items: center;
 }
+
 </style>
