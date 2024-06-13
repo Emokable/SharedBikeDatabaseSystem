@@ -1,5 +1,6 @@
 package com.example.sharedbike.Controller;
 
+import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.RiderMapper;
 import org.apache.ibatis.annotations.Param;
@@ -31,8 +32,8 @@ public class RiderController {
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
-    public List<Rider> searchRiders(String keyword) {
-        return riderMapper.searchRiders(keyword);
+    public List<Rider> searchRiders(@RequestParam String keyword, @RequestParam String searchBy ) {
+        return riderMapper.searchRiders(keyword,searchBy);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")

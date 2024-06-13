@@ -2,6 +2,7 @@ package com.example.sharedbike.mapper;
 
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
+import com.example.sharedbike.entity.Rider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -19,15 +20,11 @@ public interface RideRecordMapper {
     @Insert("INSERT INTO RideRecord(orderid,bikeid, userid, start_time, start_location_x, start_location_y, end_time, end_location_x, end_location_y, track) VALUES(#{orderid}, #{bikeid}, #{userid}, #{startTime}, #{startLocationX}, #{startLocationY}, #{endTime}, #{endLocationX}, #{endLocationY}, #{track})")
     @Options(useGeneratedKeys = true, keyProperty = "orderid")
     void saveRideRecord(RideRecord rideRecord);
+    @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
+    List<RideRecord> searchRideRecord(@Param("keyword") String keyword, @Param("searchBy") String searchBy);
 
     @Delete("DELETE FROM RideRecord WHERE orderid = #{id}")
     void deleteRideRecord(int id);
-    @Select("SELECT * FROM RideRecord WHERE orderid LIKE CONCAT('%', #{keyword}, '%')" +
-            " OR bikeid LIKE CONCAT('%', #{keyword}, '%') " +
-            "OR userid LIKE CONCAT('%', #{keyword}, '%')" +
-            "OR start_time LIKE CONCAT('%', #{keyword}, '%')" +
-            "OR track LIKE CONCAT('%', #{keyword}, '%')")
-    List<RideRecord> searchRideRecords(@Param("keyword") String keyword);
     @Select("SELECT  COUNT(*) FROM RideRecord")
     int getCount();
 }

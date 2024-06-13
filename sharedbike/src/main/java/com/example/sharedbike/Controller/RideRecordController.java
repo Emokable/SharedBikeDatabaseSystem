@@ -2,6 +2,7 @@ package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
+import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.RideRecordMapper;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -32,8 +33,8 @@ public class RideRecordController {
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
-    public List<RideRecord> searchRideRecords(@RequestParam String keyword) {
-        return rideRecordMapper.searchRideRecords(keyword);
+    public List<RideRecord> searchRideRecord(@RequestParam String keyword, @RequestParam String searchBy ) {
+        return rideRecordMapper.searchRideRecord(keyword,searchBy);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")

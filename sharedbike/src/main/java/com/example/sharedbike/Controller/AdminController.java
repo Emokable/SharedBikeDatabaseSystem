@@ -1,6 +1,7 @@
 package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Admin;
+import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.DTO.AdminUpdateDTO;
 import com.example.sharedbike.mapper.AdminMapper;
 import org.apache.shiro.authz.annotation.Logical;
@@ -39,8 +40,8 @@ public class AdminController {
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
-    public List<Admin> searchAdmins(String keyword) {
-        return adminMapper.searchAdmins(keyword);
+    public List<Bike> searchAdmins(@RequestParam String keyword, @RequestParam String searchBy ) {
+        return adminMapper.searchAdmins(keyword,searchBy);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")
