@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:00
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 20:29:26
+ * @LastEditTime: 2024-06-13 20:53:19
 -->
 <template>
     <div class="bike-layout">
@@ -39,7 +39,6 @@ function createColumn(prop, label) {
 
 const riderTableConfig = reactive({
     api: '/riders',
-    belongsTo: 'riders',
     columns: [
         createColumn('userid', '骑行者ID'),
         createColumn('avator', '骑行者头像'),
@@ -56,6 +55,7 @@ const riderTableConfig = reactive({
 <style>
 .content {
     padding: 20px;
+    background-color: azure;
 }
 .toolbox {
     background-color: #545c64;

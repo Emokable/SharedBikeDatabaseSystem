@@ -155,7 +155,7 @@ public class JwtFilter extends BasicHttpAuthenticationFilter {
 	 */
 	protected void fillCorsHeader(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
 		httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-		httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,HEAD");
+		httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,HEAD,DELETE");
 		httpServletResponse.setHeader("Access-Control-Allow-Headers",
 		httpServletRequest.getHeader("Access-Control-Request-Headers"));
 	}

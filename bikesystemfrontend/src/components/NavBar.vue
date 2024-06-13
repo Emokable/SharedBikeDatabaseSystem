@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 15:01:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 14:21:52
+ * @LastEditTime: 2024-06-13 21:09:17
 -->
 <template>
     <el-menu
@@ -36,7 +36,7 @@
         <el-sub-menu index="personSpace">
           <template #title>用户中心</template>
           <el-menu-item index="/Profile">个人信息管理</el-menu-item>
-          <el-button plain @click="logout">
+          <el-button type="danger" round @click="logout">
           退出
           </el-button>
         </el-sub-menu>

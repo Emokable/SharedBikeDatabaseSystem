@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 19:30:51
+ * @LastEditTime: 2024-06-14 00:51:58
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -91,16 +91,52 @@ export const http = {
         return request(config);
     },
 
-    delete(url, token?: string) {
+    delete(url, token?: string, id?: number) {
         const headers = {};
         if (token) {
             headers['X-Authorization-With'] = token;
         }
         const config = {
             method: 'DELETE',
+            url: url + '/' + id?.toString(),
+            headers: headers
+        }
+        return request(config);
+    },
+
+    search(url, token?: string, page?: number, size?: number, searchColumn?: string ,keyword?: string ) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        let params = new URLSearchParams();
+
+        if (searchColumn) {
+            params.append('searchColumn', searchColumn);
+        }
+        
+        if (keyword) {
+            params.append('keyword', keyword);
+        }
+
+        if (page) {
+            params.append('page', page.toString());
+        }
+
+        if (size) {
+            params.append('size', size.toString());
+        }
+
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+        const config = {
+            method: 'GET',
             url: url,
             headers: headers
         }
         return request(config);
+        
     }
+
 }
