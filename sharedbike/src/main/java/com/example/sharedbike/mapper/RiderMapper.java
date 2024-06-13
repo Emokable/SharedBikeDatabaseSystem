@@ -22,8 +22,8 @@ public interface RiderMapper {
 
     @Delete("DELETE FROM Rider WHERE userid = #{id}")
     void deleteRider(int id);
-    @Select("SELECT * FROM Riders WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
-    List<Rider> searchRiders(@Param("keyword") String keyword, @Param("searchBy") String searchBy);
+   // @Select("SELECT * FROM Riders WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
+    List<Rider> searchRiders(@Param("keyword") String keyword, @Param("searchBy") String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
     @Select("SELECT  COUNT(*) FROM Rider")
     int getCount();
 }

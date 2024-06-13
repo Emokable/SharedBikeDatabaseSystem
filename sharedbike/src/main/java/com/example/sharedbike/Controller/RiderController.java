@@ -32,8 +32,9 @@ public class RiderController {
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
-    public List<Rider> searchRiders(@RequestParam String keyword, @RequestParam String searchBy ) {
-        return riderMapper.searchRiders(keyword,searchBy);
+    public List<Rider> searchRiders(@RequestParam String keyword, @RequestParam String searchBy ,@RequestParam int page,@RequestParam int size,@RequestParam String sortOrder) {
+        int offset = (page - 1) * size ;
+        return riderMapper.searchRiders(keyword,searchBy,offset, size, sortOrder);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")

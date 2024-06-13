@@ -8,8 +8,20 @@
         <if test="sortOrder != null">
             ${sortOrder}
         </if>
-        LIMIT #{size} OFFSET #{page}
+        LIMIT #{size} OFFSET #{offset}
     </select>
+    <select id="searchAdmins" resultType="com.example.sharedbike.entity.Admin">
+        SELECT * FROM Admin
+        where {$sortBy} LIKE CONCAT('%', ${keyword}, '%')
+        ORDER BY ${sortBy}
+        <if test="sortOrder != null">
+            ${sortOrder}
+        </if>
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+
+
         <insert id="insertAdmin" parameterType="com.example.sharedbike.entity.Admin">
             INSERT INTO admin (admin_id, privileges, username, gender, password, phone_number, avatar, birthday)
             VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phoneNumber}, #{avatar}, #{birthday})
