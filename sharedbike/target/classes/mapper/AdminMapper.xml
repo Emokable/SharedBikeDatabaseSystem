@@ -8,7 +8,7 @@
         <if test="sortOrder != null">
             ${sortOrder}
         </if>
-        LIMIT #{size} OFFSET #{offset}
+        LIMIT #{size} OFFSET #{page}
     </select>
         <insert id="insertAdmin" parameterType="com.example.sharedbike.entity.Admin">
             INSERT INTO admin (admin_id, privileges, username, gender, password, phone_number, avatar, birthday)
