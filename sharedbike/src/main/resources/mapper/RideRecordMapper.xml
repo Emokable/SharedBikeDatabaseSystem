@@ -12,8 +12,8 @@
     </select>
     <select id="searchRideRecords" resultType="com.example.sharedbike.entity.RideRecord">
         SELECT * FROM RideRecord
-        where {$sortBy} LIKE CONCAT('%', #{keyword}, '%')
-        ORDER BY ${sortBy}
+        where {$searchBy} LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY ${searchBy}
         <if test="sortOrder != null">
             ${sortOrder}
         </if>

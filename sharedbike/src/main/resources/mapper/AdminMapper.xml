@@ -12,8 +12,8 @@
     </select>
     <select id="searchAdmins" resultType="com.example.sharedbike.entity.Admin">
         SELECT * FROM Admin
-        where {$sortBy} LIKE CONCAT('%', #{keyword}, '%')
-        ORDER BY ${sortBy}
+        where {$searchBy} LIKE CONCAT('%', #{keyword}, '%')
+        ORDER BY ${searchBy}
         <if test="sortOrder != null">
             ${sortOrder}
         </if>
