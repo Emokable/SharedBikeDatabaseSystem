@@ -4,19 +4,16 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:00
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 14:27:02
+ * @LastEditTime: 2024-06-13 20:29:26
 -->
 <template>
-    <div class="common-layout">
+    <div class="bike-layout">
         <el-container>
-            <el-aside width="200px">
+            <el-aside width="200px" class="toolbox">
                 Aside
             </el-aside>
             <el-container>
-                <el-header>
-                    Header
-                </el-header>
-                <el-main>
+                <el-main class = 'content'>
                     <Table :tableConfig="riderTableConfig">
                     </Table>
                 </el-main>
@@ -34,13 +31,11 @@ function createColumn(prop, label) {
         prop,
         label,
         formatter: (row) => `Formatted ${row}`,
-        width: '100px',
-        sortable: true,
+        width: '240px',
         style: 'RiderStyle',
         labelStyle: 'RiderLabelStyle',
     };
 }
-
 
 const riderTableConfig = reactive({
     api: '/riders',
@@ -56,9 +51,14 @@ const riderTableConfig = reactive({
     ],
     layout: 'exampleLayout',
 } as TableConfig);
-
-
-
-
-
 </script>
+
+<style>
+.content {
+    padding: 20px;
+}
+.toolbox {
+    background-color: #545c64;
+    color: #fff;
+}
+</style>
