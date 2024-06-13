@@ -4,11 +4,8 @@
  * @Author: DZQ
  * @Date: 2024-06-11 20:24:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-11 20:52:52
+ * @LastEditTime: 2024-06-14 02:07:10
 -->
-<script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
 
 <template>
   <div class="common-layout">
@@ -19,4 +16,10 @@ import TheWelcome from '../components/TheWelcome.vue'
     </el-container>
   </div>
 </template>
+
+<script setup lang="ts">
+import { reactive } from 'vue'
+</script>
+
+
 

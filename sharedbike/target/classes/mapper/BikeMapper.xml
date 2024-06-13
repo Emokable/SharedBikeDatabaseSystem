@@ -12,11 +12,19 @@
     </select>
     <select id="searchBikes" resultType="com.example.sharedbike.entity.Bike">
         SELECT * FROM Bike
-        where {$sortBy} LIKE CONCAT('%', #{keyword}, '%')
-        ORDER BY ${sortBy}
-        <if test="sortOrder != null">
-            ${sortOrder}
-        </if>
+        <where>
+            <if test="searchBy != null and searchBy != ''">
+                ${searchBy} LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+        </where>
+        <choose>
+            <when test="sortOrder != null and sortOrder != ''">
+                ORDER BY ${searchBy} ${sortOrder}
+            </when>
+            <otherwise>
+                ORDER BY ${searchBy}
+            </otherwise>
+        </choose>
         LIMIT #{size} OFFSET #{offset}
     </select>
 </mapper>

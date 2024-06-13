@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 00:51:58
+ * @LastEditTime: 2024-06-14 02:40:30
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -36,8 +36,7 @@ export const http = {
         };
         return request(config);
     },
-
-    getList(url, token?: string, page?: number, size?: number, sortBy?: string, sortOrder?: string) {
+    getList(url, token?: string, page?: number, size?: number, sortBy?: string, sortOrder?: string, searchColumn?: string ,keyword?: string) {
         const headers = {};
         if (token) {
             headers['X-Authorization-With'] = token;
@@ -53,16 +52,19 @@ export const http = {
         }
 
         if (sortBy) {
-            console.log(sortBy)
-            // Ensure sortBy is a string
-            if (typeof sortBy === 'object') {
-                sortBy = JSON.stringify(sortBy);
-            }
             params.append('sortBy', sortBy);
         }
 
         if (sortOrder) {
             params.append('sortOrder', sortOrder);
+        }
+
+        if (searchColumn) {
+            params.append('searchBy', searchColumn);
+        }
+        
+        if (keyword) {
+            params.append('keyword', keyword);
         }
 
         if (params.toString()) {
@@ -72,8 +74,7 @@ export const http = {
             method: 'GET',
             url: url,
             headers: headers
-        };
-        console.log(config)
+        }
         return request(config);
     },
 
@@ -103,40 +104,5 @@ export const http = {
         }
         return request(config);
     },
-
-    search(url, token?: string, page?: number, size?: number, searchColumn?: string ,keyword?: string ) {
-        const headers = {};
-        if (token) {
-            headers['X-Authorization-With'] = token;
-        }
-        let params = new URLSearchParams();
-
-        if (searchColumn) {
-            params.append('searchColumn', searchColumn);
-        }
-        
-        if (keyword) {
-            params.append('keyword', keyword);
-        }
-
-        if (page) {
-            params.append('page', page.toString());
-        }
-
-        if (size) {
-            params.append('size', size.toString());
-        }
-
-        if (params.toString()) {
-            url += '?' + params.toString();
-        }
-        const config = {
-            method: 'GET',
-            url: url,
-            headers: headers
-        }
-        return request(config);
-        
-    }
 
 }
