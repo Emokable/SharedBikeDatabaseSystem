@@ -8,7 +8,7 @@ import java.util.Date;
 public class Bike {
     private int bikeid;
     private String brand;
-    private Date  release_Date;
+    private Date  releasedate;
     private int warrantyPeriod;
     private float LocationX;
     private float LocationY;

@@ -18,7 +18,7 @@ public interface RideRecordMapper {
     List<RideRecord> getRideRecordBikeId(int bikeid);
     @Select("SELECT * FROM RideRecord WHERE userid = #{id}")
     List<RideRecord> getRideRecordUserId(int userid);
-    @Insert("INSERT INTO RideRecord(orderid,bikeid, userid, start_time, start_location_x, start_location_y, end_time, end_location_x, end_location_y, track) VALUES(#{orderid}, #{bikeid}, #{userid}, #{startTime}, #{startLocationX}, #{startLocationY}, #{endTime}, #{endLocationX}, #{endLocationY}, #{track})")
+    @Insert("INSERT INTO RideRecord(orderid,bikeid, userid, starttime, startlocationx, startlocationy, endtime, endlocationx, endlocationy, track) VALUES(#{orderid}, #{bikeid}, #{userid}, #{startTime}, #{startLocationX}, #{startLocationY}, #{endTime}, #{endLocationX}, #{endLocationY}, #{track})")
     @Options(useGeneratedKeys = true, keyProperty = "orderid")
     void saveRideRecord(RideRecord rideRecord);
    // @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
@@ -30,19 +30,19 @@ public interface RideRecordMapper {
     @Select("SELECT  COUNT(*) FROM RideRecord")
     int getCount();
 
-    @Select("SELECT DATE(start_time) AS date, AVG(TIMESTAMPDIFF(MINUTE, start_time, end_time)) AS avg_ride_time " +
-            "FROM RideRecord GROUP BY DATE(start_time);")
+    @Select("SELECT DATE(starttime) AS date, AVG(TIMESTAMPDIFF(MINUTE, starttime, endtime)) AS avg_ride_time " +
+            "FROM RideRecord GROUP BY DATE(starttime);")
     List<Map<String, Object>> getAverageRideTimePerDay();
-    @Select("SELECT * FROM RideRecord WHERE start_time BETWEEN #{startDate} AND #{endDate}")
+    @Select("SELECT * FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate}")
     List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") String startDate, @Param("endDate") String endDate);
 //    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
 //            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
 //            "GROUP BY startLocationX, startLocationY ORDER BY ride_count DESC LIMIT 10;")
 //    List<Map<String, Object>> getHotRideAreas(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Select("SELECT HOUR(start_time) AS hour, COUNT(*) AS ride_count " +
-            "FROM RideRecord WHERE start_time BETWEEN #{startDate} AND #{endDate} " +
-            "GROUP BY HOUR(start_time) ORDER BY ride_count DESC;")
+    @Select("SELECT HOUR(starttime) AS hour, COUNT(*) AS ride_count " +
+            "FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate} " +
+            "GROUP BY HOUR(starttime) ORDER BY ride_count DESC;")
     List<Map<String, Object>> getHotRideTimes(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
 //    @Select("SELECT bikeid, COUNT(*) AS ride_count " +

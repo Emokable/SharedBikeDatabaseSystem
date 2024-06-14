@@ -9,16 +9,16 @@ import java.util.List;
 @Mapper
 public interface AdminMapper {
 
-    @Select("SELECT * FROM Admin WHERE admin_id = #{admin_id}")
-    Admin getAdminById(int admin_id);
+    @Select("SELECT * FROM Admin WHERE admin_id = #{adminid}")
+    Admin getAdminById(int adminid);
    // @Select("SELECT * FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     List<Bike> searchAdmins(@Param("keyword") String keyword,@Param("searchBy")String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
     @Select("SELECT COUNT(*) FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     int getsCount(@Param("keyword") String keyword,@Param("searchBy")String searchBy);
     void insertAdmin(Admin admin);
     List<Admin> getAllAdmins(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
-    @Delete("DELETE FROM Admin WHERE admin_id = #{admin_id}")
-    void deleteAdmin(int admin_id);
+    @Delete("DELETE FROM Admin WHERE adminid = #{adminid}")
+    void deleteAdmin(int adminid);
     void updateAdmin(Admin admin);
     void updateAdmin2(Admin admin);
     @Select("SELECT * FROM Admin WHERE username = #{username}")

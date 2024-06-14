@@ -15,20 +15,20 @@ import java.util.List;
 
 @Mapper
 public interface NoParkingZoneMapper {
-    @Select("SELECT zone_id name ST_ASGeoJSON(location) FROM NoParkingZone ORDER BY ${sortColumn} ${sortOrder} LIMIT #{limit} OFFSET #{offset}")
+    @Select("SELECT zoneid name ST_ASGeoJSON(location) FROM NoParkingZone ORDER BY ${sortColumn} ${sortOrder} LIMIT #{limit} OFFSET #{offset}")
     List<NoParkingZone> getAllNoParkingZones(@Param("sortColumn") String sortColumn,
                                              @Param("sortOrder") String sortOrder,
                                              @Param("limit") int limit,
                                              @Param("offset") int offset);
 
-    @Select("SELECT * FROM NoParkingZone WHERE zone_id = #{id}")
+    @Select("SELECT * FROM NoParkingZone WHERE zoneid = #{id}")
     NoParkingZone getNoParkingZoneById(int id);
 
-    @Insert("INSERT INTO NoParkingZone(zone_id, name, location) VALUES(#{zone_id}, #{name}, ST_GeomFromGeoJSON(#{location}))")
+    @Insert("INSERT INTO NoParkingZone(zoneid, name, location) VALUES(#{zoneid}, #{name}, ST_GeomFromGeoJSON(#{location}))")
     @Options(useGeneratedKeys = true, keyProperty = "zoneId")
     void saveNoParkingZone(NoParkingZone noParkingZone);
 
-    @Delete("DELETE FROM NoParkingZone WHERE zone_id = #{id}")
+    @Delete("DELETE FROM NoParkingZone WHERE zoneid = #{id}")
     void deleteNoParkingZone(int id);
     @Select("SELECT  COUNT(*) FROM NoParkingZone")
     int getCount();

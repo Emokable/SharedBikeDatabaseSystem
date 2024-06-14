@@ -30,7 +30,7 @@
 
 
         <insert id="insertAdmin" parameterType="com.example.sharedbike.entity.Admin">
-            INSERT INTO admin (admin_id, privileges, username, gender, password, phone_number, avatar, birthday)
+            INSERT INTO admin (adminid, privileges, username, gender, password, phonenumber, avatar, birthday)
             VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phoneNumber}, #{avatar}, #{birthday})
         </insert>
     <update id="updateAdmin" parameterType="com.example.sharedbike.entity.Admin">
