@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 03:12:29
+ * @LastEditTime: 2024-06-14 10:58:28
 -->
 <template>
     <div class="table">
@@ -103,8 +103,6 @@ const searchColumn = ref('')
 const sortField = ref('')
 const sortOrder = ref('')
 
-
-
 const getTableData = async (moreurl?: string) => {
     loading.value = true
 
@@ -170,8 +168,10 @@ const handleCurrentChange = async (val: number) => {
 const handleSearch = async () => {
     // 重置页码
     pagination.value.currentPage = 1
-    // 设置针对搜索的排序字段, 其中searchColumn设为空
-    sortField.value = ''
+    // 重置总数
+    const res = await http.getSelectCounts(props.tableConfig.api, userStore.token, searchColumn.value, searchInput.value)
+    tableDataTotal.value = res.data.data
+    // 设置针对搜索的排序字段
     sortOrder.value = 'asc'
     searching.value = true
     getTableData("/search")
@@ -180,6 +180,8 @@ const handleSearch = async () => {
 const handleResetSearch = async () => {
     // 重置页码
     pagination.value.currentPage = 1
+    // 重置总数
+    getTotality()
     // 重置搜索框
     searchInput.value = ''
     searchColumn.value = ''

@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 02:40:30
+ * @LastEditTime: 2024-06-14 10:51:16
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -36,6 +36,34 @@ export const http = {
         };
         return request(config);
     },
+
+    getSelectCounts(url, token?: string, searchColumn?: string, keyword?: string) {
+        const headers = {};
+        let params = new URLSearchParams();
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        
+        if (searchColumn) {
+            params.append('searchBy', searchColumn);
+        }
+        
+        if (keyword) {
+            params.append('keyword', keyword);
+        }
+        url += '/counts';
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+        const config = {
+            method: 'GET',
+            url: url ,
+            headers: headers
+        };
+        return request(config);
+    },
+
+
     getList(url, token?: string, page?: number, size?: number, sortBy?: string, sortOrder?: string, searchColumn?: string ,keyword?: string) {
         const headers = {};
         if (token) {
