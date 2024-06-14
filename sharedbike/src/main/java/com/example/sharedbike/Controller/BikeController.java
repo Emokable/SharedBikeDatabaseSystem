@@ -68,7 +68,6 @@ public class BikeController {
     @PutMapping("/update")
     void updateBikestatus(@RequestParam int id, @RequestParam String Status){
         bikeMapper.updateBikestatus(id,Status);
-
     }
 
 

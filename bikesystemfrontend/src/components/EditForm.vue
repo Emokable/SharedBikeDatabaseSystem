@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 11:32:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 17:58:39
+ * @LastEditTime: 2024-06-14 21:18:18
 -->
 <template>
     <el-form :model="props.formData" label-width="auto" style="max-width: 600px">
@@ -49,7 +49,8 @@ const statusStore = useStatusStore()
 
 const onSubmit = () => {
     console.log('submit!', props.formData)
-    http.editData(props.tableConfig.api, userStore.token, props.formData.userid, props.formData)
+    const firstPropName = props.tableConfig.columns[0].prop; // 获取第一个column的prop值
+    http.editData(props.tableConfig.api, userStore.token, props.formData[firstPropName], props.formData)
         .then(() => {
             statusStore.setEditFinish(true)
         })

@@ -1,13 +1,6 @@
-<!--
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-13 01:20:00
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 18:02:55
--->
+
 <template>
-    <div class="bike-layout">
+    <div class="rider-layout">
         <el-container>
             <el-aside width="200px" class="toolbox">
             </el-aside>
