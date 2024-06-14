@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 11:32:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 23:17:41
+ * @LastEditTime: 2024-06-15 00:04:35
 -->
 <template>
     <el-form :model="props.formData" label-width="auto" style="max-width: 600px">
@@ -49,12 +49,23 @@ const statusStore = useStatusStore()
 
 const onSubmit = () => {
     console.log('submit!', props.formData)
-    http.editData(props.tableConfig.api, userStore.token, props.formData)
+    if (props.tableConfig.api === '/admins' && userStore.isSuperuser) {
+        http.editUserData(props.tableConfig.api, userStore.token, props.formData)
         .then(() => {
             statusStore.setEditFinish(true)
         })
         .catch(() => {
             window.alert('编辑失败')
         })
+    }else {
+        http.editData(props.tableConfig.api, userStore.token, props.formData)
+        .then(() => {
+            statusStore.setEditFinish(true)
+        })
+        .catch(() => {
+            window.alert('编辑失败')
+        })
+    }
+    
 }
 </script>

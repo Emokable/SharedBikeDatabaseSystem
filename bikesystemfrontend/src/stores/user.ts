@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 13:59:19
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 22:31:30
+ * @LastEditTime: 2024-06-15 00:00:16
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -18,11 +18,11 @@ export const useUserStore = defineStore('user', () => {
     const isLogged = ref(false)
     const editAble = ref(false)
     const isSuperuser = ref(false)
+    const isInPersonHome = ref(false)
     const token = useStorage<string | undefined>('token', undefined)
     const username = ref('')
     const authorityLevel = ref('')
     const avatar = ref('')
-    const email = ref('')
 
 
     const register = async (username: string, password: string) => {
@@ -80,6 +80,7 @@ export const useUserStore = defineStore('user', () => {
         isLogged,
         editAble,
         isSuperuser,
+        isInPersonHome,
         token,
         username,
         authorityLevel,

@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 23:10:23
+ * @LastEditTime: 2024-06-14 23:56:32
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -146,6 +146,22 @@ export const http = {
         }
         return request(config);
     },
+
+    editUserData(url,token?: string, data?: any) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }   
+        data.password = null;
+        const config = {
+            method: 'PUT',
+            url: url+ '/update',
+            data: data,
+            headers: headers
+        }
+        return request(config);
+    },
+
 
     insertData(url,token?: string, data?: any) {
         const headers = {};

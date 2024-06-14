@@ -4,9 +4,11 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 20:56:56
+ * @LastEditTime: 2024-06-15 00:14:43
  */
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '../stores/user' 
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -87,6 +89,15 @@ const router = createRouter({
       component: () => import('../views/RiderView.vue')
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  if (to.name !== 'hello' && !userStore.isLogged) {
+    next({ name: 'hello' })
+  } else {
+    next()
+  }
 })
 
 export default router
