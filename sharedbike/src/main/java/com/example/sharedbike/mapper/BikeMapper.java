@@ -1,5 +1,4 @@
 package com.example.sharedbike.mapper;
-
 import com.example.sharedbike.entity.Bike;
 import org.apache.ibatis.annotations.*;
 
@@ -7,7 +6,6 @@ import java.util.List;
 
 @Mapper
 public interface BikeMapper {
-
 
 
         @Select("SELECT * FROM Bike WHERE bikeid = #{id}")

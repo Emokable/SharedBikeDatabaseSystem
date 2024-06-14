@@ -15,7 +15,7 @@ public class BikeController {
     @Autowired
     private BikeMapper bikeMapper;
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
-    @GetMapping("/bikes")
+    @GetMapping
     public List<Bike> getAllBikes(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
