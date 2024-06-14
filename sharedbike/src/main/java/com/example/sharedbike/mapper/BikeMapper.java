@@ -11,7 +11,7 @@ public interface BikeMapper {
         @Select("SELECT * FROM Bike WHERE bikeid = #{id}")
         Bike getBikeById(int id);
 
-        @Insert("INSERT INTO Bike(bikeid, brand, release_date, warranty_period, location_x, location_y, status) VALUES(#{bikeid}, #{brand}, #{releaseDate}, #{warrantyPeriod}, #{LocationX}, #{LocationY}, #{status})")
+        @Insert("INSERT INTO Bike(bikeid, brand, release_date, warranty_period, location_x, location_y, status) VALUES(#{bikeid}, #{brand}, #{release_Date}, #{warrantyPeriod}, #{LocationX}, #{LocationY}, #{status})")
         @Options(useGeneratedKeys = true, keyProperty = "bikeid")
         void saveBike(Bike bike);
 

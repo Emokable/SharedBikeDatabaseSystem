@@ -53,12 +53,12 @@ public interface RideRecordMapper {
 //            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count ASC LIMIT 10;")
 //    List<Map<String, Object>> getLeastFrequentBikes();
 
-    @Select("SELECT r.bikeid, b.brand, b.releaseDate, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
+    @Select("SELECT r.bikeid, b.brand, b.release_Date, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
             "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
             "GROUP BY r.bikeid ORDER BY ride_count DESC LIMIT 10;")
     List<Map<String, Object>> getMostFrequentBikes();
 
-    @Select("SELECT r.bikeid, b.brand, b.releaseDate, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
+    @Select("SELECT r.bikeid, b.brand, b.release_Date, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
             "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
             "GROUP BY r.bikeid ORDER BY ride_count ASC LIMIT 10;")
     List<Map<String, Object>> getLeastFrequentBikes();
