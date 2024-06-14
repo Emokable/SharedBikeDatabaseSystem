@@ -9,6 +9,7 @@ public class Bike {
     private int bikeid;
     private String brand;
     private Date  releasedate;
+    private Date  lastusetime;
     private int warrantyPeriod;
     private float LocationX;
     private float LocationY;

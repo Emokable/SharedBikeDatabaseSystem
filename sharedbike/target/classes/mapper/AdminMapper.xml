@@ -39,19 +39,19 @@
             privileges = #{privileges},
             gender = #{gender},
             password = #{password},
-            phone_number = #{phoneNumber},
+            phonenumber = #{phoneNumber},
             avatar = #{avatar},
             birthday = #{birthday}
-        WHERE admin_id = #{adminid}
+        WHERE adminid = #{adminid}
     </update>
     <update id="updateAdmin2" parameterType="com.example.sharedbike.entity.Admin">
         UPDATE admin
         SET
             gender = #{gender},
             password = #{password},
-            phone_number = #{phoneNumber},
+            phonenumber = #{phoneNumber},
             avatar = #{avatar},
             birthday = #{birthday}
-        WHERE admin_id = #{adminid}
+        WHERE adminid = #{adminid}
     </update>
 </mapper>

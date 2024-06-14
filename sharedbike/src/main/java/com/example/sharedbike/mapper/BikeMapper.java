@@ -27,7 +27,9 @@ public interface BikeMapper {
         @Select("SELECT * FROM Bike WHERE locationx BETWEEN #{startX} AND #{endX} AND locationy BETWEEN #{startY} AND #{endY} AND status = 'available'")
         List<Bike> searchBikesByLocation(@Param("startX") float startX, @Param("startY") float startY, @Param("endX") float endX, @Param("endY") float endY);
         @Update("UPDATE Bike SET status = #{status} WHERE bikeid = #{id}")
-        void updateBikestatus(@Param("id")int id, @Param("status") String status);
+        void updateBike(Bike bike);
         @Select("SELECT  COUNT(*) FROM Bike")
         int getCount();
+         @Select("SELECT  * FROM Bike ORDER BY lastusetime asc limit 10")
+         List<Bike> longtimenouse();
 }

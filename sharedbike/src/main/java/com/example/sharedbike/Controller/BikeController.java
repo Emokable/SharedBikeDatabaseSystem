@@ -50,6 +50,11 @@ public class BikeController {
         return bikeMapper.searchBikesByLocation(startX, startY, endX, endY);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/ltnu")
+    public List<Bike> longtimenouse() {
+        return bikeMapper.longtimenouse();
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/{id}")
     public Bike getBikeById(@PathVariable int id) {
         return bikeMapper.getBikeById(id);
@@ -66,8 +71,8 @@ public class BikeController {
     }
     @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @PutMapping("/update")
-    void updateBikestatus(@RequestParam int id, @RequestParam String Status){
-        bikeMapper.updateBikestatus(id,Status);
+    void updateBike(@RequestBody Bike bike){
+        bikeMapper.updateBike(bike);
 
     }
 

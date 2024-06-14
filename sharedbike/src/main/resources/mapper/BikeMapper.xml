@@ -27,4 +27,16 @@
         </choose>
         LIMIT #{size} OFFSET #{offset}
     </select>
+    <update id="updateBike" parameterType="com.example.sharedbike.entity.Bike">
+        UPDATE bike
+        SET
+        brand= #{ brand},
+        releasedate= #{releasedate},
+       lastusetime= #{lastusetime},
+        warrantyPeriod= #{ warrantyPeriod},
+        LocationX= #{LocationX},
+        LocationY= #{LocationY},
+         status= #{status}
+        WHERE bikeid = #{bikeid}
+    </update>
 </mapper>
