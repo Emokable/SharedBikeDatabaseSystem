@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 22:47:45
+ * @LastEditTime: 2024-06-14 23:10:23
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -133,14 +133,14 @@ export const http = {
         return request(config);
     },
 
-    editData(url,token?: string, editID?: string, data?: any) {
+    editData(url,token?: string, data?: any) {
         const headers = {};
         if (token) {
             headers['X-Authorization-With'] = token;
         }   
         const config = {
-            method: 'POST',
-            url: url+ '/' + editID,
+            method: 'PUT',
+            url: url+ '/update',
             data: data,
             headers: headers
         }
