@@ -32,6 +32,11 @@ public class RideRecordController {
         return rideRecordMapper.getCount();
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/counts")
+    public int getsCount(@RequestParam String keyword, @RequestParam String searchBy) {
+        return rideRecordMapper.getsCount(keyword,searchBy);
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<RideRecord> searchRideRecord(@RequestParam String keyword, @RequestParam String searchBy,@RequestParam int page,@RequestParam int size,@RequestParam String sortOrder ) {
         int offset = (page - 1) * size;

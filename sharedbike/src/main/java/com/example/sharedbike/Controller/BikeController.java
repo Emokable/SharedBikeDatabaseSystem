@@ -30,6 +30,11 @@ public class BikeController {
         return bikeMapper.getCount();
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/counts")
+    public int getsCount(@RequestParam String keyword,@RequestParam String searchBy) {
+        return bikeMapper.getsCount(keyword,searchBy);
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Bike> searchBikes(@RequestParam String keyword,@RequestParam String searchBy,@RequestParam int page,@RequestParam int size,@RequestParam String sortOrder ) {
         int offset = (page - 1) * size;

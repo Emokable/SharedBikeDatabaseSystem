@@ -13,6 +13,8 @@ public interface AdminMapper {
     Admin getAdminById(int admin_id);
    // @Select("SELECT * FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     List<Bike> searchAdmins(@Param("keyword") String keyword,@Param("searchBy")String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
+    @Select("SELECT COUNT(*) FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
+    int getsCount(@Param("keyword") String keyword,@Param("searchBy")String searchBy);
     void insertAdmin(Admin admin);
     List<Admin> getAllAdmins(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
     @Delete("DELETE FROM Admin WHERE admin_id = #{admin_id}")

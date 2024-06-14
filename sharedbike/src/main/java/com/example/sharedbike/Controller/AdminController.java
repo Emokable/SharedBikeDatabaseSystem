@@ -39,6 +39,11 @@ public class AdminController {
         return adminMapper.getCount();
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/counts")
+    public int getsCount(@RequestParam String keyword,@RequestParam String searchBy) {
+        return adminMapper.getsCount(keyword,searchBy);
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/search")
     public List<Bike> searchAdmins(@RequestParam String keyword, @RequestParam String searchBy,@RequestParam int page,@RequestParam int size,@RequestParam String sortOrder ) {
         int offset = (page - 1) * size;
