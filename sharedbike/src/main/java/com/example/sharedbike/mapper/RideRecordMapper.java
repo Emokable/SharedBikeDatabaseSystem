@@ -30,29 +30,46 @@ public interface RideRecordMapper {
     @Select("SELECT  COUNT(*) FROM RideRecord")
     int getCount();
 
-    @Select("SELECT DATE(startTime) AS date, AVG(TIMESTAMPDIFF(MINUTE, startTime, endTime)) AS avg_ride_time " +
-            "FROM RideRecord GROUP BY DATE(startTime);")
+    @Select("SELECT DATE(start_time) AS date, AVG(TIMESTAMPDIFF(MINUTE, start_time, end_time)) AS avg_ride_time " +
+            "FROM RideRecord GROUP BY DATE(start_time);")
     List<Map<String, Object>> getAverageRideTimePerDay();
+    @Select("SELECT * FROM RideRecord WHERE start_time BETWEEN #{startDate} AND #{endDate}")
+    List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") String startDate, @Param("endDate") String endDate);
+//    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
+//            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
+//            "GROUP BY startLocationX, startLocationY ORDER BY ride_count DESC LIMIT 10;")
+//    List<Map<String, Object>> getHotRideAreas(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
-            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
-            "GROUP BY startLocationX, startLocationY ORDER BY ride_count DESC LIMIT 10;")
-    List<Map<String, Object>> getHotRideAreas(@Param("startDate") String startDate, @Param("endDate") String endDate);
-
-    @Select("SELECT HOUR(startTime) AS hour, COUNT(*) AS ride_count " +
-            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
-            "GROUP BY HOUR(startTime) ORDER BY ride_count DESC;")
+    @Select("SELECT HOUR(start_time) AS hour, COUNT(*) AS ride_count " +
+            "FROM RideRecord WHERE start_time BETWEEN #{startDate} AND #{endDate} " +
+            "GROUP BY HOUR(start_time) ORDER BY ride_count DESC;")
     List<Map<String, Object>> getHotRideTimes(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Select("SELECT bikeid, COUNT(*) AS ride_count " +
-            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count DESC LIMIT 10;")
+//    @Select("SELECT bikeid, COUNT(*) AS ride_count " +
+//            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count DESC LIMIT 10;")
+//    List<Map<String, Object>> getMostFrequentBikes();
+//
+//    @Select("SELECT bikeid, COUNT(*) AS ride_count " +
+//            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count ASC LIMIT 10;")
+//    List<Map<String, Object>> getLeastFrequentBikes();
+
+    @Select("SELECT r.bikeid, b.brand, b.releaseDate, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
+            "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
+            "GROUP BY r.bikeid ORDER BY ride_count DESC LIMIT 10;")
     List<Map<String, Object>> getMostFrequentBikes();
 
-    @Select("SELECT bikeid, COUNT(*) AS ride_count " +
-            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count ASC LIMIT 10;")
+    @Select("SELECT r.bikeid, b.brand, b.releaseDate, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
+            "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
+            "GROUP BY r.bikeid ORDER BY ride_count ASC LIMIT 10;")
     List<Map<String, Object>> getLeastFrequentBikes();
 
-    @Select("SELECT userid, COUNT(*) AS ride_count " +
-            "FROM RideRecord GROUP BY userid ORDER BY ride_count DESC LIMIT 10;")
-    List<Map<String, Object>> getMostFrequentRiders();
+
+    //    @Select("SELECT userid, COUNT(*) AS ride_count " +
+//            "FROM RideRecord GROUP BY userid ORDER BY ride_count DESC LIMIT 10;")
+//    List<Map<String, Object>> getMostFrequentRiders();
+@Select("SELECT r.userid, r.username, r.gender, r.avatar,r.phoneNumber,r.birthday,COUNT(*) AS ride_count " +
+        "FROM RideRecord rr JOIN Rider r ON rr.userid = r.userid " +
+        "GROUP BY rr.userid ORDER BY ride_count DESC LIMIT 10;")
+List<Map<String, Object>> getMostFrequentRiders();
+
 }

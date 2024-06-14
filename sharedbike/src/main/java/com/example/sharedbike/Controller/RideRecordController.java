@@ -4,6 +4,7 @@ import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
 import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.RideRecordMapper;
+import com.example.sharedbike.service.RideRecordService;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import java.util.Map;
 public class RideRecordController {
     @Autowired
     private RideRecordMapper rideRecordMapper;
+    @Autowired
+    private RideRecordService rideRecordService;
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
     public List<Bike> getAllRideRecords(
@@ -74,14 +77,17 @@ public class RideRecordController {
         return rideRecordMapper.getAverageRideTimePerDay();
     }
 
-    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
-    @GetMapping("/hotRideAreas")
-    public List<Map<String, Object>> getHotRideAreas(
-            @RequestParam String startDate,
-            @RequestParam String endDate) {
-        return rideRecordMapper.getHotRideAreas(startDate, endDate);
+//    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+//    @GetMapping("/hotRideAreas")
+//    public List<Map<String, Object>> getHotRideAreas(
+//            @RequestParam String startDate,
+//            @RequestParam String endDate) {
+//        return rideRecordMapper.getHotRideAreas(startDate, endDate);
+//    }
+    @GetMapping("/hotAreas")
+    public List<Map.Entry<String, Integer>> getHotRideAreas(@RequestParam("startDate") String startDate, @RequestParam("endDate") String endDate) {
+        return rideRecordService.getHotRideAreas(startDate, endDate);
     }
-
     @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
     @GetMapping("/hotRideTimes")
     public List<Map<String, Object>> getHotRideTimes(@RequestParam String startDate,
@@ -101,6 +107,7 @@ public class RideRecordController {
     public List<Map<String, Object>> getLeastFrequentBikes() {
         return rideRecordMapper.getLeastFrequentBikes();
     }
+
 
     @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
     @GetMapping("/mostFrequentRiders")
