@@ -4,7 +4,15 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 02:39:44
+ * @LastEditTime: 2024-06-15 03:31:27
+-->
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-13 01:29:32
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-15 03:15:42
 -->
 <!--
  * @Description: 
@@ -17,7 +25,7 @@
 <template>
     <div class="table">
         <el-table :data="tableData.values" :table-layout="'auto'" v-loading="loading" :stripe="true" :height="800"
-            style="width: 100%" @sort-change="handleSort">
+            style="max-width: 1800px" @sort-change="handleSort">
             <el-table-column>
                 <template #header>
                     <div class="mt-4">
@@ -37,10 +45,10 @@
                 </template>
 
                 <el-table-column>
-                    <el-table-column v-for="item in props.tableConfig.columns" :key="item.prop" :prop="item.prop"
-                        :label="item.label" :sortable="'custom'" :fit=true>
+                    <el-table-column v-for="item in props.tableConfig.columns" :key="item.prop"  :prop="item.prop"
+                        :label="item.label" :sortable="'custom'" :fit=true  >
                         <!-- 表头自定义 -->
-                        <template #header="{ column }">
+                        <template #header="{ column }" >
                             <slot :name="item.prop + 'Header'">
                                 <div class="inline-flex" :style="item.labelStyle">
                                     <span>{{ item.label }}</span>

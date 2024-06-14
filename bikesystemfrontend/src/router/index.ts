@@ -39,26 +39,6 @@ const router = createRouter({
       component: () => import('../components/EditForm.vue')
     },
     {
-      path: '/search/user',
-      name: 'SearchUser',
-      component: () => import('../components/search/UserSearch.vue')
-    },
-    {
-      path: '/search/bike',
-      name: 'SearchBike',
-      component: () => import('../components/search/BikeSearch.vue')
-    },
-    {
-      path: '/search/record',
-      name: 'SearchRecord',
-      component: () => import('../components/search/RecordSearch.vue')
-    },
-    {
-      path: '/search/noParking',
-      name: 'SearchNoParking',
-      component: () => import('../components/search/NoParkingSearch.vue')
-    },
-    {
       path: '/mapPanel',
       name: 'MapPanel',
       component: () => import('../views/MapPanel.vue')
