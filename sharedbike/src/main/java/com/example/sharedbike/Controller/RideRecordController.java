@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/rideRecords")
@@ -66,5 +67,44 @@ public class RideRecordController {
     @DeleteMapping("/{id}")
     public void deleteRideRecord(@PathVariable int id) {
         rideRecordMapper.deleteRideRecord(id);
+    }
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/averageRideTimePerDay")
+    public List<Map<String, Object>> getAverageRideTimePerDay() {
+        return rideRecordMapper.getAverageRideTimePerDay();
+    }
+
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/hotRideAreas")
+    public List<Map<String, Object>> getHotRideAreas(
+            @RequestParam String startDate,
+            @RequestParam String endDate) {
+        return rideRecordMapper.getHotRideAreas(startDate, endDate);
+    }
+
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/hotRideTimes")
+    public List<Map<String, Object>> getHotRideTimes(@RequestParam String startDate,
+                                                     @RequestParam String endDate) {
+        return rideRecordMapper.getHotRideTimes(startDate, endDate);
+    }
+
+
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/mostFrequentBikes")
+    public List<Map<String, Object>> getMostFrequentBikes() {
+        return rideRecordMapper.getMostFrequentBikes();
+    }
+
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/leastFrequentBikes")
+    public List<Map<String, Object>> getLeastFrequentBikes() {
+        return rideRecordMapper.getLeastFrequentBikes();
+    }
+
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/mostFrequentRiders")
+    public List<Map<String, Object>> getMostFrequentRiders() {
+        return rideRecordMapper.getMostFrequentRiders();
     }
 }

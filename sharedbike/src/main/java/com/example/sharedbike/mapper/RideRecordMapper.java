@@ -6,6 +6,7 @@ import com.example.sharedbike.entity.Rider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface RideRecordMapper {
@@ -28,4 +29,30 @@ public interface RideRecordMapper {
     void deleteRideRecord(int id);
     @Select("SELECT  COUNT(*) FROM RideRecord")
     int getCount();
+
+    @Select("SELECT DATE(startTime) AS date, AVG(TIMESTAMPDIFF(MINUTE, startTime, endTime)) AS avg_ride_time " +
+            "FROM RideRecord GROUP BY DATE(startTime);")
+    List<Map<String, Object>> getAverageRideTimePerDay();
+
+    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
+            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
+            "GROUP BY startLocationX, startLocationY ORDER BY ride_count DESC LIMIT 10;")
+    List<Map<String, Object>> getHotRideAreas(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Select("SELECT HOUR(startTime) AS hour, COUNT(*) AS ride_count " +
+            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
+            "GROUP BY HOUR(startTime) ORDER BY ride_count DESC;")
+    List<Map<String, Object>> getHotRideTimes(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
+    @Select("SELECT bikeid, COUNT(*) AS ride_count " +
+            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count DESC LIMIT 10;")
+    List<Map<String, Object>> getMostFrequentBikes();
+
+    @Select("SELECT bikeid, COUNT(*) AS ride_count " +
+            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count ASC LIMIT 10;")
+    List<Map<String, Object>> getLeastFrequentBikes();
+
+    @Select("SELECT userid, COUNT(*) AS ride_count " +
+            "FROM RideRecord GROUP BY userid ORDER BY ride_count DESC LIMIT 10;")
+    List<Map<String, Object>> getMostFrequentRiders();
 }
