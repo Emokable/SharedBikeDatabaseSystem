@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 13:59:19
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 21:27:44
+ * @LastEditTime: 2024-06-14 22:31:30
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -16,6 +16,8 @@ import { http } from '../utils/http'
 
 export const useUserStore = defineStore('user', () => {
     const isLogged = ref(false)
+    const editAble = ref(false)
+    const isSuperuser = ref(false)
     const token = useStorage<string | undefined>('token', undefined)
     const username = ref('')
     const authorityLevel = ref('')
@@ -37,6 +39,13 @@ export const useUserStore = defineStore('user', () => {
                 if (successResponse.data.errCode == 0) {
                     window.alert('登录成功')
                     token.value = successResponse.headers['x-authorization-with']
+                    authorityLevel.value = successResponse.data.data
+                    if (successResponse.data.data === 'superuser' || successResponse.data.data === 'data_modification') {
+                        editAble.value = true
+                    }
+                    if (successResponse.data.data === 'superuser') {
+                        isSuperuser.value = true
+                    }
                     isLogged.value = true
                     username = data.username
                     hydrate()
@@ -62,11 +71,15 @@ export const useUserStore = defineStore('user', () => {
         username.value = ''
         avatar.value = ''
         isLogged.value = false
-        router.push('/login')
+        authorityLevel.value = ''
+        editAble.value = false
+        router.push('/')
     }
 
     return {
         isLogged,
+        editAble,
+        isSuperuser,
         token,
         username,
         authorityLevel,

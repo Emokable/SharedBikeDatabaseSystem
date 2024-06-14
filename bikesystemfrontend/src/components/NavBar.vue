@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 15:01:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 20:20:11
+ * @LastEditTime: 2024-06-14 22:29:37
 -->
 <template>
     <el-menu
@@ -99,8 +99,6 @@ const login = () => {
 
 const logout = () => {
   store.logout()
-  // 跳转到首页
-  router.push('/hello')
 }
 
 const handleSelect = (key: string, keyPath: string[]) => {

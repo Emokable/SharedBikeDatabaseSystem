@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:31
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 21:22:52
+ * @LastEditTime: 2024-06-14 22:28:57
 -->
 <template>
   <div class="bike-layout">
@@ -24,6 +24,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { TableConfig } from '../types/table'
+import { useUserStore } from '../stores/user'
 
 function createColumn(prop, label, isEnum, canSort,canEdit?, enumOptions? ) {
   if (canEdit === undefined) {
@@ -43,10 +44,12 @@ function createColumn(prop, label, isEnum, canSort,canEdit?, enumOptions? ) {
   };
 }
 
+const userStore = useUserStore()
+
 const bikeTableConfig = reactive({
   api: '/bikes',
   canDelete: false,
-  canEdit: true,
+  canEdit: userStore.editAble,
   columns: [
       createColumn('bikeid', '单车ID', false, true),
       createColumn('brand', '单车品牌', false, true),

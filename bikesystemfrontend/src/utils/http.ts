@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 17:55:15
+ * @LastEditTime: 2024-06-14 22:47:45
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -153,7 +153,7 @@ export const http = {
             headers['X-Authorization-With'] = token;
         }   
         const config = {
-            method: 'POST',
+            method: 'PUT',
             url: url,
             data: data,
             headers: headers

@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 19:56:35
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 21:33:18
+ * @LastEditTime: 2024-06-14 22:31:35
 -->
 <template>
     <div class="rider-layout">
@@ -45,16 +45,7 @@ function createColumn(prop, label, isEnum, canSort, enumOptions? ) {
 const adminTableConfig = reactive({
     api: '/admins',
     canDelete: false,
-    canEdit: true,
-    // **管理员（Admin）**
-    // *privileges权限（三类）*
-    // *adminid（管理员ID）*
-    // *username（用户名）*
-    // *gender（性别）*
-    // *password（密码）*
-    // *phone_number（手机号）*
-    // *avatar（头像）*
-    // *生日*
+    canEdit: userStore.isSuperuser,
     columns: [
         createColumn('privileges', '权限', true, false, ['superuser', 'data_modification', 'read_only']),
         createColumn('adminid', '管理员ID', false, true),

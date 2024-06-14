@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-13 01:06:47
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-14 22:10:27
+-->
 <template>
     <div class="rider-layout">
         <el-container>
@@ -16,6 +24,7 @@
 <script lang="ts" setup>
 import { reactive } from 'vue'
 import { TableConfig } from '../types/table'
+import { useUserStore } from '../stores/user'
 
 function createColumn(prop, label, isEnum, canSort, enumOptions? ) {
     return {
@@ -31,6 +40,7 @@ function createColumn(prop, label, isEnum, canSort, enumOptions? ) {
     };
 }
 
+const userStore = useUserStore()
 
 const riderTableConfig = reactive({
     api: '/rideRecords',
@@ -40,12 +50,12 @@ const riderTableConfig = reactive({
         createColumn('orderid', '订单ID', false, true),
         createColumn('bikeid', '单车ID', false, true),
         createColumn('userid', '骑行者ID', false, true),
-        createColumn('starttime', '开始时间', false, true),
-        createColumn('startlocationx', '起点X坐标', false, true),
-        createColumn('startlocationy', '起点Y坐标', false, true),
-        createColumn('endtime', '结束时间', false, true),
-        createColumn('endlocationx', '终点X坐标', false, true),
-        createColumn('endlocationy', '终点Y坐标', false, true),
+        createColumn('startTime', '开始时间', false, true),
+        createColumn('startLocationX', '起点X坐标', false, true),
+        createColumn('startLocationY', '起点Y坐标', false, true),
+        createColumn('endTime', '结束时间', false, true),
+        createColumn('endLocationX', '终点X坐标', false, true),
+        createColumn('endLocationY', '终点Y坐标', false, true),
         createColumn('track', '轨迹', false, true),
     ],
     layout: 'exampleLayout',
