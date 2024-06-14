@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 03:12:08
+ * @LastEditTime: 2024-06-14 17:58:57
  */
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -35,6 +35,11 @@ const router = createRouter({
       path: '/table',
       name: 'Table',
       component: () => import('../components/Table.vue')
+    },
+    {
+      path: '/editForm',
+      name: 'EditForm',
+      component: () => import('../components/EditForm.vue')
     },
     {
       path: '/search/user',
@@ -81,7 +86,6 @@ const router = createRouter({
       name: 'RiderView',
       component: () => import('../views/RiderView.vue')
     }
-
   ]
 })
 

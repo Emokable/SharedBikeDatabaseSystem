@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 10:51:16
+ * @LastEditTime: 2024-06-14 17:55:15
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -128,6 +128,34 @@ export const http = {
         const config = {
             method: 'DELETE',
             url: url + '/' + id?.toString(),
+            headers: headers
+        }
+        return request(config);
+    },
+
+    editData(url,token?: string, editID?: string, data?: any) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }   
+        const config = {
+            method: 'POST',
+            url: url+ '/' + editID,
+            data: data,
+            headers: headers
+        }
+        return request(config);
+    },
+
+    insertData(url,token?: string, data?: any) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }   
+        const config = {
+            method: 'POST',
+            url: url,
+            data: data,
             headers: headers
         }
         return request(config);

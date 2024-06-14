@@ -4,13 +4,12 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:00
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 20:53:19
+ * @LastEditTime: 2024-06-14 18:02:55
 -->
 <template>
     <div class="bike-layout">
         <el-container>
             <el-aside width="200px" class="toolbox">
-                Aside
             </el-aside>
             <el-container>
                 <el-main class = 'content'>
@@ -26,10 +25,13 @@
 import { reactive } from 'vue'
 import { TableConfig } from '../types/table'
 
-function createColumn(prop, label) {
+function createColumn(prop, label, isEnum, canSort, enumOptions? ) {
     return {
         prop,
         label,
+        isEnum,
+        canSort,
+        enumOptions,
         formatter: (row) => `Formatted ${row}`,
         width: '240px',
         style: 'RiderStyle',
@@ -39,14 +41,16 @@ function createColumn(prop, label) {
 
 const riderTableConfig = reactive({
     api: '/riders',
+    canDelete: false,
+    canEdit: false,
     columns: [
-        createColumn('userid', '骑行者ID'),
-        createColumn('avator', '骑行者头像'),
-        createColumn('username', '骑行者名称'),
-        createColumn('gender', '骑行者性别'),
-        createColumn('password', '骑行者密码'),
-        createColumn('phonenumber', '骑行者电话'),
-        createColumn('birthday', '骑行者生日'),
+        createColumn('userid', '骑行者ID', false, true),
+        createColumn('avator', '骑行者头像', false, false),
+        createColumn('username', '骑行者名称', false, true),
+        createColumn('gender', '骑行者性别', true, true, ['male', 'female', 'other']),
+        createColumn('password', '骑行者密码', false, true),
+        createColumn('phonenumber', '骑行者电话', false, true),
+        createColumn('birthday', '骑行者生日', false, true),
     ],
     layout: 'exampleLayout',
 } as TableConfig);
