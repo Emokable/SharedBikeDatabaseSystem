@@ -18,7 +18,8 @@ public interface RideRecordMapper {
     List<RideRecord> getRideRecordBikeId(int bikeid);
     @Select("SELECT * FROM RideRecord WHERE userid = #{id}")
     List<RideRecord> getRideRecordUserId(int userid);
-    @Insert("INSERT INTO RideRecord(orderid,bikeid, userid, starttime, startlocationx, startlocationy, endtime, endlocationx, endlocationy, track) VALUES(#{orderid}, #{bikeid}, #{userid}, #{startTime}, #{startLocationX}, #{startLocationY}, #{endTime}, #{endLocationX}, #{endLocationY}, #{track})")
+    @Insert("INSERT INTO RideRecord(orderid,bikeid, userid, starttime, startlocationx, startlocationy, endtime, endlocationx, endlocation" +
+            "y, track) VALUES(#{orderid}, #{bikeid}, #{userid}, #{startTime}, #{startLocationX}, #{startLocationY}, #{endTime}, #{endLocationX}, #{endLocationY}, #{track})")
     @Options(useGeneratedKeys = true, keyProperty = "orderid")
     void saveRideRecord(RideRecord rideRecord);
    // @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
