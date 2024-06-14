@@ -4,7 +4,15 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 10:58:28
+ * @LastEditTime: 2024-06-14 18:08:20
+-->
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-13 01:29:32
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-14 12:14:42
 -->
 <template>
     <div class="table">
@@ -22,13 +30,13 @@
                 </template>
             </el-table-column>
 
-            <el-table-column align="right">
+            <el-table-column align="right" width="400">
                 <template #header>
                     <div class="mt-4">
-                        <el-input v-model="searchInput" style="max-width: 600px" placeholder="Please input"
+                        <el-input v-model="searchInput"  placeholder="输入具体值"
                             class="input-with-select">
                             <template #prepend>
-                                <el-select v-model="searchColumn" placeholder="选择查询属性" style="width: 115px">
+                                <el-select v-model="searchColumn" placeholder="选择属性" style="width: 115px">
                                     <el-option v-for="item in props.tableConfig.columns" :value="item.prop"
                                         :label="item.label" />
                                 </el-select>
@@ -43,11 +51,12 @@
                     </div>
                 </template>
                 <template #default="scope">
-                    <el-button size="small" @click="handleEdit(scope.row[getFirstColumnProp()])">
+                    <el-button size="small" @click="handleEdit(scope.row)"
+                        v-if="props.tableConfig.canEdit">
                         Edit
                     </el-button>
                     <el-button size="small" type="danger" @click="handleDelete(scope.row[getFirstColumnProp()])"
-                        v-if="props.tableConfig.api === '/admins' || props.tableConfig.api === '/noParkingZones'">
+                        v-if="props.tableConfig.canDelete">
                         Delete
                     </el-button>
                 </template>
@@ -59,17 +68,31 @@
             layout="total, sizes, prev, pager, next, jumper" :total="tableDataTotal">
         </el-pagination>
     </div>
+
+    <div class="edit-form">
+        <el-dialog v-model="dialogFormVisible" title="Shipping address" width="500">
+            <template v-if="dialogFormVisible">
+                <EditForm :tableConfig="props.tableConfig" :formData="formData"></EditForm>
+            </template>
+        </el-dialog>
+    </div>
+
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, reactive } from 'vue'
+import { computed, ref, reactive, watch } from 'vue'
 import { http } from '../utils/http'
 import { TableConfig } from '../types/table'
 import { riderData } from '../types/rider'
+import { adminData } from '../types/admin'
+import { bikeData } from '../types/bike'
+import { noParkingZoneData } from '../types/noParkingZone'
+import { recordData } from '../types/record'
 import { useUserStore } from '../stores/user'
+import { useStatusStore } from '../stores/operationStatus'
 import { Search, CloseBold } from '@element-plus/icons-vue'
-import { get } from 'http'
 
+const dialogFormVisible = ref(false)
 const pagination = ref({
     currentPage: 1,
     pageSize: 20
@@ -80,6 +103,7 @@ const props = defineProps<{
     tableConfig: TableConfig
 }>()
 const userStore = useUserStore()
+const statusTtore = useStatusStore()
 
 // 通过http的getTotality方法获取总数
 const tableDataTotal = ref<number>(0)
@@ -92,9 +116,19 @@ getTotality()
 // 表格数据读取
 const loading = ref(false)
 const searching = ref(false)
-const tableData = reactive({
-    values: [] as riderData[]
-})
+let tableData = reactive<{ values: Array<riderData> | Array<adminData> | Array<bikeData> | Array<noParkingZoneData> | Array<recordData> }>({ values: [] })
+
+if (props.tableConfig.api === '/riders') {
+    tableData.values = reactive<Array<riderData>>([])
+} else if (props.tableConfig.api === '/admins') {
+    tableData.values = reactive<Array<adminData>>([])
+} else if (props.tableConfig.api === '/bikes') {
+    tableData.values = reactive<Array<bikeData>>([])
+} else if (props.tableConfig.api === '/noParkingZones') {
+    tableData.values = reactive<Array<noParkingZoneData>>([])
+} else if (props.tableConfig.api === '/records') {
+    tableData.values = reactive<Array<recordData>>([])
+}
 
 // 搜索框数据
 const searchInput = ref('')
@@ -204,9 +238,23 @@ const getFirstColumnProp = () => {
 
 
 // 编辑
-const handleEdit = (id: number) => {
-
+let formData = reactive({}); 
+const handleEdit = (row) => {
+    // 打印EditForm传入的参数
+    statusTtore.setEditFinish(false)
+    formData = row;
+    dialogFormVisible.value = true
+    console.log(props.tableConfig)
 }
+
+watch(() => statusTtore.isEditFinish, (newValue, oldValue) => {
+    if (newValue) {
+        dialogFormVisible.value = false
+        getTableData()
+        statusTtore.setEditFinish(false)
+    }
+})
+
 
 // 删除
 const handleDelete = (id: number) => {
