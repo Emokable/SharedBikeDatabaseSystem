@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 15:01:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-13 21:09:17
+ * @LastEditTime: 2024-06-14 20:20:11
 -->
 <template>
     <el-menu
@@ -44,6 +44,7 @@
       <el-sub-menu index="workSpace">
         <template #title>数据管理中心</template>
         <el-menu-item index="/mapPanel">信息分析</el-menu-item>
+        <el-menu-item index="/adminView">管理员管理</el-menu-item>
         <el-menu-item index="/riderView">骑行者管理</el-menu-item>
         <el-menu-item index="/bikeView">自行车管理</el-menu-item>
         <el-menu-item index="/recordView">骑行记录</el-menu-item>

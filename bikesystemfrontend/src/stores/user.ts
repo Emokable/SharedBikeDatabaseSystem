@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 13:59:19
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 12:12:36
+ * @LastEditTime: 2024-06-14 21:27:44
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -19,7 +19,6 @@ export const useUserStore = defineStore('user', () => {
     const token = useStorage<string | undefined>('token', undefined)
     const username = ref('')
     const authorityLevel = ref('')
-    const roles = ref<string[]>([])
     const avatar = ref('')
     const email = ref('')
 
@@ -61,7 +60,6 @@ export const useUserStore = defineStore('user', () => {
     const logout = () => {
         token.value = undefined
         username.value = ''
-        roles.value = []
         avatar.value = ''
         isLogged.value = false
         router.push('/login')
@@ -72,7 +70,6 @@ export const useUserStore = defineStore('user', () => {
         token,
         username,
         authorityLevel,
-        roles,
         avatar,
         register,
         logout,

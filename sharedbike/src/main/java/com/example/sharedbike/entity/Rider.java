@@ -8,7 +8,7 @@ public class Rider {
     private String username;
     private Gender gender;
     private String password;
-    private String phoneNumber;
+    private String phonenumber;
     private String avatar;
     private Date birthday;
 

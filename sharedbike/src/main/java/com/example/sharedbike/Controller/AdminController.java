@@ -28,7 +28,7 @@ public class AdminController {
     @GetMapping
     public List<Admin> getAllAdmins( @RequestParam(required = false, defaultValue = "1") int page,
                                      @RequestParam(required = false, defaultValue = "10") int size,
-                                     @RequestParam(required = false, defaultValue = "admin_id") String sortBy,
+                                     @RequestParam(required = false, defaultValue = "adminid") String sortBy,
                                      @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
         int offset = (page - 1) * size;
         return adminMapper.getAllAdmins(offset, size, sortBy, sortOrder);
@@ -78,7 +78,7 @@ public class AdminController {
             String encryptedPassword = hash.toHex();
             currentAdmin.setPassword(encryptedPassword);
         }
-            currentAdmin.setPhoneNumber(admin.getPhoneNumber());
+            currentAdmin.setPhonenumber(admin.getPhonenumber());
             currentAdmin.setAvatar(admin.getAvatar());
             currentAdmin.setBirthday(admin.getBirthday());
         adminMapper.updateAdmin(currentAdmin);
@@ -107,7 +107,7 @@ public class AdminController {
             currentAdmin.setPassword(encryptedPassword);
         }
         if (adminUpdateDTO.getPhoneNumber() != null) {
-            currentAdmin.setPhoneNumber(adminUpdateDTO.getPhoneNumber());
+            currentAdmin.setPhonenumber(adminUpdateDTO.getPhoneNumber());
         }
         if (adminUpdateDTO.getAvatar() != null) {
             currentAdmin.setAvatar(adminUpdateDTO.getAvatar());

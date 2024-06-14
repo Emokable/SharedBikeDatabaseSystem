@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 17:58:57
+ * @LastEditTime: 2024-06-14 20:56:56
  */
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -20,11 +20,6 @@ const router = createRouter({
       path: '/hello',
       name: 'hello',
       component: () => import('../components/HelloWorld.vue')
-    },
-    {
-      path: '/about',
-      name: 'about',
-      component: () => import('../views/AboutView.vue')
     },
     {
       path: '/profile',
@@ -65,6 +60,11 @@ const router = createRouter({
       path: '/mapPanel',
       name: 'MapPanel',
       component: () => import('../views/MapPanel.vue')
+    },
+    {
+      path: '/adminView',
+      name: 'AdminView',
+      component: () => import('../views/AdminView.vue')
     },
     {
       path: '/bikeView',
