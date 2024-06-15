@@ -17,9 +17,19 @@ public class NoParkingZoneController {
     private NoParkingZoneMapper noParkingZoneMapper;
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
-    public List<NoParkingZone> getAllNoParkingZones(String sortColumn, String sortOrder,int limit,int offset) {
-            return noParkingZoneMapper.getAllNoParkingZones(sortColumn,sortOrder,limit,offset);
+    public List<NoParkingZone> getAllNoParkingZones(@RequestParam(required = false, defaultValue = "1") int page,
+                                                    @RequestParam(required = false, defaultValue = "10") int size,
+                                                    @RequestParam(required = false, defaultValue = "zoneid") String sortBy,
+                                                    @RequestParam(required = false, defaultValue = "asc") String sortOrder) {
+        int offset = (page - 1) * size ;
+        return noParkingZoneMapper.getAllNoParkingZones(offset, size, sortBy, sortOrder);
         }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/search")
+    public List<NoParkingZone> searchNoParkingZones(@RequestParam String keyword, @RequestParam String searchBy,@RequestParam int page,@RequestParam int size,@RequestParam String sortOrder) {
+        int offset = (page - 1) * size ;
+        return noParkingZoneMapper.searchNoParkingZones(keyword,searchBy,offset,size,sortOrder);
+    }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/count")
     public int getCount() {

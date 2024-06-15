@@ -15,12 +15,9 @@ import java.util.List;
 
 @Mapper
 public interface NoParkingZoneMapper {
-    @Select("SELECT zoneid name ST_ASGeoJSON(location) FROM NoParkingZone ORDER BY ${sortColumn} ${sortOrder} LIMIT #{limit} OFFSET #{offset}")
-    List<NoParkingZone> getAllNoParkingZones(@Param("sortColumn") String sortColumn,
-                                             @Param("sortOrder") String sortOrder,
-                                             @Param("limit") int limit,
-                                             @Param("offset") int offset);
-
+   // @Select("SELECT zoneid name ST_ASGeoJSON(location) FROM NoParkingZone ORDER BY ${sortColumn} ${sortOrder} LIMIT #{limit} OFFSET #{offset}")
+    List<NoParkingZone> getAllNoParkingZones(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
+    List<NoParkingZone> searchNoParkingZones(@Param("keyword") String keyword,@Param("searchBy") String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
     @Select("SELECT * FROM NoParkingZone WHERE zoneid = #{id}")
     NoParkingZone getNoParkingZoneById(int id);
 
