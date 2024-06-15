@@ -46,7 +46,7 @@ public class SchedulingController {
             String hotAreaLocation = hotArea.getKey();
             int rideCount = hotArea.getValue();
             int freeBikesInHotArea = getFreeBikesInArea(freeBikeAreas, hotAreaLocation);
-            int bikesNeeded = rideCount/2 - freeBikesInHotArea;
+            int bikesNeeded = rideCount/3 - freeBikesInHotArea;
             System.out.println("rc "+ rideCount+"f "+freeBikesInHotArea+"bknd"+bikesNeeded+"\n" );
 
             if (bikesNeeded > 0) {
