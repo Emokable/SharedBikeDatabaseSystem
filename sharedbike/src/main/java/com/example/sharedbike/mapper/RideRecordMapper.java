@@ -10,8 +10,9 @@ import java.util.Map;
 
 @Mapper
 public interface RideRecordMapper {
-
-    List<Bike> getAllRideRecords(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
+    @Select("SELECT * FROM RideRecord")
+    List<RideRecord> returnall();
+    List<RideRecord> getAllRideRecords(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
     @Select("SELECT * FROM RideRecord WHERE orderid = #{id}")
     RideRecord getRideRecordById(int id);
     @Select("SELECT * FROM RideRecord WHERE bikeid = #{id}")
@@ -57,12 +58,12 @@ public interface RideRecordMapper {
 
     @Select("SELECT r.bikeid, b.brand, b.releaseDate,b.lastusetime, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
             "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
-            "GROUP BY r.bikeid ORDER BY ride_count DESC LIMIT 10;")
+            "GROUP BY r.bikeid ORDER BY ride_count DESC, lastusetime desc LIMIT 10;")
     List<Map<String, Object>> getMostFrequentBikes();
 
     @Select("SELECT r.bikeid, b.brand, b.releaseDate,b.lastusetime, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
             "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
-            "GROUP BY r.bikeid ORDER BY ride_count ASC LIMIT 10;")
+            "GROUP BY r.bikeid ORDER BY ride_count ASC ,lastusetime asc LIMIT 10;")
     List<Map<String, Object>> getLeastFrequentBikes();
 
 

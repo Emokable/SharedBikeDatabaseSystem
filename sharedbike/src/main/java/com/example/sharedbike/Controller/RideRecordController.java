@@ -22,7 +22,7 @@ public class RideRecordController {
     private RideRecordService rideRecordService;
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
-    public List<Bike> getAllRideRecords(
+    public List<RideRecord> getAllRideRecords(
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int size,
             @RequestParam(required = false, defaultValue = "orderid") String sortBy,
