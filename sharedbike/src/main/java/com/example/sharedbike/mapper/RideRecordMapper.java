@@ -5,6 +5,7 @@ import com.example.sharedbike.entity.RideRecord;
 import com.example.sharedbike.entity.Rider;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public interface RideRecordMapper {
             "FROM RideRecord GROUP BY DATE(starttime);")
     List<Map<String, Object>> getAverageRideTimePerDay();
     @Select("SELECT * FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate}")
-    List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") String startDate, @Param("endDate") String endDate);
+    List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 //    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
 //            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +

@@ -26,7 +26,7 @@ public interface BikeMapper {
 
         @Select("SELECT * FROM Bike WHERE locationx BETWEEN #{startX} AND #{endX} AND locationy BETWEEN #{startY} AND #{endY} AND status = 'available'")
         List<Bike> searchBikesByLocation(@Param("startX") float startX, @Param("startY") float startY, @Param("endX") float endX, @Param("endY") float endY);
-        @Select("SELECT * FROM Bike WHERE status = 'available'")
+        @Select("SELECT * FROM Bike WHERE status != 'damaged'")
          List<Bike>availableBike();
 
        // @Update("UPDATE Bike SET status = #{status} WHERE bikeid = #{id}")
