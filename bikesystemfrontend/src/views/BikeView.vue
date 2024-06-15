@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:31
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 23:06:10
+ * @LastEditTime: 2024-06-15 11:55:19
 -->
 <template>
   <div class="bike-layout">
@@ -50,6 +50,7 @@ const bikeTableConfig = reactive({
   api: '/bikes',
   canDelete: false,
   canEdit: userStore.editAble,
+  useMap: false,
   columns: [
       createColumn('bikeid', '单车ID', false, true),
       createColumn('brand', '单车品牌', false, true),

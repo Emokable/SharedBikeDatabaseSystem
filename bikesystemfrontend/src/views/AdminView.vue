@@ -46,6 +46,7 @@ const adminTableConfig = reactive({
     api: '/admins',
     canDelete: userStore.isSuperuser,
     canEdit: userStore.isSuperuser,
+    useMap: false,
     columns: [
     createColumn('adminid', '管理员ID', false, true),
     createColumn('privileges', '权限', true, false, ['superuser', 'data_modification', 'read_only']),

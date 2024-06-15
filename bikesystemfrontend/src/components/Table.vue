@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 03:31:27
+ * @LastEditTime: 2024-06-15 11:43:36
 -->
 <!--
  * @Description: 
@@ -37,18 +37,18 @@
                                 </el-select>
                             </template>
                         </el-input>
-                                <el-button  type="primary" @click="handleSearch"
-                                    :disabled="!searchColumn || !searchInput"  > 搜索 </el-button>
-                                <el-button  type="warning" @click="handleResetSearch"
-                                    :disabled="!searchColumn || !searchInput"> 撤销 </el-button>
+                        <el-button type="primary" @click="handleSearch" :disabled="!searchColumn || !searchInput"> 搜索
+                        </el-button>
+                        <el-button type="warning" @click="handleResetSearch" :disabled="!searchColumn || !searchInput">
+                            撤销 </el-button>
                     </div>
                 </template>
 
                 <el-table-column>
-                    <el-table-column v-for="item in props.tableConfig.columns" :key="item.prop"  :prop="item.prop"
-                        :label="item.label" :sortable="'custom'" :fit=true  >
+                    <el-table-column v-for="item in props.tableConfig.columns" :key="item.prop" :prop="item.prop"
+                        :label="item.label" :sortable="'custom'" :fit=true>
                         <!-- 表头自定义 -->
-                        <template #header="{ column }" >
+                        <template #header="{ column }">
                             <slot :name="item.prop + 'Header'">
                                 <div class="inline-flex" :style="item.labelStyle">
                                     <span>{{ item.label }}</span>
@@ -65,6 +65,12 @@
                             <el-button size="small" type="danger" @click="handleDelete(scope.row[getFirstColumnProp()])"
                                 v-if="props.tableConfig.canDelete">
                                 Delete
+                            </el-button>
+                            <el-button size="small" @click="handleMAP(scope.row)" v-if="props.tableConfig.useMap">
+                                在地图上查看
+                            </el-button>
+                            <el-button size="small" @click="handleNOMAP(scope.row)" v-if="props.tableConfig.useMap">
+                                在地图上查看
                             </el-button>
                         </template>
                     </el-table-column>
@@ -275,6 +281,16 @@ const handleDelete = (id: number) => {
     statusTtore.isEditFinish = true
 }
 
+// 在地图上查看
+const handleMAP = (row) => {
+    console.log(row)
+}
+
+// 取消地图查看
+const handleNOMAP = (row) => {
+    console.log(row)
+}
+
 </script>
 
 <style scoped>
@@ -282,12 +298,15 @@ const handleDelete = (id: number) => {
     padding: 20px;
     background-color: azure;
 }
+
 .el-button {
-  margin-right: 8px; /* Add right margin to the button */
-  border: 1px solid #dcdfe6; 
+    margin-right: 8px;
+    /* Add right margin to the button */
+    border: 1px solid #dcdfe6;
 }
 
 .input-with-select {
-  max-width: 650px; /* Adjust the max-width as needed */
+    max-width: 650px;
+    /* Adjust the max-width as needed */
 }
 </style>
