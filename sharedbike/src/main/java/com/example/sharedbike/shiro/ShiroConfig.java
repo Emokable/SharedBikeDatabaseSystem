@@ -110,6 +110,12 @@ public class ShiroConfig {
 		LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap<String, String>();
 		filterChainDefinitionMap.put("/login", "anon"); // 可匿名访问
 		filterChainDefinitionMap.put("/logout", "logout"); // 退出登录
+		filterChainDefinitionMap.put("/swagger-ui.html", "anon"); // 可匿名访问
+		filterChainDefinitionMap.put("/swagger-resources/**", "anon"); // Swagger资源
+		filterChainDefinitionMap.put("/webjars/**", "anon"); // Swagger相关静态资源
+		filterChainDefinitionMap.put("/v2/api-docs", "anon"); // Swagger API文档
+		filterChainDefinitionMap.put("/v3/api-docs", "anon"); // Swagger API文档
+		filterChainDefinitionMap.put("/swagger-ui/**", "anon"); // Swagger UI
 		filterChainDefinitionMap.put("/**", "jwtFilter,authc"); // 需登录才能访问
 		shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 		return shiroFilterFactoryBean;
