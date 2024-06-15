@@ -50,6 +50,11 @@ public class BikeController {
         return bikeMapper.searchBikesByLocation(startX, startY, endX, endY);
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/avabike")
+    public List<Bike> availableBike() {
+        return bikeMapper.availableBike();
+    }
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/ltnu")
     public List<Bike> longtimenouse() {
         return bikeMapper.longtimenouse();
