@@ -1,12 +1,33 @@
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-12 19:07:14
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-15 17:53:12
+-->
 <script setup>
 import { reactive, toRefs, ref } from 'vue'
 import { onMounted, onUnmounted } from "vue"
 import axios from 'axios'
 import AMapLoader from "@amap/amap-jsapi-loader"
+import { useMapStore } from '../stores/map'
 
 let map = null;
 
-const bikeID = ref('');
+const mapStore = useMapStore()
+
+// 初始化 data
+const data = ref([]);
+
+// 将空闲单车的数据转换为需要的格式
+const initializeBikeData = () => {
+  data.value = mapStore.getFreeBikes.map(bike => ({
+    lnglat: [bike.location.latitude, bike.location.longitude]
+  }));
+}
+
+
 
 onMounted(() => {
   window._AMapSecurityConfig = {
@@ -19,6 +40,19 @@ onMounted(() => {
 
   })
     .then((AMap) => {
+
+      var style = {
+        url: "//vdata.amap.com/icons/b18/1/2.png", //图标地址
+        size: new AMap.Size(11, 11), //图标大小
+        anchor: new AMap.Pixel(5, 5), //图标显示位置偏移量，基准点为图标左上角
+      };
+
+      let massMarks = new AMap.MassMarks(data, {
+        zIndex: 5, //海量点图层叠加的顺序
+        zooms: [3, 19], //在指定地图缩放级别范围内展示海量点图层
+        style: style, //设置样式对象
+      });
+
       map = new AMap.Map("container", {
         // 设置地图容器id
         mapStyle: "amap://styles/black", //设置地图的显示样式
@@ -38,23 +72,7 @@ onMounted(() => {
           position: 'RB' //  定位按钮的排放位置,  RB表示右下
         })
 
-        // geolocation.getCurrentPosition(function (status, result) {
-        //   if (status == 'complete') {
-        //     onComplete(result)
-        //   } else {
-        //     onError(result)
-        //   }
-        // });
 
-        // function onComplete(data) {
-        //   // data是具体的定位信息, 弹窗提示
-        //   alert('定位成功') 
-        // }
-
-        // function onError(data) {
-        //   // 定位出错
-        //   alert('定位失败')
-        // }
 
       });
     })
@@ -76,7 +94,8 @@ onUnmounted(() => {
 
 <style scoped>
 #container {
-  width: 100%;
+  width: 95%;
   height: 800px;
+  border: 10px solid #ccc;
 }
 </style>

@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 11:43:36
+ * @LastEditTime: 2024-06-15 13:03:20
 -->
 <!--
  * @Description: 
@@ -57,21 +57,23 @@
                         </template>
                     </el-table-column>
 
-                    <el-table-column align="right" width="200" fixed="right">
+                    <el-table-column align="right" width="300" fixed="right">
                         <template #default="scope">
-                            <el-button size="small" @click="handleEdit(scope.row)" v-if="props.tableConfig.canEdit">
+                            <el-button size="small" type='primary' @click="handleEdit(scope.row)" v-if="props.tableConfig.canEdit">
                                 Edit
                             </el-button>
                             <el-button size="small" type="danger" @click="handleDelete(scope.row[getFirstColumnProp()])"
                                 v-if="props.tableConfig.canDelete">
                                 Delete
                             </el-button>
-                            <el-button size="small" @click="handleMAP(scope.row)" v-if="props.tableConfig.useMap">
+                            <template v-if="props.tableConfig.useMap">
+                            <el-button type= 'success' size="small" @click="handleMAP(scope.row)" v-if="!scope.row.onMap">
                                 在地图上查看
                             </el-button>
-                            <el-button size="small" @click="handleNOMAP(scope.row)" v-if="props.tableConfig.useMap">
-                                在地图上查看
+                            <el-button type='warning'  size="small" @click="handleNOMAP(scope.row)" v-else>
+                                从地图上消除
                             </el-button>
+                            </template>
                         </template>
                     </el-table-column>
                 </el-table-column>
@@ -155,8 +157,9 @@ const sortOrder = ref('')
 const getTableData = async (moreurl?: string) => {
     loading.value = true
 
+    let res;
     if (moreurl) {
-        const res = await http.getList(
+        res = await http.getList(
             props.tableConfig.api + moreurl,
             userStore.token,
             pagination.value.currentPage,
@@ -165,14 +168,9 @@ const getTableData = async (moreurl?: string) => {
             sortOrder.value,
             searchColumn.value,
             searchInput.value
-        )
-        if (Array.isArray(res.data.data)) {
-            tableData.values = res.data.data.map((item: any) => item as riderData);
-        } else {
-            console.error('Unexpected response structure');
-        }
+        );
     } else {
-        const res = await http.getList(
+        res = await http.getList(
             props.tableConfig.api,
             userStore.token,
             pagination.value.currentPage,
@@ -181,15 +179,20 @@ const getTableData = async (moreurl?: string) => {
             sortOrder.value,
             searchColumn.value,
             searchInput.value
-        )
-        if (Array.isArray(res.data.data)) {
-            tableData.values = res.data.data.map((item: any) => item as riderData);
-        } else {
-            console.error('Unexpected response structure');
-        }
+        );
     }
-    loading.value = false
-    console.log(tableData.values)
+
+    if (Array.isArray(res.data.data)) {
+        tableData.values = res.data.data.map((item: any) => ({
+            ...item,
+            onMap: false // Insert 'onMap' property with default value as false
+        }) as riderData);
+    } else {
+        console.error('Unexpected response structure');
+    }
+
+    loading.value = false;
+    console.log(tableData.values);
 }
 getTableData()
 
@@ -280,6 +283,7 @@ const handleDelete = (id: number) => {
     getTableData()
     statusTtore.isEditFinish = true
 }
+
 
 // 在地图上查看
 const handleMAP = (row) => {

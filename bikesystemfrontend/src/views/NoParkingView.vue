@@ -4,26 +4,20 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:35
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 11:51:31
--->
-<!--
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-13 01:20:35
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 11:32:31
+ * @LastEditTime: 2024-06-15 12:53:09
 -->
 
 <template>
     <div style="display: flex; height: 100vh;">
-    <div style="width: 20%; background-color: lightgray;">
+    <div style="width: 30%; background-color:azure;">
         <Table :tableConfig="noParkingZoneTableConfig">
         </Table>
     </div>
     <div style="flex-grow: 1; display: flex; flex-direction: column;">
         <div style="background-color: lightblue; flex-basis: 20%;">上方容器</div>
-        <div style="background-color: lightcoral; flex-grow: 1;">下方容器</div>
+        <div style="background-color: #ccc; flex-grow: 1;">
+            <MapContainer></MapContainer>
+        </div>
     </div>
     </div>
 </template>
@@ -32,6 +26,8 @@
 import { reactive } from 'vue'
 import { TableConfig } from '../types/table'
 import { useUserStore } from '../stores/user'
+
+
 
 function createColumn(prop, label, isEnum, canSort,canEdit?, enumOptions? ) {
   if (canEdit === undefined) {
@@ -57,7 +53,7 @@ const noParkingZoneTableConfig = reactive({
   api: '/noParkingZones',
   canDelete: userStore.editAble,
   canEdit: userStore.editAble,
-  useMap: false,
+  useMap: true,
   columns: [
       createColumn('zoneid', '禁停区ID', false, true),
       createColumn('name', '禁停区名称', false, true),
