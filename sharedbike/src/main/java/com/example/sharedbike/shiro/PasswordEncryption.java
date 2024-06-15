@@ -6,7 +6,7 @@ import org.apache.shiro.util.ByteSource;
 public class PasswordEncryption {
     public static void main(String[] args) {
         // 用户名和密码
-        String username = "qwe";
+        String username = "abc";
         String password = "123";
 
         // 盐值

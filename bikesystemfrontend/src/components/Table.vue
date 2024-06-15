@@ -4,7 +4,15 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 18:08:20
+ * @LastEditTime: 2024-06-15 11:43:36
+-->
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-13 01:29:32
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-15 03:15:42
 -->
 <!--
  * @Description: 
@@ -17,49 +25,56 @@
 <template>
     <div class="table">
         <el-table :data="tableData.values" :table-layout="'auto'" v-loading="loading" :stripe="true" :height="800"
-            style="width: 100%" @sort-change="handleSort">
-            <el-table-column v-for="item in props.tableConfig.columns" :key="item.prop" :prop="item.prop"
-                :label="item.label" :sortable="'custom'" :fit=true>
-                <!-- 表头自定义 -->
-                <template #header="{ column }">
-                    <slot :name="item.prop + 'Header'">
-                        <div class="inline-flex" :style="item.labelStyle">
-                            <span>{{ item.label }}</span>
-                        </div>
-                    </slot>
-                </template>
-            </el-table-column>
-
-            <el-table-column align="right" width="400">
+            style="max-width: 1800px" @sort-change="handleSort">
+            <el-table-column>
                 <template #header>
                     <div class="mt-4">
-                        <el-input v-model="searchInput"  placeholder="输入具体值"
-                            class="input-with-select">
+                        <el-input v-model="searchInput" placeholder="输入具体值" class="input-with-select">
                             <template #prepend>
-                                <el-select v-model="searchColumn" placeholder="选择属性" style="width: 115px">
+                                <el-select v-model="searchColumn" placeholder="选择属性" style="min-width: 115px">
                                     <el-option v-for="item in props.tableConfig.columns" :value="item.prop"
                                         :label="item.label" />
                                 </el-select>
                             </template>
-                            <template #append>
-                                <el-button :icon="Search" type="primary" @click="handleSearch"
-                                    :disabled="!searchColumn || !searchInput" />
-                                <el-button :icon="CloseBold" type="warning" @click="handleResetSearch"
-                                    :disabled="!searchColumn || !searchInput"></el-button>
-                            </template>
                         </el-input>
+                        <el-button type="primary" @click="handleSearch" :disabled="!searchColumn || !searchInput"> 搜索
+                        </el-button>
+                        <el-button type="warning" @click="handleResetSearch" :disabled="!searchColumn || !searchInput">
+                            撤销 </el-button>
                     </div>
                 </template>
-                <template #default="scope">
-                    <el-button size="small" @click="handleEdit(scope.row)"
-                        v-if="props.tableConfig.canEdit">
-                        Edit
-                    </el-button>
-                    <el-button size="small" type="danger" @click="handleDelete(scope.row[getFirstColumnProp()])"
-                        v-if="props.tableConfig.canDelete">
-                        Delete
-                    </el-button>
-                </template>
+
+                <el-table-column>
+                    <el-table-column v-for="item in props.tableConfig.columns" :key="item.prop" :prop="item.prop"
+                        :label="item.label" :sortable="'custom'" :fit=true>
+                        <!-- 表头自定义 -->
+                        <template #header="{ column }">
+                            <slot :name="item.prop + 'Header'">
+                                <div class="inline-flex" :style="item.labelStyle">
+                                    <span>{{ item.label }}</span>
+                                </div>
+                            </slot>
+                        </template>
+                    </el-table-column>
+
+                    <el-table-column align="right" width="200" fixed="right">
+                        <template #default="scope">
+                            <el-button size="small" @click="handleEdit(scope.row)" v-if="props.tableConfig.canEdit">
+                                Edit
+                            </el-button>
+                            <el-button size="small" type="danger" @click="handleDelete(scope.row[getFirstColumnProp()])"
+                                v-if="props.tableConfig.canDelete">
+                                Delete
+                            </el-button>
+                            <el-button size="small" @click="handleMAP(scope.row)" v-if="props.tableConfig.useMap">
+                                在地图上查看
+                            </el-button>
+                            <el-button size="small" @click="handleNOMAP(scope.row)" v-if="props.tableConfig.useMap">
+                                在地图上查看
+                            </el-button>
+                        </template>
+                    </el-table-column>
+                </el-table-column>
             </el-table-column>
         </el-table>
         <!-- 分页 -->
@@ -238,7 +253,7 @@ const getFirstColumnProp = () => {
 
 
 // 编辑
-let formData = reactive({}); 
+let formData = reactive({});
 const handleEdit = (row) => {
     // 打印EditForm传入的参数
     statusTtore.setEditFinish(false)
@@ -260,8 +275,20 @@ watch(() => statusTtore.isEditFinish, (newValue, oldValue) => {
 const handleDelete = (id: number) => {
     // 删除操作
     console.log(id)
+    statusTtore.isEditFinish = false
     http.delete(props.tableConfig.api, userStore.token, id)
     getTableData()
+    statusTtore.isEditFinish = true
+}
+
+// 在地图上查看
+const handleMAP = (row) => {
+    console.log(row)
+}
+
+// 取消地图查看
+const handleNOMAP = (row) => {
+    console.log(row)
 }
 
 </script>
@@ -270,5 +297,16 @@ const handleDelete = (id: number) => {
 .table {
     padding: 20px;
     background-color: azure;
+}
+
+.el-button {
+    margin-right: 8px;
+    /* Add right margin to the button */
+    border: 1px solid #dcdfe6;
+}
+
+.input-with-select {
+    max-width: 650px;
+    /* Adjust the max-width as needed */
 }
 </style>

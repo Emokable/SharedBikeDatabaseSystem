@@ -4,9 +4,11 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 20:56:56
+ * @LastEditTime: 2024-06-15 00:14:43
  */
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '../stores/user' 
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,26 +37,6 @@ const router = createRouter({
       path: '/editForm',
       name: 'EditForm',
       component: () => import('../components/EditForm.vue')
-    },
-    {
-      path: '/search/user',
-      name: 'SearchUser',
-      component: () => import('../components/search/UserSearch.vue')
-    },
-    {
-      path: '/search/bike',
-      name: 'SearchBike',
-      component: () => import('../components/search/BikeSearch.vue')
-    },
-    {
-      path: '/search/record',
-      name: 'SearchRecord',
-      component: () => import('../components/search/RecordSearch.vue')
-    },
-    {
-      path: '/search/noParking',
-      name: 'SearchNoParking',
-      component: () => import('../components/search/NoParkingSearch.vue')
     },
     {
       path: '/mapPanel',
@@ -87,6 +69,15 @@ const router = createRouter({
       component: () => import('../views/RiderView.vue')
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore()
+  if (to.name !== 'hello' && !userStore.isLogged) {
+    next({ name: 'hello' })
+  } else {
+    next()
+  }
 })
 
 export default router

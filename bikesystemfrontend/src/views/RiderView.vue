@@ -36,6 +36,7 @@ const riderTableConfig = reactive({
     api: '/riders',
     canDelete: false,
     canEdit: false,
+    useMap: false,
     columns: [
         createColumn('userid', '骑行者ID', false, true),
         createColumn('avator', '骑行者头像', false, false),

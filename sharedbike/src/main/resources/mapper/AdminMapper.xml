@@ -31,7 +31,7 @@
 
         <insert id="insertAdmin" parameterType="com.example.sharedbike.entity.Admin">
             INSERT INTO admin (adminid, privileges, username, gender, password, phonenumber, avatar, birthday)
-            VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phoneNumber}, #{avatar}, #{birthday})
+            VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phonenumber}, #{avatar}, #{birthday})
         </insert>
     <update id="updateAdmin" parameterType="com.example.sharedbike.entity.Admin">
         UPDATE admin
@@ -39,7 +39,7 @@
             privileges = #{privileges},
             gender = #{gender},
             password = #{password},
-            phonenumber = #{phoneNumber},
+            phonenumber = #{phonenumber},
             avatar = #{avatar},
             birthday = #{birthday}
         WHERE adminid = #{adminid}
@@ -49,7 +49,7 @@
         SET
             gender = #{gender},
             password = #{password},
-            phonenumber = #{phoneNumber},
+            phonenumber = #{phonenumber},
             avatar = #{avatar},
             birthday = #{birthday}
         WHERE adminid = #{adminid}

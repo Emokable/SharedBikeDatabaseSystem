@@ -8,28 +8,6 @@ let map = null;
 
 const bikeID = ref('');
 
-const getLocation = () => {
-  // Your code here
-  axios
-        .post('http://localhost:8080/bikeLocation', {
-          bikeID: parseInt(bikeID.value)
-        })
-        .then(successResponse => {
-          if (successResponse.data.code === 200) {
-            // 修改地图中心点为返回的经纬度
-            map.setCenter([successResponse.data.longitude, successResponse.data.latitude])
-            // 弹窗提示
-            window.alert('查找成功')
-          } else {
-            window.alert('查找失败：' + successResponse.data.message)
-          }
-        })
-        .catch(failResponse => {
-          console.log(failResponse)
-          window.alert('查找失败：无法连接到服务器')
-        })
-};
-
 onMounted(() => {
   window._AMapSecurityConfig = {
     securityJsCode: "662998a630a974058bdb30d05ffd7c6a",
@@ -92,8 +70,6 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <input type="text" v-model="bikeID" placeholder="Enter BikeID" />
-    <button @click="getLocation">Get Location</button>
     <div id="container"></div>
   </div>
 </template>

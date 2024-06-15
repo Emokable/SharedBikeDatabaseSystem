@@ -10,6 +10,7 @@ export interface TableConfigInterFace {
     api: string;
     canEdit?: boolean;
     canDelete?: boolean;
+    useMap?:boolean;
     columns: {
         prop: string;
         label?: string;

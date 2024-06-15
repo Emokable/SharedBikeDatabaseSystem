@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-11 21:16:33
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-15 02:14:55
+-->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
@@ -5,8 +13,9 @@ import navBar from './components/NavBar.vue'
 </script>
 
 <template>
-  <div class="common-layout">
+  <div class="total-layout">
     <navBar />
+    <div class = "container"></div>
     <RouterView>
     </RouterView>
   </div>
@@ -14,10 +23,16 @@ import navBar from './components/NavBar.vue'
 </template>
 
 <style scoped>
-.hello-world .logo {
-  display: block;
-  margin: 0 auto 2rem;
-  border-radius: 50%;
-  /* 让 logo 变成圆形 */
+
+@import "./global.scss";
+  
+  #app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
+
 </style>
