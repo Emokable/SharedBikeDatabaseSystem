@@ -36,6 +36,7 @@ public interface RideRecordMapper {
     List<Map<String, Object>> getAverageRideTimePerDay();
     @Select("SELECT * FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate}")
     List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") String startDate, @Param("endDate") String endDate);
+
 //    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
 //            "FROM RideRecord WHERE startTime BETWEEN #{startDate} AND #{endDate} " +
 //            "GROUP BY startLocationX, startLocationY ORDER BY ride_count DESC LIMIT 10;")

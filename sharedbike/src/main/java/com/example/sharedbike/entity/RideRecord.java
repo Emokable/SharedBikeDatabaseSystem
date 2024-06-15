@@ -1,17 +1,16 @@
 package com.example.sharedbike.entity;
 
 import lombok.Data;
-
-import java.time.LocalDateTime;
+import java.util.Date;
 @Data
 public class RideRecord {
     private int orderid;
     private int bikeid;
     private int userid;
-    private LocalDateTime startTime;
+    private Date startTime;
     private float startLocationX;
     private float startLocationY;
-    private LocalDateTime endTime;
+    private Date endTime;
     private float endLocationX;
     private float endLocationY;
     private String track;
