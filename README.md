@@ -116,7 +116,7 @@
 > 2024-6-11: 转ts，引入element plus，vite，vue router等；
 
 后端结构：
-
+'''
 sharedbike
 ├── HELP.md
 ├── mvnw
@@ -200,3 +200,5 @@ sharedbike
 │               └── example
 │                   └── sharedbike
 │                       └── sharebikeApplicationTests.java
+
+'''
