@@ -117,6 +117,7 @@
 
 后端结构：
 
+```
 sharedbike
 ├── HELP.md
 ├── mvnw
@@ -200,3 +201,6 @@ sharedbike
 │               └── example
 │                   └── sharedbike
 │                       └── sharebikeApplicationTests.java
+
+```
+
