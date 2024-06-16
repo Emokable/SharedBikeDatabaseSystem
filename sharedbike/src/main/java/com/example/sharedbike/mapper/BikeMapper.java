@@ -35,4 +35,6 @@ public interface BikeMapper {
         int getCount();
          @Select("SELECT  * FROM Bike ORDER BY lastusetime asc limit 10")
          List<Bike> longtimenouse();
+    @Select("SELECT * FROM Bike WHERE locationx BETWEEN #{startX} AND #{endX} AND locationy BETWEEN #{startY} AND #{endY}")
+    List<Bike> searchBikesByApproxLocation(@Param("startX") float startX, @Param("startY") float startY, @Param("endX") float endX, @Param("endY") float endY);
 }

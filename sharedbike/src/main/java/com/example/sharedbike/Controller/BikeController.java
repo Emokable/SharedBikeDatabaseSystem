@@ -2,6 +2,7 @@ package com.example.sharedbike.Controller;
 
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.mapper.BikeMapper;
+import com.example.sharedbike.service.BikeService;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.util.List;
 public class BikeController {
     @Autowired
     private BikeMapper bikeMapper;
+    @Autowired
+    private BikeService bikeService;
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
     public List<Bike> getAllBikes(
@@ -78,9 +81,10 @@ public class BikeController {
     @PutMapping("/update")
     void updateBike(@RequestBody Bike bike){
         bikeMapper.updateBike(bike);
-
     }
-
-
-
+    @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
+    @GetMapping("/locked-in-zone")
+    public List<Bike> getLockedBikesInNoParkingZone(@RequestParam String coordinates) {
+        return bikeService.getLockedBikesInNoParkingZone(coordinates);
+    }
 }

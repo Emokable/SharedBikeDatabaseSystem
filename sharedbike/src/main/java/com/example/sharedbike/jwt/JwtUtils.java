@@ -20,7 +20,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JwtUtils {
 
-	// 过期时间5分钟
+	// 过期时间60分钟
 	private static final long EXPIRE_TIME = 60 * 60 * 1000;
 
 	// 私钥
