@@ -21,8 +21,8 @@ public class SchedulingController {
     private RideRecordService rideRecordService;
 
     @GetMapping("/plan")
-    public List<String> getSchedulingPlan(@RequestParam String startDate,
-                                          @RequestParam String endDate) {
+    public List<SchedulingPlan> getSchedulingPlan(@RequestParam String startDate,
+                                                  @RequestParam String endDate) {
         // Validate input dates
         if (!isValidDate(startDate) || !isValidDate(endDate)) {
             throw new IllegalArgumentException("Invalid date format. Please use yyyy-MM-dd.");
@@ -33,21 +33,14 @@ public class SchedulingController {
         List<Map<String, Object>> hotTimes = rideRecordService.getHotRideTimes(startDate, endDate);
         List<Map.Entry<String, Integer>> freeBikeAreas = rideRecordService.getFreeBikeAreas();
 
-        // Log the hot times for debugging
-        for (Map<String, Object> hotTime : hotTimes) {
-            System.out.println("Hot time slot: " + hotTime.get("timeSlot"));
-            System.out.println("Area needs: " + hotTime.get("areaNeeds"));
-        }
-
         // Generate scheduling plans
-        List<String> schedulingPlans = new ArrayList<>();
+        List<SchedulingPlan> schedulingPlans = new ArrayList<>();
 
         for (Map.Entry<String, Integer> hotArea : hotAreas) {
             String hotAreaLocation = hotArea.getKey();
             int rideCount = hotArea.getValue();
             int freeBikesInHotArea = getFreeBikesInArea(freeBikeAreas, hotAreaLocation);
-            int bikesNeeded = rideCount/3 - freeBikesInHotArea;
-            System.out.println("rc "+ rideCount+"f "+freeBikesInHotArea+"bknd"+bikesNeeded+"\n" );
+            int bikesNeeded = rideCount / 3 - freeBikesInHotArea;
 
             if (bikesNeeded > 0) {
                 boolean isScheduled = false;
@@ -62,8 +55,15 @@ public class SchedulingController {
                     if (!freeAreaLocation.equals(hotAreaLocation) && freeBikesAvailable > 0) {
                         int bikesToMove = Math.min(freeBikesAvailable, bikesNeeded);
 
-                        String plan = String.format("在%s时段将%d辆单车从%s运往%s，调度理由：根据历史数据，该时段%s区域的单车需求量较高，而%s区域的单车使用率较低。",
-                                mostNeededTimeSlot, bikesToMove, freeAreaLocation, hotAreaLocation, hotAreaLocation, freeAreaLocation);
+                        SchedulingPlan plan = new SchedulingPlan(
+                                true,
+                                freeAreaLocation,
+                                hotAreaLocation,
+                                mostNeededTimeSlot,
+                                bikesToMove,
+                                String.format("根据历史数据，该时段%s区域的单车需求量较高，而%s区域的单车使用率较低。",
+                                        hotAreaLocation, freeAreaLocation)
+                        );
                         schedulingPlans.add(plan);
 
                         freeArea.setValue(freeBikesAvailable - bikesToMove); // Update the free bikes count
@@ -76,15 +76,21 @@ public class SchedulingController {
                 }
 
                 if (!isScheduled) {
-                    schedulingPlans.add(String.format("无法为热点区域%s安排足够的单车调度需求（需要%d辆单车），请检查其他区域的可用单车数量。",
-                            hotAreaLocation, bikesNeeded));
+                    schedulingPlans.add(new SchedulingPlan(
+                            false,
+                            null,
+                            hotAreaLocation,
+                            null,
+                            bikesNeeded,
+                            String.format("无法为热点区域%s安排足够的单车调度需求（需要%d辆单车），请检查其他区域的可用单车数量。",
+                                    hotAreaLocation, bikesNeeded)
+                    ));
                 }
             }
         }
 
         return schedulingPlans;
     }
-
 
     private boolean isValidDate(String date) {
         try {
