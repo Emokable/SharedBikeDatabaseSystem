@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-16 16:08:38
+ * @LastEditTime: 2024-06-17 03:58:50
 -->
 <!--
  * @Description: 
@@ -59,7 +59,8 @@
 
                     <el-table-column align="right" width="300" fixed="right">
                         <template #default="scope">
-                            <el-button size="small" type='primary' @click="handleEdit(scope.row)" v-if="props.tableConfig.canEdit">
+                            <el-button size="small" type='primary' @click="handleEdit(scope.row)"
+                                v-if="props.tableConfig.canEdit">
                                 Edit
                             </el-button>
                             <el-button size="small" type="danger" @click="handleDelete(scope.row[getFirstColumnProp()])"
@@ -67,12 +68,12 @@
                                 Delete
                             </el-button>
                             <template v-if="props.tableConfig.useMap">
-                            <el-button type= 'success' size="small" @click="handleMAP(scope.row)">
-                                在地图上查看
-                            </el-button>
-                            <el-button type='warning'  size="small" @click="handleNOMAP(scope.row)">
-                                从地图上消除
-                            </el-button>
+                                <el-button type='success' size="small" @click="handleMAP(scope.row)">
+                                    在地图上查看
+                                </el-button>
+                                <el-button type='warning' size="small" @click="handleNOMAP(scope.row)">
+                                    从地图上消除
+                                </el-button>
                             </template>
                         </template>
                     </el-table-column>
@@ -108,6 +109,8 @@ import { recordData } from '../types/record'
 import { useUserStore } from '../stores/user'
 import { useStatusStore } from '../stores/operationStatus'
 import { useRecordStore } from '../stores/records'
+import { useNoParkingZoneStore } from '../stores/noParkingZone'
+import { useMapStatusStore } from '../stores/mapStatus'
 
 const dialogFormVisible = ref(false)
 const pagination = ref({
@@ -120,7 +123,10 @@ const props = defineProps<{
     tableConfig: TableConfig
 }>()
 const userStore = useUserStore()
-const statusTtore = useStatusStore()
+const statusStore = useStatusStore()
+const mapStatusStore = useMapStatusStore();
+const noParkingZoneStore = useNoParkingZoneStore()
+
 
 // 通过http的getTotality方法获取总数
 const tableDataTotal = ref<number>(0)
@@ -156,7 +162,6 @@ const sortOrder = ref('')
 
 const getTableData = async (moreurl?: string) => {
     loading.value = true
-
     let res;
     if (moreurl) {
         res = await http.getList(
@@ -195,6 +200,13 @@ const getTableData = async (moreurl?: string) => {
     console.log(tableData.values);
 }
 getTableData()
+
+// 监听noParkingZoneStore中的isNoParkingZoneOperationFinish，如果变为true，重新获取数据
+watch(() => mapStatusStore.isNoParkingZoneOperationFinish, (newValue, oldValue) => {
+    console.log(newValue)
+    getTableData()
+    mapStatusStore.setNoParkingZoneOperationFinishStatus(false);
+})
 
 // 页大小改变
 const handleSizeChange = async (val: number) => {
@@ -259,17 +271,22 @@ const getFirstColumnProp = () => {
 let formData = reactive({});
 const handleEdit = (row) => {
     // 打印EditForm传入的参数
-    statusTtore.setEditFinish(false)
-    formData = row;
-    dialogFormVisible.value = true
-    console.log(props.tableConfig)
+    statusStore.setEditFinish(false)
+    if (props.tableConfig.api == '/noParkingZones') {
+        noParkingZoneStore.editingNoParkingZone = row.zoneid
+    } else {
+        formData = row;
+        dialogFormVisible.value = true
+        console.log(props.tableConfig)
+    }
 }
 
-watch(() => statusTtore.isEditFinish, (newValue, oldValue) => {
+
+watch(() => statusStore.isEditFinish, (newValue, oldValue) => {
     if (newValue) {
         dialogFormVisible.value = false
         getTableData()
-        statusTtore.setEditFinish(false)
+        statusStore.setEditFinish(false)
     }
 })
 
@@ -278,22 +295,38 @@ watch(() => statusTtore.isEditFinish, (newValue, oldValue) => {
 const handleDelete = (id: number) => {
     // 删除操作
     console.log(id)
-    statusTtore.isEditFinish = false
+    statusStore.isEditFinish = false
     http.delete(props.tableConfig.api, userStore.token, id)
     getTableData()
-    statusTtore.isEditFinish = true
+    statusStore.isEditFinish = true
+    // 如果是禁停区，需要在地图上删除，通过store设置状态
+    if (props.tableConfig.api == '/noParkingZones') {
+        // 设置对应的deleteid
+        noParkingZoneStore.deleteId = id
+        mapStatusStore.setForNoParkingZoneDeleteStatus(true)
+    }
 }
 
 // 在地图上查看
 const handleMAP = (row) => {
-    // 在recordStore中存储当前行的数据
-    useRecordStore().addRecord(userStore.token ?? '', row.orderid)
+    // 如果对应的url是/records在recordStore中存储当前行的数据
+    if (props.tableConfig.api == '/rideRecords') {
+        useRecordStore().addRecord(userStore.token ?? '', row.orderid)
+    }
+    if (props.tableConfig.api == '/noParkingZones') {
+        useNoParkingZoneStore().addVisibleNoParkingZone(userStore.token ?? '', row.zoneid)
+    }
 }
 
 // 取消地图查看
 const handleNOMAP = (row) => {
     // 在recordStore中删除当前行的数据
-    useRecordStore().removeRecord(row.orderid)
+    if (props.tableConfig.api == '/rideRecords') {
+        useRecordStore().removeRecord(row.orderid)
+    }
+    if (props.tableConfig.api == '/noParkingZones') {
+        useNoParkingZoneStore().removeVisibleNoParkingZone(row.zoneid)
+    }
 }
 
 </script>

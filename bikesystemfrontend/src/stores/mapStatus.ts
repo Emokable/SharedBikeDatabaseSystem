@@ -1,3 +1,4 @@
+import { get } from 'http';
 import { defineStore } from 'pinia';
 
 export const useMapStatusStore = defineStore('mapStatus', {
@@ -7,6 +8,11 @@ export const useMapStatusStore = defineStore('mapStatus', {
         isMapError: false,  // 地图是否加载失败
         isMassMarksLoaded: false,  // 是否已加载大量标记
         isTrackLoaded: false,  // 是否已加载轨迹
+        isForNoParkingZoneCreate: false,  // 是否用于创建禁停区
+        isForNoParkingZoneEdit: false,  // 是否用于编辑禁停区
+        isForNoParkingZoneDelete: false,  // 是否用于删除禁停区
+        isGiveUpNoParkingZoneOperation: false,  // 是否放弃禁停区操作
+        isNoParkingZoneOperationFinish: false,  // 是否正在进行禁停区操作
     }),
     getters: {
         getMapLoadingStatus(state) {
@@ -24,6 +30,21 @@ export const useMapStatusStore = defineStore('mapStatus', {
         getTrackLoadedStatus(state) {
             return state.isTrackLoaded;
         },
+        getForNoParkingZoneCreateStatus(state) {
+            return state.isForNoParkingZoneCreate;
+        },
+        getForNoParkingZoneEditStatus(state) {
+            return state.isForNoParkingZoneEdit;
+        },
+        getForNoParkingZoneDeleteStatus(state) {
+            return state.isForNoParkingZoneDelete;
+        },
+        getGiveUpNoParkingZoneOperationStatus(state) {
+            return state.isGiveUpNoParkingZoneOperation;
+        },
+        getNoParkingZoneOperationFinishStatus(state) {
+            return state.isNoParkingZoneOperationFinish;
+        },
     },
     actions: {
         setMapLoadingStatus(status: boolean) {
@@ -40,6 +61,22 @@ export const useMapStatusStore = defineStore('mapStatus', {
         },
         setTrackLoadedStatus(status: boolean) {
             this.isTrackLoaded = status;
+        },
+        setForNoParkingZoneCreateStatus(status: boolean) {
+            console.log('setForNoParkingZoneCreateStatus : '+status);
+            this.isForNoParkingZoneCreate = status;
+        },
+        setForNoParkingZoneEditStatus(status: boolean) {
+            this.isForNoParkingZoneEdit = status;
+        },
+        setForNoParkingZoneDeleteStatus(status: boolean) {
+            this.isForNoParkingZoneDelete = status;
+        },
+        setGiveUpNoParkingZoneOperationStatus(status: boolean) {
+            this.isGiveUpNoParkingZoneOperation = status;
+        },
+        setNoParkingZoneOperationFinishStatus(status: boolean) {
+            this.isNoParkingZoneOperationFinish = status;
         },
     },
 });

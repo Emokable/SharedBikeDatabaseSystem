@@ -37,6 +37,7 @@ declare module 'vue' {
     IconSupport: typeof import('./components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./components/icons/IconTooling.vue')['default']
     MapContainer: typeof import('./components/MapContainer.vue')['default']
+    MapContainerForNoParkingZone: typeof import('./components/MapContainerForNoParkingZone.vue')['default']
     MapPanel: typeof import('./components/MapPanel.vue')['default']
     NavBar: typeof import('./components/NavBar.vue')['default']
     NoParkingSearch: typeof import('./components/search/NoParkingSearch.vue')['default']

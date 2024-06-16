@@ -14,9 +14,6 @@ const mapStatusStore = useMapStatusStore()
 const userStore = useUserStore()
 const recordStore = useRecordStore()
 
-// 初始化 data
-let data = ref([]);
-
 onMounted(() => {
   window._AMapSecurityConfig = {
     securityJsCode: "662998a630a974058bdb30d05ffd7c6a",
@@ -33,7 +30,7 @@ onMounted(() => {
         zoom: 11, // 初始化地图级别
       });
 
-      AMap.plugin(["AMap.ToolBar", "AMap.Geolocation"], function () { //异步同时加载多个插件
+      AMap.plugin(["AMap.ToolBar", "AMap.Geolocation", "AMap.MouseTool", "AMap.PolygonEditor"], function () { //异步同时加载多个插件
         var toolbar = new AMap.ToolBar(); //创建工具条插件实例
         map.addControl(toolbar); //添加工具条插件到页面
 
@@ -46,6 +43,13 @@ onMounted(() => {
         })
       });
 
+      // 当地图组件为noParkingZone时，加载Amap.PolygonEditor插件
+      if (mapStatusStore.isForNoParkingZone) {
+        var polygonEditor = new AMap.PolygonEditor(map);
+        
+      }
+      
+      // 创建海量点样式
       var massStyle = {
         // 图标地址为Public文件夹下的img文件夹下的icon.png
         url: "/img/mass1.png", //图标地址
