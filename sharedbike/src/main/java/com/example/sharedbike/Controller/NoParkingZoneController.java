@@ -45,7 +45,7 @@ public class NoParkingZoneController {
     public void saveNoParkingZone(@RequestBody NoParkingZone noParkingZone) {
         noParkingZoneMapper.saveNoParkingZone(noParkingZone);
     }
-
+    @DeleteMapping("/{id}")
     @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     public void deleteNoParkingZone(@PathVariable int id) {
         noParkingZoneMapper.deleteNoParkingZone(id);
