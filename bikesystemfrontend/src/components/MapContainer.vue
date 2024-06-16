@@ -54,7 +54,6 @@ onMounted(() => {
       };
 
       let massMarks = null;
-
       // 将空闲单车的数据转换为需要的格式
       const initializeFreeBikeDataMask = () => {
         http.get('/bikes/avabike', userStore.token).then((res) => {
@@ -80,15 +79,68 @@ onMounted(() => {
       watch(() => mapStatusStore.isMassMarksLoaded, (newValue, oldValue) => {
         if (newValue) {
           initializeFreeBikeDataMask();
-        } else if (massMarks !== null){
+        } else if (massMarks !== null) {
           massMarks.setMap(null);
         }
       })
 
-      // 监听recordStore中的removeOld和selectNew变量
-      
+      // polyline数组，用于存储所有的轨迹
+      let polylines = [];
+      let polylineid = [];
 
+      // 将轨迹数据转换为需要的格式, 根据传入的记录id确定对应的轨迹
+      const initializeTrackDataMask = (recordId) => {
+        // 利用recordId获取在recordStore中的对应的轨迹数据
+        let recordTrack = recordStore.getRecordTrackByID(recordId);
+        // 清空path数组
+        let path = [];
+        for (let i = 0; i < recordTrack.track.length; i++) {
+          path.push(new AMap.LngLat(recordTrack.track[i].lng, recordTrack.track[i].lat));
+        }
+        //创建 Polyline 实例
+        var polyline = new AMap.Polyline({
+          path: path,
+          strokeWeight: 2, //线条宽度
+          strokeColor: "red", //线条颜色
+          lineJoin: "round", //折线拐点连接处样式
+        });
+        
+        // 将轨迹添加到地图上
+        map.add(polyline);
+        polylines.push(polyline);
+        // 将轨迹的id添加到polylineid数组中
+        polylineid.push(recordId);
+      }
 
+      // 根据传入的记录id删除对应的轨迹
+      const removeTrackDataMask = (recordId) => {
+        let index = polylineid.indexOf(recordId);
+        if (index !== -1) {
+          map.remove(polylines[index]);
+          polylines.splice(index, 1);
+          polylineid.splice(index, 1);
+        }
+      }
+
+      // 监听recordStore中的selectNew变量,当值不为-1时，设置轨迹
+      watch(() => recordStore.selectNew, (newValue, oldValue) => {
+        console.log("selectNew", newValue);
+        if (newValue !== -1) {
+          initializeTrackDataMask(newValue);
+          // 将selectNew设置为-1
+          recordStore.setSelectNew(-1);
+        }
+      })
+
+      // 监听recordStore中的removeOld变量,当值不为-1时，删除轨迹
+      watch(() => recordStore.removeOld, (newValue, oldValue) => {
+        console.log("removeOld", newValue);
+        if (newValue !== -1) {
+          removeTrackDataMask(newValue);
+          // 将removeOld设置为-1
+          recordStore.setRemoveOld(-1);
+        }
+      })
 
     })
     .catch((e) => {
