@@ -115,3 +115,88 @@
 >
 > 2024-6-11: 转ts，引入element plus，vite，vue router等；
 
+后端结构：
+
+sharedbike
+├── HELP.md
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── com
+│   │   │       └── example
+│   │   │           └── sharedbike
+│   │   │               ├── Config
+│   │   │               │   ├── MyWebMvcConfigurer.java
+│   │   │               │   ├── ResponseAdvice.java
+│   │   │               │   └── SwaggerConfig.java
+│   │   │               ├── Controller
+│   │   │               │   ├── AdminController.java
+│   │   │               │   ├── BikeController.java
+│   │   │               │   ├── FileController.java
+│   │   │               │   ├── LoginController.java
+│   │   │               │   ├── NoParkingZoneController.java
+│   │   │               │   ├── RideRecordController.java
+│   │   │               │   ├── RiderController.java
+│   │   │               │   ├── SchedulingController.java
+│   │   │               │   ├── SchedulingPlan.java
+│   │   │               │   └── hello.java
+│   │   │               ├── domin
+│   │   │               │   └── BaseResponse.java
+│   │   │               ├── entity
+│   │   │               │   ├── Admin.java
+│   │   │               │   ├── Bike.java
+│   │   │               │   ├── DTO
+│   │   │               │   │   └── AdminUpdateDTO.java
+│   │   │               │   ├── Enum
+│   │   │               │   │   ├── Gender.java
+│   │   │               │   │   └── Status.java
+│   │   │               │   ├── NoParkingZone.java
+│   │   │               │   ├── Privileges.java
+│   │   │               │   ├── RideRecord.java
+│   │   │               │   └── Rider.java
+│   │   │               ├── jwt
+│   │   │               │   ├── JwtFilter.java
+│   │   │               │   ├── JwtToken.java
+│   │   │               │   └── JwtUtils.java
+│   │   │               ├── mapper
+│   │   │               │   ├── AdminMapper.java
+│   │   │               │   ├── BikeMapper.java
+│   │   │               │   ├── NoParkingZoneMapper.java
+│   │   │               │   ├── RideRecordMapper.java
+│   │   │               │   └── RiderMapper.java
+│   │   │               ├── result
+│   │   │               │   ├── LoginException.java
+│   │   │               │   └── Result.java
+│   │   │               ├── service
+│   │   │               │   ├── AdminService.java
+│   │   │               │   ├── CustomExceptionHandler.java
+│   │   │               │   ├── RestExceptionHandler.java
+│   │   │               │   └── RideRecordService.java
+│   │   │               ├── sharebikeApplication.java
+│   │   │               └── shiro
+│   │   │                   ├── JwtCredentialsMatcher.java
+│   │   │                   ├── JwtRealm.java
+│   │   │                   ├── MultiRealmAuthenticator.java
+│   │   │                   ├── PasswordEncryption.java
+│   │   │                   ├── ShiroConfig.java
+│   │   │                   └── ShiroRealm.java
+│   │   └── resources
+│   │       ├── application.properties
+│   │       ├── applicatonContext.xml
+│   │       ├── mapper
+│   │       │   ├── AdminMapper.xml
+│   │       │   ├── BikeMapper.xml
+│   │       │   ├── NoParkZoneMapper.xml
+│   │       │   ├── RideRecordMapper.xml
+│   │       │   └── RiderMapper.xml
+│   │       └── static
+│   │           └── login.html
+│   └── test
+│       └── java
+│           └── com
+│               └── example
+│                   └── sharedbike
+│                       └── sharebikeApplicationTests.java

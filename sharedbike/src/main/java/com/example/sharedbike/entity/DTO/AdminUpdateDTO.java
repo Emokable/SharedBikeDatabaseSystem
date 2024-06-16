@@ -1,6 +1,6 @@
 package com.example.sharedbike.entity.DTO;
 
-import com.example.sharedbike.entity.Gender;
+import com.example.sharedbike.entity.Enum.Gender;
 import lombok.Data;
 
 import java.util.Date;

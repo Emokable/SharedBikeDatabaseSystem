@@ -1,5 +1,6 @@
 package com.example.sharedbike.entity;
 
+import com.example.sharedbike.entity.Enum.Status;
 import lombok.Data;
 
 import java.util.Date;
