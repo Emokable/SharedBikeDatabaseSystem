@@ -1,33 +1,21 @@
-<!--
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-12 19:07:14
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 17:53:12
--->
 <script setup>
-import { reactive, toRefs, ref } from 'vue'
+import { reactive, toRefs, ref, watch } from 'vue'
 import { onMounted, onUnmounted } from "vue"
-import axios from 'axios'
 import AMapLoader from "@amap/amap-jsapi-loader"
-import { useMapStore } from '../stores/map'
+import { useMapStatusStore } from '../stores/mapStatus'
+import { useUserStore } from '../stores/user'
+import { useRecordStore } from '../stores/records'
+import { http } from '../utils/http'
 
 let map = null;
+let massMarks = null;
 
-const mapStore = useMapStore()
+const mapStatusStore = useMapStatusStore()
+const userStore = useUserStore()
+const recordStore = useRecordStore()
 
 // 初始化 data
-const data = ref([]);
-
-// 将空闲单车的数据转换为需要的格式
-const initializeBikeData = () => {
-  data.value = mapStore.getFreeBikes.map(bike => ({
-    lnglat: [bike.location.latitude, bike.location.longitude]
-  }));
-}
-
-
+let data = ref([]);
 
 onMounted(() => {
   window._AMapSecurityConfig = {
@@ -36,26 +24,11 @@ onMounted(() => {
   AMapLoader.load({
     key: "c188a059caf8eb3830b2f195a809c36a", // 申请好的Web端开发者Key，首次调用 load 时必填
     version: "2.0", // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-    plugins: ["AMap.Scale"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
+    plugins: ["AMap.MarkerCluster", "AMap.Scale"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
 
   })
     .then((AMap) => {
-
-      var style = {
-        url: "//vdata.amap.com/icons/b18/1/2.png", //图标地址
-        size: new AMap.Size(11, 11), //图标大小
-        anchor: new AMap.Pixel(5, 5), //图标显示位置偏移量，基准点为图标左上角
-      };
-
-      let massMarks = new AMap.MassMarks(data, {
-        zIndex: 5, //海量点图层叠加的顺序
-        zooms: [3, 19], //在指定地图缩放级别范围内展示海量点图层
-        style: style, //设置样式对象
-      });
-
       map = new AMap.Map("container", {
-        // 设置地图容器id
-        mapStyle: "amap://styles/black", //设置地图的显示样式
         viewMode: "3D", // 是否为3D地图模式
         zoom: 11, // 初始化地图级别
       });
@@ -71,10 +44,52 @@ onMounted(() => {
           zoomToAccuracy: true,  //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
           position: 'RB' //  定位按钮的排放位置,  RB表示右下
         })
-
-
-
       });
+
+      var massStyle = {
+        // 图标地址为Public文件夹下的img文件夹下的icon.png
+        url: "/img/mass1.png", //图标地址
+        size: new AMap.Size(11, 11), //图标大小
+        anchor: new AMap.Pixel(5, 5), //图标显示位置偏移量，基准点为图标左上角
+      };
+
+      let massMarks = null;
+
+      // 将空闲单车的数据转换为需要的格式
+      const initializeFreeBikeDataMask = () => {
+        http.get('/bikes/avabike', userStore.token).then((res) => {
+          let newData = [];
+          if (Array.isArray(res.data.data)) {
+            for (let i = 0; i < res.data.data.length; i++) {
+              let item = res.data.data[i];
+              newData.push({
+                lnglat: [item.locationX, item.locationY],
+              });
+            }
+          }
+          massMarks = new AMap.MassMarks(newData, {
+            zIndex: 5, //海量点图层叠加的顺序
+            zooms: [3, 19], //在指定地图缩放级别范围内展示海量点图层
+            style: massStyle, //设置样式对象
+          });
+          massMarks.setMap(map);
+        })
+      }
+
+      // 监听 mapStatusStore 中的 isMassMarksLoaded 变量，当其变化时，显示或隐藏海量点
+      watch(() => mapStatusStore.isMassMarksLoaded, (newValue, oldValue) => {
+        if (newValue) {
+          initializeFreeBikeDataMask();
+        } else if (massMarks !== null){
+          massMarks.setMap(null);
+        }
+      })
+
+      // 监听recordStore中的removeOld和selectNew变量
+      
+
+
+
     })
     .catch((e) => {
       console.log(e);
@@ -83,6 +98,9 @@ onMounted(() => {
 
 onUnmounted(() => {
   map?.destroy();
+  massMarks = null;
+  mapStatusStore.setMassMarksLoadedStatus(false);
+  mapStatusStore.setTrackLoadedStatus(false);
 });
 </script>
 

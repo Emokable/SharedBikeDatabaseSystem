@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 13:03:20
+ * @LastEditTime: 2024-06-16 16:08:38
 -->
 <!--
  * @Description: 
@@ -67,10 +67,10 @@
                                 Delete
                             </el-button>
                             <template v-if="props.tableConfig.useMap">
-                            <el-button type= 'success' size="small" @click="handleMAP(scope.row)" v-if="!scope.row.onMap">
+                            <el-button type= 'success' size="small" @click="handleMAP(scope.row)">
                                 在地图上查看
                             </el-button>
-                            <el-button type='warning'  size="small" @click="handleNOMAP(scope.row)" v-else>
+                            <el-button type='warning'  size="small" @click="handleNOMAP(scope.row)">
                                 从地图上消除
                             </el-button>
                             </template>
@@ -107,7 +107,7 @@ import { noParkingZoneData } from '../types/noParkingZone'
 import { recordData } from '../types/record'
 import { useUserStore } from '../stores/user'
 import { useStatusStore } from '../stores/operationStatus'
-import { Search, CloseBold } from '@element-plus/icons-vue'
+import { useRecordStore } from '../stores/records'
 
 const dialogFormVisible = ref(false)
 const pagination = ref({
@@ -284,15 +284,16 @@ const handleDelete = (id: number) => {
     statusTtore.isEditFinish = true
 }
 
-
 // 在地图上查看
 const handleMAP = (row) => {
-    console.log(row)
+    // 在recordStore中存储当前行的数据
+    useRecordStore().addRecord(userStore.token ?? '', row.orderid)
 }
 
 // 取消地图查看
 const handleNOMAP = (row) => {
-    console.log(row)
+    // 在recordStore中删除当前行的数据
+    useRecordStore().removeRecord(row.orderid)
 }
 
 </script>

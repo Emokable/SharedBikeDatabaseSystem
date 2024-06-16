@@ -4,12 +4,12 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 11:38:14
+ * @LastEditTime: 2024-06-16 11:53:51
 -->
 <template>
     <div class="record-layout">
         <el-container>
-            <el-aside width="200px" class="toolbox">
+            <el-aside width="170px" class="toolbox">
             </el-aside>
             <el-container>
                 <el-main class='recordContent'>

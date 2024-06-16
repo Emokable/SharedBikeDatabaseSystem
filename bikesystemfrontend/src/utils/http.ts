@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 23:56:32
+ * @LastEditTime: 2024-06-16 15:36:49
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -21,6 +21,19 @@ export const http = {
             headers: headers
         };
 
+        return request(config);
+    },
+
+    getByID(url, token?: string, id?: number) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
+            url: url + '/' + id?.toString(),
+            headers: headers
+        };
         return request(config);
     },
 
