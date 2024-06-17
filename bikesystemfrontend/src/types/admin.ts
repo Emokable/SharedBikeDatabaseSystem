@@ -1,12 +1,12 @@
 export interface AdminData {
-    userid: number;
+    adminid: number;
     username: string;
     gender: string;
     password: string;
     phoneNumber: string;
     avatar: string;
     birthday: string;
-    authorityLevel: string;
+    privileges: string;
   }
 
 export  type adminData = AdminData;

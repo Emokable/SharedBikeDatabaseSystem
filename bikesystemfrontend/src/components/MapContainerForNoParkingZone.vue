@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-16 21:23:13
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 16:35:31
+ * @LastEditTime: 2024-06-17 21:29:13
 -->
 <script setup>
 import { reactive, toRefs, ref, watch } from 'vue'
@@ -269,7 +269,12 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    map?.destroy();
+    //销毁地图，并清空地图容器
+    map.destroy();
+    //地图对象赋值为null
+    map = null
+    //清除地图容器的 DOM 元素
+    noParkingZoneStore.clearVisibleNoParkingZone();
 });
 </script>
 

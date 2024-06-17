@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 11:32:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 15:56:48
+ * @LastEditTime: 2024-06-17 22:38:01
 -->
 <template>
     <el-form :model="props.formData" label-width="auto" style="max-width: 600px">
@@ -16,8 +16,11 @@
                             }}</el-radio>
                     </el-radio-group>
                 </template>
-                <template v-else>
+                <template v-else-if="!column.prop.endsWith('id')">
                     <el-input v-model="props.formData[column.prop]" />
+                </template>
+                <template v-else>
+                    <span>{{ props.formData[column.prop] }}</span>
                 </template>
             </el-form-item>
         </template>
@@ -28,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, defineProps } from 'vue'
+import { reactive, defineProps, ref } from 'vue'
 import { TableConfig } from '../types/table'
 import { http } from '../utils/http'
 import { useUserStore } from '../stores/user'
@@ -41,11 +44,9 @@ const props = defineProps<{
 
 const userStore = useUserStore()
 const statusStore = useStatusStore()
+const idValue = ref(0);
 
 const onSubmit = () => {
-    // 检查是否ID重复
-
-
     console.log('submit!', props.formData)
     if (props.tableConfig.api === '/admins' && userStore.isSuperuser) {
         http.post(props.tableConfig.api, props.formData, userStore.token)
@@ -64,6 +65,6 @@ const onSubmit = () => {
                 window.alert('插入失败')
             })
     }
-
 }
+
 </script>

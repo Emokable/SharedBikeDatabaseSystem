@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:00
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 16:28:07
+ * @LastEditTime: 2024-06-17 22:05:56
 -->
 
 <template>
@@ -34,13 +34,24 @@
     </div>
 
       
-  <div class="edit-form">
-        <el-dialog v-model="dialogFormVisible" title="请编辑对应信息" width="500">
-            <template v-if="dialogFormVisible">
-                <InsertForm :tableConfig="riderTableConfig" :formData="emptyData"></InsertForm>
-            </template>
-        </el-dialog>
-    </div>
+    <div class="edit-form">
+    <el-dialog v-model="dialogFormVisible" title="请输入数据对应ID" width="500">
+        <!-- Directly place el-input inside the el-dialog content area -->
+        <el-input v-model="emptyData.userid" placeholder="请输入用户ID"></el-input>
+        <template #footer>
+            <div class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取消</el-button>
+                <el-button type="primary" @click="checkID">
+                    确认ID
+                </el-button>
+            </div>
+        </template>
+    </el-dialog>
+    <el-dialog v-model="dialogFormVisible2" title="请编辑对应信息" width="500">
+        <!-- Use v-if directly on the component you want to conditionally render -->
+        <InsertForm v-if="dialogFormVisible2" :tableConfig="riderTableConfig" :formData="emptyData"></InsertForm>
+    </el-dialog>
+</div>
 </template>
 
 <script lang="ts" setup>
@@ -48,17 +59,12 @@ import { reactive, ref, watch } from 'vue'
 import { TableConfig } from '../types/table'
 import { useUserStore } from '../stores/user'
 import { useStatusStore } from '../stores/operationStatus';
+import { http } from '../utils/http'
 
 const userStore = useUserStore()
 const dialogFormVisible = ref(false)
+const dialogFormVisible2 = ref(false)
 const statusStore = useStatusStore()
-
-watch(() => statusStore.isCreateFinish, (newValue, oldValue) => {
-    if (newValue) {
-        dialogFormVisible.value = false
-        statusStore.setCreateFinish(false)
-    }
-})
 
 function createColumn(prop, label, isEnum, canSort, enumOptions? ) {
     return {
@@ -93,7 +99,7 @@ const riderTableConfig = reactive({
 
 function createEmptyData() {
     return {
-        userid: '',
+        userid: 0,
         avatar: '',
         username: '',
         gender: '',
@@ -103,7 +109,35 @@ function createEmptyData() {
     };
 }
 
-const emptyData = reactive(createEmptyData());
+var emptyData = reactive(createEmptyData())
+
+// 检查输入的ID是否已经重复
+function checkID() {
+    if (emptyData.userid === 0) {
+        window.alert('请输入ID');
+    } else {
+        http.getByID('/riders', userStore.token, emptyData.userid)
+            .then((res) => {
+                if (res.data.data === null) {
+                    dialogFormVisible2.value = true;
+                    dialogFormVisible.value = false;
+                } else {
+                    window.alert('ID已存在，请重新输入');
+                }
+            })
+            .catch(() => {
+                window.alert('ID检查失败');
+            });
+    }
+}
+
+watch(() => statusStore.isCreateFinish, (newValue, oldValue) => {
+    if (newValue) {
+        dialogFormVisible2.value = false
+        // 重置数据
+        emptyData = reactive(createEmptyData());
+    }
+})
 
 </script>
 

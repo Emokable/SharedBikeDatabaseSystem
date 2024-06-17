@@ -14,6 +14,7 @@ export const useMapStatusStore = defineStore('mapStatus', {
         isGiveUpNoParkingZoneOperation: false,  // 是否放弃禁停区操作
         isNoParkingZoneOperationFinish: false,  // 是否正在进行禁停区操作
         isNoParkingZoneBikeVisible: false,  // 是否显示禁停区内的单车
+        isMapDistroied: false,  // 地图是否已销毁
     }),
     getters: {
         getMapLoadingStatus(state) {
@@ -49,6 +50,9 @@ export const useMapStatusStore = defineStore('mapStatus', {
         getNoParkingZoneBikeVisibleStatus(state) {
             return state.isNoParkingZoneBikeVisible;
         },
+        getMapDistroiedStatus(state) {
+            return state.isMapDistroied;
+        },
     },
     actions: {
         setMapLoadingStatus(status: boolean) {
@@ -83,6 +87,9 @@ export const useMapStatusStore = defineStore('mapStatus', {
         },
         setNoParkingZoneBikeVisibleStatus(status: boolean) {
             this.isNoParkingZoneBikeVisible = status;
+        },
+        setMapDistroiedStatus(status: boolean) {
+            this.isMapDistroied = status;
         },
     },
 });

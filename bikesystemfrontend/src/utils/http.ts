@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 15:47:18
+ * @LastEditTime: 2024-06-17 19:24:26
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -44,7 +44,7 @@ export const http = {
         }
         const config = {
             method: 'GET',
-            url: url + '/maxid',
+            url: url + '/count',
             headers: headers
         };
         return request(config);
@@ -159,6 +159,9 @@ export const http = {
         const headers = {};
         if (token) {
             headers['X-Authorization-With'] = token;
+        }
+        if (url == '/admins'){
+            url = url + '/insert';
         }
         const config = {
             method: 'POST',

@@ -46,9 +46,9 @@ onMounted(() => {
       // 当地图组件为noParkingZone时，加载Amap.PolygonEditor插件
       if (mapStatusStore.isForNoParkingZone) {
         var polygonEditor = new AMap.PolygonEditor(map);
-        
+
       }
-      
+
       // 创建海量点样式
       var massStyle = {
         // 图标地址为Public文件夹下的img文件夹下的icon.png
@@ -108,9 +108,11 @@ onMounted(() => {
           strokeColor: "red", //线条颜色
           lineJoin: "round", //折线拐点连接处样式
         });
-        
+
         // 将轨迹添加到地图上
-        map.add(polyline);
+        if (map && polyline) {
+          map.add(polyline);
+        }
         polylines.push(polyline);
         // 将轨迹的id添加到polylineid数组中
         polylineid.push(recordId);
@@ -153,10 +155,14 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  map?.destroy();
-  massMarks = null;
+  //销毁地图，并清空地图容器
+  map.destroy();
+  //地图对象赋值为null
+  map = null
+  //清除地图容器的 DOM 元素
   mapStatusStore.setMassMarksLoadedStatus(false);
   mapStatusStore.setTrackLoadedStatus(false);
+
 });
 </script>
 

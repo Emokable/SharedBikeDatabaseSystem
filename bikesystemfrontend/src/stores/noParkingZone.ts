@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 00:08:04
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 15:08:58
+ * @LastEditTime: 2024-06-17 21:12:51
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -149,6 +149,20 @@ export const useNoParkingZoneStore = defineStore('noParkingZone', {
                     this.visibleBikes.splice(bikeIndex, 1);
                 }
             }
+        },
+
+        // 将该存储的数据清空
+        clearVisibleNoParkingZone() {
+            this.visiableNoParkingZones = [];
+            this.recordSides = [];
+            this.visibleBikes = [];
+            this.editingNoParkingZone = -1;
+            this.editingNoParkingZoneName = '';
+            this.editingNoParkingZoneLocation = [];
+            this.newNoparkingZoneName = '';
+            this.visibleNew = -1;
+            this.removeOld = -1;
+            this.deleteId = -1;
         },
 
         setNewVisible(zoneid: number) {

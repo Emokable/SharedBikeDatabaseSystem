@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:35
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 13:56:11
+ * @LastEditTime: 2024-06-17 21:00:10
 -->
 
 <template>
@@ -98,6 +98,10 @@ onBeforeRouteLeave(() => {
   // 所有涉及的mapStatusStore都置零
   mapStatusStore.setForNoParkingZoneCreateStatus(false);
   mapStatusStore.setForNoParkingZoneEditStatus(false);
+  // 离开页面时，将新建的禁停区名字置空
+  noParkingZoneStore.newNoparkingZoneName = '';
+  // 销毁地图
+  mapStatusStore.setMapDistroiedStatus(true);
 });
 
 // 补充点击事件
