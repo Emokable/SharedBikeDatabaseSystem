@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-18 05:10:54
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 05:54:30
+ * @LastEditTime: 2024-06-18 06:56:34
 -->
 <template>
     <!-- 热点时段选择对话框 -->
@@ -33,8 +33,8 @@
 
     <!-- 热点时段统计对话框 -->
     <el-dialog v-model="dialogTableVisible" title="热点时段一览" width="1200" @opened="initializeChart">
-        <div class="lineChart">
-            <div id="lineChart" style="width: 1200px; height: 500px;"></div>
+        <div class="timeChart">
+            <div id="timeChart" style="width: 1200px; height: 500px;"></div>
         </div>
     </el-dialog>
 </template>
@@ -108,7 +108,7 @@ const chartOption = (data: recordData[]) => ({
 function initializeChart() {
     nextTick(() => {
         if (!myChart) {
-            const chartDom = document.getElementById('lineChart');
+            const chartDom = document.getElementById('timeChart');
             if (chartDom) {
                 myChart = echarts.init(chartDom);
             }

@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="statusStore.isSelectBikeByLocation" title="请选择时间范围" width="500">
+    <el-dialog v-model="statusStore.isSelectBikeByLocation" title="请选择经纬度范围" width="500">
         <div class="time-select">
             <el-form>
                 <el-form-item label="经度范围">

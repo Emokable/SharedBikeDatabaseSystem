@@ -4,12 +4,12 @@
  * @Author: DZQ
  * @Date: 2024-06-18 05:57:05
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 06:08:37
+ * @LastEditTime: 2024-06-18 06:57:10
 -->
 
 <template>
-    <div class="lineChart">
-      <div id="lineChart" style="width: 1200px; height: 500px;"></div>
+    <div class="hotBikeChart">
+      <div id="hotBikeChart" style="width: 1200px; height: 500px;"></div>
     </div>
   </template>
   
@@ -54,7 +54,7 @@
   //在onMounted生命周期中初始化myChart
   onMounted(() => {
       //初始化myChart
-      myChart = echart.init(document.getElementById('lineChart'));
+      myChart = echart.init(document.getElementById('hotBikeChart'));
       http.get('/rideRecords/mostFrequentBikes', userStore.token).then((res) => {
       //将数据传入配置项
       chartOption(res.data.data);

@@ -3,7 +3,7 @@
         <el-table :data="tableData.values" :table-layout="'auto'" v-loading="loading" :stripe="true" :height="800"
             style="max-width: 1800px" @sort-change="handleSort">
             <el-table-column>
-                <template #header>
+                <template #header v-if="props.tableConfig.api !== '/noParkingZones'" >
                     <div class="mt-4">
                         <el-input v-model="searchInput" placeholder="输入具体值" class="input-with-select">
                             <template #prepend>

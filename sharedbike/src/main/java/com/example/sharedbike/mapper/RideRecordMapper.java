@@ -24,7 +24,7 @@ public interface RideRecordMapper {
     void saveRideRecord(RideRecord rideRecord);
    // @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     List<RideRecord> searchRideRecord(@Param("keyword") String keyword, @Param("searchBy") String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
-    @Select("SELECT * FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
+    @Select("SELECT COUNT(*) FROM RideRecord WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     int getsCount(@Param("keyword") String keyword, @Param("searchBy") String searchBy);
     @Delete("DELETE FROM RideRecord WHERE orderid = #{id}")
     void deleteRideRecord(int id);

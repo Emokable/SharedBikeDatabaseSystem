@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:31
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 01:05:51
+ * @LastEditTime: 2024-06-18 07:14:10
 -->
 <template>
     <div class="bike-layout">
@@ -98,7 +98,7 @@ const bikeTableConfig = reactive({
     columns: [
         createColumn('bikeid', '单车ID', false, true),
         createColumn('brand', '单车品牌', false, true),
-        createColumn('status', '单车状态', true, true, true, ['available', 'locked', 'damaged']),
+        createColumn('status', '单车状态', true, true, true, ['unlocked', 'locked', 'damaged']),
         createColumn('releasedate', '投放日期', false, true),
         createColumn('warrantyPeriod', '保修时长', false, true),
         createColumn('lastusetime', '最后使用时间', false, true),

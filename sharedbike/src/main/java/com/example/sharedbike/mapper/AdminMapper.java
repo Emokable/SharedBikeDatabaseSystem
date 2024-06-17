@@ -1,3 +1,11 @@
+/*
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-17 20:23:28
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-18 07:02:53
+ */
 package com.example.sharedbike.mapper;
 
 import com.example.sharedbike.entity.Admin;
@@ -13,7 +21,7 @@ public interface AdminMapper {
     Admin getAdminById(int adminid);
    // @Select("SELECT * FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     List<Bike> searchAdmins(@Param("keyword") String keyword,@Param("searchBy")String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
-    @Select("SELECT COUNT(*) FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
+    @Select("SELECT COUNT(*) FROM Admin WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     int getsCount(@Param("keyword") String keyword,@Param("searchBy")String searchBy);
     @Insert("INSERT INTO Admin (adminid, privileges, username, gender, password, phonenumber, avatar, birthday) VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phonenumber}, #{avatar}, #{birthday})")
     void insertAdmin(Admin admin);

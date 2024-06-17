@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 01:43:24
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 06:41:26
+ * @LastEditTime: 2024-06-18 06:51:34
 -->
 <template>
   <div class="mapPanel-layout">
@@ -17,8 +17,8 @@
           显示信息选择
           <el-button @click="MassMarksVisible" v-if="!Massset">显示空闲单车</el-button>
           <el-button @click="MassMarksUnvisible" v-else>隐藏空闲单车</el-button>
-          <el-button @click="mapStatusStore.setHotAreaLoadedStatus(true)" v-if="!mapStatusStore.isHotAreaLoaded">显示热点地区</el-button>
-          <el-button @click="mapStatusStore.setHotAreaLoadedStatus(false)" v-else>隐藏热点地区</el-button>
+          <!-- <el-button @click="mapStatusStore.setHotAreaLoadedStatus(true)" v-if="!mapStatusStore.isHotAreaLoaded">显示热点地区</el-button>
+          <el-button @click="mapStatusStore.setHotAreaLoadedStatus(false)" v-else>隐藏热点地区</el-button> -->
           <el-button @click="showLineChartModal = true">显示每日单次骑行时间</el-button>
           <el-button @click="statusStore.setGetingSchedule(true)">查询调度方案</el-button>
           <el-button @click="statusStore.setShowHotTimes(true)">显示热门时间</el-button>

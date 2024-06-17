@@ -38,7 +38,7 @@ export default {
     const updatePassword = () => {
       // Ensure to use password.value inside setup()
       console.log(password.value);
-      http.changePassword("/admins", userStore.token, password.value).then((res) => {
+      http.changePassWord("/admins", userStore.token, password.value).then((res) => {
         // Handle response
         window.alert('密码修改成功');
         showUpdatePasswordDialog.value = false; // Close dialog after successful password change

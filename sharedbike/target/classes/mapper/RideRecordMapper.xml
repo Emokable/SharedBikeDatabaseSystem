@@ -10,7 +10,7 @@
         </if>
         LIMIT #{size} OFFSET #{offset}
     </select>
-    <select id="searchRideRecords" resultType="com.example.sharedbike.entity.RideRecord">
+    <select id="searchRideRecord" resultType="com.example.sharedbike.entity.RideRecord">
         SELECT * FROM RideRecord
         <where>
             <if test="searchBy != null and searchBy != ''">
