@@ -28,10 +28,10 @@
         LIMIT #{size} OFFSET #{offset}
     </select>
 
-<!--    <insert id="insertAdmin" parameterType="com.example.sharedbike.entity.Admin">-->
-<!--        INSERT INTO admin (adminid, privileges, username, gender, password, phonenumber, avatar, birthday)-->
-<!--        VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phonenumber}, #{avatar}, #{birthday})-->
-<!--    </insert>-->
+    <insert id="insertAdmin" parameterType="com.example.sharedbike.entity.Admin">
+        INSERT INTO Admin (adminid, privileges, username, gender, password, phonenumber, avatar, birthday)
+        VALUES (#{adminid}, #{privileges}, #{username}, #{gender}, #{password}, #{phonenumber}, #{avatar}, #{birthday})
+    </insert>
 
     <update id="updateAdmin" parameterType="com.example.sharedbike.entity.Admin">
         UPDATE admin

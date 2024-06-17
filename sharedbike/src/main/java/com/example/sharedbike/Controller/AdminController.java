@@ -5,6 +5,7 @@ import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.DTO.AdminUpdateDTO;
 import com.example.sharedbike.mapper.AdminMapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -58,9 +59,10 @@ public class AdminController {
     }
     @RequiresPermissions("superuser")
     @PostMapping("/insert")
+    @Options(useGeneratedKeys = true, keyProperty = "adminid")
     public BaseResponse<String> insertAdmin(@RequestBody Admin admin) {
             try {
-                if (admin.getPassword() != null) {
+                System.out.println(admin);
                     // 盐值
                     ByteSource salt = ByteSource.Util.bytes(admin.getUsername());
                     // 设置哈希算法和迭代次数
@@ -70,7 +72,8 @@ public class AdminController {
                     SimpleHash hash = new SimpleHash(hashAlgorithmName, admin.getUsername(), salt, hashIterations);
                     String encryptedPassword = hash.toHex();
                     admin.setPassword(encryptedPassword);
-                }
+                     System.out.println(admin);
+                adminMapper.insertAdmin(admin);
                 return BaseResponse.success("Admin saved successfully");
             } catch (DuplicateKeyException ex) {
                 throw new DuplicateKeyException("Admin ID already exists: " + admin.getAdminid());
