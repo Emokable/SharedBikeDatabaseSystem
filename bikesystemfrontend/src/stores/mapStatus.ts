@@ -1,6 +1,13 @@
 import { get } from 'http';
 import { defineStore } from 'pinia';
 
+export interface Location {
+    lat: number;
+    lng: number;
+    count: number;
+}
+
+
 export const useMapStatusStore = defineStore('mapStatus', {
     state: () => ({
         isMapLoading: false,  // 地图是否正在加载
@@ -15,6 +22,8 @@ export const useMapStatusStore = defineStore('mapStatus', {
         isNoParkingZoneOperationFinish: false,  // 是否正在进行禁停区操作
         isNoParkingZoneBikeVisible: false,  // 是否显示禁停区内的单车
         isMapDistroied: false,  // 地图是否已销毁
+        HotArea: [] as Location[],  // 热区
+        isHotAreaLoaded: false,  // 是否已加载热区
     }),
     getters: {
         getMapLoadingStatus(state) {
@@ -53,6 +62,12 @@ export const useMapStatusStore = defineStore('mapStatus', {
         getMapDistroiedStatus(state) {
             return state.isMapDistroied;
         },
+        getHotArea(state) {
+            return state.HotArea;
+        },
+        getHotAreaLoadedStatus(state) {
+            return state.isHotAreaLoaded;
+        },
     },
     actions: {
         setMapLoadingStatus(status: boolean) {
@@ -90,6 +105,12 @@ export const useMapStatusStore = defineStore('mapStatus', {
         },
         setMapDistroiedStatus(status: boolean) {
             this.isMapDistroied = status;
+        },
+        setHotArea(hotArea: Location[]) {
+            this.HotArea = hotArea;
+        },
+        setHotAreaLoadedStatus(status: boolean) {
+            this.isHotAreaLoaded = status;
         },
     },
 });

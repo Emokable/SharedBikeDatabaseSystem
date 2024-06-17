@@ -8,9 +8,9 @@
 <script setup lang="ts">
 
 import { ref, onMounted, onUnmounted } from 'vue'
-import * as echarts from 'echarts'
 import { http } from '../utils/http'
 import { useUserStore } from '../stores/user';
+import * as echarts from 'echarts'
 
 const userStore = useUserStore()
 let echart = echarts;

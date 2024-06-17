@@ -88,6 +88,13 @@ onMounted(() => {
         }
       })
 
+      // // 创建用于放置热点区域对应圆形标记的图层
+      // var hotAreaLayer = new AMap.LabelsLayer({
+      //   zooms: [3, 19], //设置显示的级别范围
+      //   zIndex: 100, //图层叠加的顺序
+      // });
+
+
       // polyline数组，用于存储所有的轨迹
       let polylines = [];
       let polylineid = [];

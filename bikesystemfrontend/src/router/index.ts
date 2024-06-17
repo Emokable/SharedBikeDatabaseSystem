@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 02:43:00
+ * @LastEditTime: 2024-06-18 06:11:25
  */
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../stores/user' 
@@ -57,6 +57,21 @@ const router = createRouter({
       path: '/schedulePlan',
       name: 'SchedulingPlan',
       component: () => import('../components/SchedulingPlan.vue')
+    },
+    {
+      path: '/timeChart',
+      name: 'TimeChart',
+      component: () => import('../components/TimeChart.vue')
+    },
+    {
+      path: '/hotBikeChart',
+      name: 'HotBikeChart',
+      component: () => import('../components/HotBikeChart.vue')
+    },
+    {
+      path: '/coldBikeChart',
+      name: 'ColdBikeChart',
+      component: () => import('../components/ColdBikeChart.vue')
     },
     {
       path: '/locationSelect',

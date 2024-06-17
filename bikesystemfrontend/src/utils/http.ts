@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 03:58:32
+ * @LastEditTime: 2024-06-18 05:28:36
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -229,6 +229,29 @@ export const http = {
         return request(config);
     },
 
+    getHotTime(token?: string, startDate?: string, endDate?: string) {
+        const headers = {};
+        let url = '/rideRecords/hotRideTimes';
+        let params = new URLSearchParams();
+        if (startDate) {
+            params.append('startDate', startDate);
+        }
+        if (endDate) {
+            params.append('endDate', endDate);
+        }
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
+            url: url,
+            headers: headers,
+        }
+        return request(config);
+    },
 
 
     post(url, data, token?: string) {

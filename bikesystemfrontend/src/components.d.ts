@@ -7,8 +7,11 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BikeChart: typeof import('./components/BikeChart.vue')['default']
     BikeSearch: typeof import('./components/search/BikeSearch.vue')['default']
     Chart1: typeof import('./components/LineChart1.vue')['default']
+    ColdBikeChart: typeof import('./components/ColdBikeChart.vue')['default']
+    ColdBikeTable: typeof import('./components/ColdBikeTable.vue')['default']
     EditForm: typeof import('./components/EditForm.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
@@ -39,6 +42,9 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTest: typeof import('element-plus/es')['ElTest']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    HotArea: typeof import('./components/HotArea.vue')['default']
+    HotAreaTimePicker: typeof import('./components/HotAreaTimePicker.vue')['default']
+    HotBikeChart: typeof import('./components/HotBikeChart.vue')['default']
     IconCommunity: typeof import('./components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./components/icons/IconEcosystem.vue')['default']
@@ -58,6 +64,7 @@ declare module 'vue' {
     SchedulingPlan: typeof import('./components/SchedulingPlan.vue')['default']
     SwitchAppearence: typeof import('./components/SwitchAppearence.vue')['default']
     Table: typeof import('./components/Table.vue')['default']
+    TimeChart: typeof import('./components/TimeChart.vue')['default']
     TimeSelect: typeof import('./components/TimeSelect.vue')['default']
     UserSearch: typeof import('./components/search/UserSearch.vue')['default']
     WelcomeItem: typeof import('./components/WelcomeItem.vue')['default']
