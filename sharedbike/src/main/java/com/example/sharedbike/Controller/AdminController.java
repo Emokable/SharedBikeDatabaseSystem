@@ -61,24 +61,25 @@ public class AdminController {
     @PostMapping("/insert")
     @Options(useGeneratedKeys = true, keyProperty = "adminid")
     public BaseResponse<String> insertAdmin(@RequestBody Admin admin) {
-            try {
-                System.out.println(admin);
-                    // 盐值
-                    ByteSource salt = ByteSource.Util.bytes(admin.getUsername());
-                    // 设置哈希算法和迭代次数
-                    String hashAlgorithmName = "SHA-1";
-                    int hashIterations = 16;
-                    // 使用 SimpleHash 进行加密
-                    SimpleHash hash = new SimpleHash(hashAlgorithmName, admin.getUsername(), salt, hashIterations);
-                    String encryptedPassword = hash.toHex();
-                    admin.setPassword(encryptedPassword);
-                     System.out.println(admin);
-                adminMapper.insertAdmin(admin);
-                return BaseResponse.success("Admin saved successfully");
-            } catch (DuplicateKeyException ex) {
-                throw new DuplicateKeyException("Admin ID already exists: " + admin.getAdminid());
-            }
+        try {
+            System.out.println(admin);
+            // 盐值
+            ByteSource salt = ByteSource.Util.bytes(admin.getUsername());
+            // 设置哈希算法和迭代次数
+            String hashAlgorithmName = "SHA-1";
+            int hashIterations = 16;
+            // 使用 SimpleHash 进行加密
+            SimpleHash hash = new SimpleHash(hashAlgorithmName, admin.getPassword(), salt, hashIterations);
+            String encryptedPassword = hash.toHex();
+            admin.setPassword(encryptedPassword);
+            System.out.println(admin);
+            adminMapper.insertAdmin(admin);
+            return BaseResponse.success("Admin saved successfully");
+        } catch (DuplicateKeyException ex) {
+            throw new DuplicateKeyException("Admin ID already exists: " + admin.getAdminid());
+        }
     }
+
     @RequiresPermissions("superuser")
     @PutMapping("/update")
     public void updateAdmin(@RequestBody Admin admin) {
@@ -87,6 +88,7 @@ public class AdminController {
         currentAdmin.setAdminid(admin.getAdminid());
         currentAdmin.setPrivileges(admin.getPrivileges());
         currentAdmin.setGender(admin.getGender());
+
         if (admin.getPassword() != null) {
             // 盐值
             ByteSource salt = ByteSource.Util.bytes(currentAdmin.getUsername());
@@ -94,15 +96,18 @@ public class AdminController {
             String hashAlgorithmName = "SHA-1";
             int hashIterations = 16;
             // 使用 SimpleHash 进行加密
-            SimpleHash hash = new SimpleHash(hashAlgorithmName, currentAdmin.getUsername(), salt, hashIterations);
+            SimpleHash hash = new SimpleHash(hashAlgorithmName, admin.getPassword(), salt, hashIterations);
             String encryptedPassword = hash.toHex();
             currentAdmin.setPassword(encryptedPassword);
         }
-            currentAdmin.setPhonenumber(admin.getPhonenumber());
-            currentAdmin.setAvatar(admin.getAvatar());
-            currentAdmin.setBirthday(admin.getBirthday());
+
+        currentAdmin.setPhonenumber(admin.getPhonenumber());
+        currentAdmin.setAvatar(admin.getAvatar());
+        currentAdmin.setBirthday(admin.getBirthday());
+
         adminMapper.updateAdmin(currentAdmin);
     }
+
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @PutMapping("/update2")
     public void updateAdmin2(@RequestBody AdminUpdateDTO adminUpdateDTO) {
@@ -110,22 +115,21 @@ public class AdminController {
         Subject currentUser = SecurityUtils.getSubject();
         Admin currentAdmin = (Admin) currentUser.getPrincipal();
         int currentUserId = currentAdmin.getAdminid();
+
         // 查询当前用户信息
         // 将允许修改的属性复制到当前用户对象中
         if (adminUpdateDTO.getGender() != null) {
             currentAdmin.setGender(adminUpdateDTO.getGender());
         }
         if (adminUpdateDTO.getPassword() != null) {
-
             System.out.println("对应的密码是：" + adminUpdateDTO.getPassword());
             // 盐值
-
             ByteSource salt = ByteSource.Util.bytes(currentAdmin.getUsername());
             // 设置哈希算法和迭代次数
             String hashAlgorithmName = "SHA-1";
             int hashIterations = 16;
             // 使用 SimpleHash 进行加密
-            SimpleHash hash = new SimpleHash(hashAlgorithmName, currentAdmin.getUsername(), salt, hashIterations);
+            SimpleHash hash = new SimpleHash(hashAlgorithmName, adminUpdateDTO.getPassword(), salt, hashIterations);
             String encryptedPassword = hash.toHex();
             currentAdmin.setPassword(encryptedPassword);
         }
