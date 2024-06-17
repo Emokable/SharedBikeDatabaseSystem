@@ -84,7 +84,17 @@ public class BikeController {
     }
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping("/locked-in-zone")
-    public List<Bike> getLockedBikesInNoParkingZone(@RequestParam String coordinates) {
-        return bikeService.getLockedBikesInNoParkingZone(coordinates);
+    public List<Bike> getBikesInNoParkingZone(@RequestParam String coordinates) {
+        return bikeService.getBikesInNoParkingZone(coordinates);
     }
+    @GetMapping("/tst")
+    public List<Bike> searchBikesByApproxLocation(
+            @RequestParam float startX,
+            @RequestParam float startY,
+            @RequestParam float endX,
+            @RequestParam float endY) {
+        return bikeMapper.searchBikesByApproxLocation(startX, startY, endX, endY);
+    }
+
 }
+

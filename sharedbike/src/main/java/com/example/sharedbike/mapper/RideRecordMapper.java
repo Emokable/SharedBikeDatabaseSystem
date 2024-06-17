@@ -1,8 +1,6 @@
 package com.example.sharedbike.mapper;
 
-import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
-import com.example.sharedbike.entity.Rider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.Date;
@@ -76,5 +74,4 @@ public interface RideRecordMapper {
         "GROUP BY rr.userid ORDER BY ride_count DESC LIMIT 10;")
 List<Map<String, Object>> getMostFrequentRiders();
 
-    int maxid();
 }

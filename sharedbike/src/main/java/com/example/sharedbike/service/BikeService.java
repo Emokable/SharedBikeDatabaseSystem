@@ -14,8 +14,9 @@ public class BikeService {
     @Autowired
     private BikeMapper bikeMapper;
 
-    public List<Bike> getLockedBikesInNoParkingZone(String coordinates) {
-        System.out.println(coordinates);
+    public List<Bike> getBikesInNoParkingZone(String coordinates) {
+        System.out.println("Coordinates received: " + coordinates);
+
         List<float[]> polygon = PolygonUtil.parseCoordinates(coordinates);
         float[] boundingBox = getBoundingBox(polygon);
         float startX = boundingBox[0];
@@ -23,15 +24,25 @@ public class BikeService {
         float endX = boundingBox[2];
         float endY = boundingBox[3];
 
+        System.out.println("Bounding Box - StartX: " + startX + ", StartY: " + startY + ", EndX: " + endX + ", EndY: " + endY);
+
         List<Bike> allBikes = bikeMapper.searchBikesByApproxLocation(startX, startY, endX, endY);
-        return allBikes.stream()
+        if (allBikes == null || allBikes.isEmpty()) {
+            System.out.println("No bikes found in the specified bounding box.");
+            return null; // Return an empty list if no bikes are found
+        }
+
+        List<Bike> bikesInNoParkingZone = allBikes.stream()
                 .filter(bike -> PolygonUtil.isPointInPolygon(bike.getLocationX(), bike.getLocationY(), polygon))
                 .collect(Collectors.toList());
+
+        System.out.println("Number of bikes in no-parking zone: " + bikesInNoParkingZone.size());
+        return bikesInNoParkingZone;
     }
 
     private float[] getBoundingBox(List<float[]> polygon) {
         if (polygon.isEmpty()) {
-            return new float[]{0, 0, 0, 0}; // 返回一个默认的边界框
+            return new float[]{0, 0, 0, 0}; // Return a default bounding box
         }
         float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE, maxX = Float.MIN_VALUE, maxY = Float.MIN_VALUE;
         for (float[] point : polygon) {
@@ -42,6 +53,4 @@ public class BikeService {
         }
         return new float[]{minX, minY, maxX, maxY};
     }
-
 }
-
