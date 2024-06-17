@@ -60,7 +60,17 @@ public class AdminController {
     @PostMapping("/insert")
     public BaseResponse<String> insertAdmin(@RequestBody Admin admin) {
             try {
-                adminMapper.insertAdmin(admin);
+                if (admin.getPassword() != null) {
+                    // 盐值
+                    ByteSource salt = ByteSource.Util.bytes(admin.getUsername());
+                    // 设置哈希算法和迭代次数
+                    String hashAlgorithmName = "SHA-1";
+                    int hashIterations = 16;
+                    // 使用 SimpleHash 进行加密
+                    SimpleHash hash = new SimpleHash(hashAlgorithmName, admin.getUsername(), salt, hashIterations);
+                    String encryptedPassword = hash.toHex();
+                    admin.setPassword(encryptedPassword);
+                }
                 return BaseResponse.success("Admin saved successfully");
             } catch (DuplicateKeyException ex) {
                 throw new DuplicateKeyException("Admin ID already exists: " + admin.getAdminid());
