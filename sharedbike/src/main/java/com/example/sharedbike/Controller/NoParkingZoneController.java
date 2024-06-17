@@ -61,7 +61,7 @@ public class NoParkingZoneController {
         return  noParkingZoneMapper.maxid();
     }
     @RequiresPermissions(value = {"data_modification", "superuser"}, logical = Logical.OR)
-    @PutMapping("/update")
+    @PutMapping("/update1")
     public void updateNPZ(@RequestBody NoParkingZone noParkingZone) {
         noParkingZoneMapper.updateNPZ(noParkingZone);
     }

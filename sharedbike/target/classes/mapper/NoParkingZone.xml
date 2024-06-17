@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.sharedbike.mapper.NoParkingZoneMapper">
-
     <update id="updateNPZ" parameterType="com.example.sharedbike.entity.NoParkingZone">
         UPDATE noParkingZone
-        SET
-        name=#{name},
-        location=#{location}
+        SET name=#{name}, location=#{location}
         WHERE zoneid = #{zoneid}
     </update>
 </mapper>
+

@@ -32,5 +32,6 @@ public interface NoParkingZoneMapper {
     @Select("SELECT  MAX(zoneid) FROM NoParkingZone")
     int maxid();
 
-    void updateNPZ(NoParkingZone noParkingZone);
+ //@Update("UPDATE noParkingZone SET name=#{name}, location=#{location} WHERE zoneid = #{zoneid}")
+ void updateNPZ(NoParkingZone noParkingZone);
 }
