@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 00:14:43
+ * @LastEditTime: 2024-06-16 21:24:49
  */
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../stores/user' 
@@ -37,6 +37,11 @@ const router = createRouter({
       path: '/editForm',
       name: 'EditForm',
       component: () => import('../components/EditForm.vue')
+    },
+    {
+      path: '/mapForNoParking',
+      name: 'MapForNoParking',
+      component: () => import('../components/MapContainerForNoParkingZone.vue')
     },
     {
       path: '/mapPanel',
