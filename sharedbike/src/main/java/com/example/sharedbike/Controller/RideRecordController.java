@@ -6,12 +6,14 @@ import com.example.sharedbike.entity.RideRecord;
 import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.RideRecordMapper;
 import com.example.sharedbike.service.RideRecordService;
+import org.apache.ibatis.annotations.Param;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -121,4 +123,10 @@ public class RideRecordController {
     public List<Map<String, Object>> getMostFrequentRiders() {
         return rideRecordMapper.getMostFrequentRiders();
     }
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @GetMapping("/RrcBtdate")
+    List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate){
+        return rideRecordMapper.getRideRecordsBetweenDates(startDate,endDate);
+    }
+
 }
