@@ -25,4 +25,6 @@ public interface AdminMapper {
     Admin findByUsername(String username);
     @Select("SELECT  COUNT(*) FROM Admin")
     int getCount();
+   @Select("SELECT  max(adminid) FROM Admin")
+   int maxid();
 }

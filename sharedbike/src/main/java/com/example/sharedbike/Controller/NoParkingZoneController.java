@@ -1,10 +1,15 @@
 package com.example.sharedbike.Controller;
 
+import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.entity.NoParkingZone;
 import com.example.sharedbike.entity.Rider;
 import com.example.sharedbike.mapper.NoParkingZoneMapper;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.subject.Subject;
+import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,4 +55,15 @@ public class NoParkingZoneController {
     public void deleteNoParkingZone(@PathVariable int id) {
         noParkingZoneMapper.deleteNoParkingZone(id);
     }
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @DeleteMapping("/maxid")
+    public int maxid() {
+        return  noParkingZoneMapper.maxid();
+    }
+    @RequiresPermissions(value = {"data_modification", "superuser"}, logical = Logical.OR)
+    @PutMapping("/update")
+    public void updateNPZ(@RequestBody NoParkingZone noParkingZone) {
+        noParkingZoneMapper.updateNPZ(noParkingZone);
+    }
+
 }

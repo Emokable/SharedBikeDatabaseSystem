@@ -21,7 +21,7 @@ public interface NoParkingZoneMapper {
     @Select("SELECT * FROM NoParkingZone WHERE zoneid = #{id}")
     NoParkingZone getNoParkingZoneById(int id);
 
-    @Insert("INSERT INTO NoParkingZone(zoneid, name, location) VALUES(#{zoneid}, #{name}, ST_GeomFromGeoJSON(#{location}))")
+    @Insert("INSERT INTO NoParkingZone(zoneid, name, location) VALUES(#{zoneid}, #{name}, #{location})")
     @Options(useGeneratedKeys = true, keyProperty = "zoneId")
     void saveNoParkingZone(NoParkingZone noParkingZone);
 
@@ -29,4 +29,8 @@ public interface NoParkingZoneMapper {
     void deleteNoParkingZone(int id);
     @Select("SELECT  COUNT(*) FROM NoParkingZone")
     int getCount();
+   @Select("SELECT  max(zoneid) FROM NoParkingZone")
+    int maxid();
+
+ void updateNPZ(NoParkingZone noParkingZone);
 }

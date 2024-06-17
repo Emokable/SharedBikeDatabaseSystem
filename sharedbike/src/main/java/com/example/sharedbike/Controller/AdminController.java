@@ -124,6 +124,10 @@ public class AdminController {
     public void deleteAdmin(@PathVariable int id) {
         adminMapper.deleteAdmin(id);
     }
-
+    @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
+    @DeleteMapping("/maxid")
+    public int maxid() {
+        return  adminMapper.maxid();
+    }
 
 }

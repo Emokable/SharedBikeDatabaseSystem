@@ -36,7 +36,7 @@ public interface RideRecordMapper {
     @Select("SELECT DATE(starttime) AS date, AVG(TIMESTAMPDIFF(MINUTE, starttime, endtime)) AS avg_ride_time " +
             "FROM RideRecord GROUP BY DATE(starttime);")
     List<Map<String, Object>> getAverageRideTimePerDay();
-    @Select("SELECT * FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate}")
+    @Select("SELECT * FROM  WHERE starttime BETWEEN #{startDate} AND #{endDate}")
     List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 //    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
@@ -76,4 +76,5 @@ public interface RideRecordMapper {
         "GROUP BY rr.userid ORDER BY ride_count DESC LIMIT 10;")
 List<Map<String, Object>> getMostFrequentRiders();
 
+    int maxid();
 }
