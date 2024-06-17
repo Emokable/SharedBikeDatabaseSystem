@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface AdminMapper {
 
-    @Select("SELECT * FROM Admin WHERE admin_id = #{adminid}")
+    @Select("SELECT * FROM Admin WHERE adminid = #{adminid}")
     Admin getAdminById(int adminid);
    // @Select("SELECT * FROM Admins WHERE #{searchBy} LIKE CONCAT('%', #{keyword}, '%') ")
     List<Bike> searchAdmins(@Param("keyword") String keyword,@Param("searchBy")String searchBy,@Param("offset") int offset, @Param("size") int size , @Param("sortOrder") String sortOrder);
