@@ -125,8 +125,9 @@ public class RideRecordController {
     }
     @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
     @GetMapping("/RrcBtdate")
-    List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate){
-        return rideRecordMapper.getRideRecordsBetweenDates(startDate,endDate);
+    List<RideRecord> RrcBtdate(@RequestParam String startDate,
+                               @RequestParam String endDate){
+        return rideRecordMapper.RrcBtdate(startDate,endDate);
     }
 
 }

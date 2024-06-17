@@ -73,5 +73,6 @@ public interface RideRecordMapper {
         "FROM RideRecord rr JOIN Rider r ON rr.userid = r.userid " +
         "GROUP BY rr.userid ORDER BY ride_count DESC LIMIT 10;")
 List<Map<String, Object>> getMostFrequentRiders();
-
+    @Select("SELECT * FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate}")
+    List<RideRecord> RrcBtdate(@Param("startDate") String startDate, @Param("endDate") String endDate);
 }
