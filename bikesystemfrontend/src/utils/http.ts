@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 14:48:37
+ * @LastEditTime: 2024-06-17 15:47:18
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -57,7 +57,7 @@ export const http = {
         }
         const config = {
             method: 'GET',
-            url: url + '/count',
+            url: url + '/maxid',
             headers: headers
         };
         return request(config);
@@ -214,18 +214,19 @@ export const http = {
     },
 
 
-    insertData(url,token?: string, data?: any) {
-        const headers = {};
-        if (token) {
-            headers['X-Authorization-With'] = token;
-        }   
-        const config = {
-            method: 'PUT',
-            url: url,
-            data: data,
-            headers: headers
-        }
-        return request(config);
-    },
+    // insertData(url,token?: string, data?: any, moreUrl?: string) {
+    //     const headers = {};
+    //     if (token) {
+    //         headers['X-Authorization-With'] = token;
+    //     }   
+    //     const moreUrlEnd = moreUrl ? moreUrl : '';
+    //     const config = {
+    //         method: 'PUT',
+    //         url: url + moreUrlEnd,
+    //         data: data,
+    //         headers: headers
+    //     }
+    //     return request(config);
+    // },
 
 }

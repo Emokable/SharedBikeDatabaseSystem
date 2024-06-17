@@ -36,6 +36,7 @@ declare module 'vue' {
     IconEcosystem: typeof import('./components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./components/icons/IconTooling.vue')['default']
+    InsertForm: typeof import('./components/InsertForm.vue')['default']
     MapContainer: typeof import('./components/MapContainer.vue')['default']
     MapContainerForNoParkingZone: typeof import('./components/MapContainerForNoParkingZone.vue')['default']
     MapPanel: typeof import('./components/MapPanel.vue')['default']

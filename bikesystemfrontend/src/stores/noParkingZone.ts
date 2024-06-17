@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 00:08:04
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 14:16:09
+ * @LastEditTime: 2024-06-17 15:08:58
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -113,8 +113,7 @@ export const useNoParkingZoneStore = defineStore('noParkingZone', {
             let pathString = convertArrayToString(path);
             const zoneID = ref(0);
             const res = await http.getMaxID('/noParkingZones', token)
-            zoneID.value = res.data.data
-            console.log(zoneID);
+            zoneID.value = res.data.data+1
             let data = {
                 zoneid: zoneID.value,
                 name: this.newNoparkingZoneName,

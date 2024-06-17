@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 12:23:35
+ * @LastEditTime: 2024-06-17 15:59:25
 -->
 <!--
  * @Description: 
@@ -88,7 +88,7 @@
     </div>
 
     <div class="edit-form">
-        <el-dialog v-model="dialogFormVisible" title="Shipping address" width="500">
+        <el-dialog v-model="dialogFormVisible" title="请编辑对应信息" width="500">
             <template v-if="dialogFormVisible">
                 <EditForm :tableConfig="props.tableConfig" :formData="formData"></EditForm>
             </template>
@@ -288,6 +288,13 @@ watch(() => statusStore.isEditFinish, (newValue, oldValue) => {
         dialogFormVisible.value = false
         getTableData()
         statusStore.setEditFinish(false)
+    }
+})
+
+watch(() => statusStore.isCreateFinish, (newValue, oldValue) => {
+    if (newValue) {
+        getTableData()
+        statusStore.setCreateFinish(false)
     }
 })
 

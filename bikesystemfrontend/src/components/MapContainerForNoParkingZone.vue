@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-16 21:23:13
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 14:58:56
+ * @LastEditTime: 2024-06-17 16:35:31
 -->
 <script setup>
 import { reactive, toRefs, ref, watch } from 'vue'
@@ -129,31 +129,33 @@ onMounted(() => {
                     anchor: 'bottom-center',
                 };
                 for (var j = 0; j < noParkingZoneStore.visibleBikes.length; j++) {
-                    for (var i = 0; i < noParkingZoneStore.visibleBikes[j].bikes.length; i++) {
-                        var curBike = noParkingZoneStore.visibleBikes[j].bikes[i];
-                        // console.log("zoneID:" + noParkingZoneStore.visibleBikes[j].zoneid);
-                        // console.log(curBike);
-                        const text = {
-                            content: "单车编号：" + curBike.bikeid, //要展示的文字内容
-                            direction: "right", //文字方向，有 icon 时为围绕文字的方向，没有 icon 时，则为相对 position 的位置
-                            offset: [-20, -5], //在 direction 基础上的偏移量
-                            //文字样式
-                            style: {
-                                fontSize: 12, //字体大小
-                                fillColor: "#22886f", //字体颜色
-                                strokeColor: "#fff", //描边颜色
-                                strokeWidth: 2, //描边宽度
-                            },
-                        };
-                        var curData = {
-                            position: [curBike.locationX, curBike.locationY],
-                            icon: icon,
-                            text: text,
-                            name: curBike.bikeid
-                        };
-                        var labelMarker = new AMap.LabelMarker(curData);
+                    if (noParkingZoneStore.visibleBikes !== null) {
+                        for (var i = 0; i < noParkingZoneStore.visibleBikes[j].bikes.length; i++) {
+                            var curBike = noParkingZoneStore.visibleBikes[j].bikes[i];
+                            // console.log("zoneID:" + noParkingZoneStore.visibleBikes[j].zoneid);
+                            // console.log(curBike);
+                            const text = {
+                                content: "单车编号：" + curBike.bikeid, //要展示的文字内容
+                                direction: "right", //文字方向，有 icon 时为围绕文字的方向，没有 icon 时，则为相对 position 的位置
+                                offset: [-20, -5], //在 direction 基础上的偏移量
+                                //文字样式
+                                style: {
+                                    fontSize: 12, //字体大小
+                                    fillColor: "#22886f", //字体颜色
+                                    strokeColor: "#fff", //描边颜色
+                                    strokeWidth: 2, //描边宽度
+                                },
+                            };
+                            var curData = {
+                                position: [curBike.locationX, curBike.locationY],
+                                icon: icon,
+                                text: text,
+                                name: curBike.bikeid
+                            };
+                            var labelMarker = new AMap.LabelMarker(curData);
 
-                        markers.push(labelMarker);
+                            markers.push(labelMarker);
+                        }
                     }
                 }
             }
@@ -207,8 +209,6 @@ onMounted(() => {
                 if (newValue !== -1) {
                     initializeZoneDataMask(newValue);
                     // 将visibleNew设置为-1
-                    noParkingZoneStore.setNewVisible(-1);
-                    // 如果此时是显示禁停区内单车状态，则需要重新添加单车
                     if (mapStatusStore.isNoParkingZoneBikeVisible) {
                         labelLayer.clear();
                         markers = [];
@@ -216,6 +216,7 @@ onMounted(() => {
                         // 一次性将海量点添加到图层
                         labelLayer.add(markers);
                     }
+                    noParkingZoneStore.setNewVisible(-1);
                 }
             });
 
