@@ -8,7 +8,7 @@ import java.util.Date;
 public class AdminUpdateDTO {
     private Gender gender;
     private String password;
-    private String phoneNumber;
+    private String phonenumber;
     private String avatar;
     private Date birthday;
 

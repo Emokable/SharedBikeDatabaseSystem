@@ -1,5 +1,6 @@
 package com.example.sharedbike.Controller;
 
+import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
 import com.example.sharedbike.entity.Rider;
@@ -8,6 +9,7 @@ import com.example.sharedbike.service.RideRecordService;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,8 +65,13 @@ public class RideRecordController {
     }
     @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @PostMapping
-    public void saveRideRecord(@RequestBody RideRecord rideRecord) {
-        rideRecordMapper.saveRideRecord(rideRecord);
+    public BaseResponse<String> saveRideRecord(@RequestBody RideRecord rideRecord) {
+         try {
+             rideRecordMapper.saveRideRecord(rideRecord);
+                return BaseResponse.success("rideRecord saved successfully");
+            } catch (DuplicateKeyException ex) {
+                throw new DuplicateKeyException("Order already exists: " + rideRecord.getOrderid());
+            }
     }
     @RequiresPermissions(value = {"data_modification","superuser"},logical= Logical.OR)
     @DeleteMapping("/{id}")

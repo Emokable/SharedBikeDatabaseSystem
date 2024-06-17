@@ -34,7 +34,7 @@ public interface RideRecordMapper {
     @Select("SELECT DATE(starttime) AS date, AVG(TIMESTAMPDIFF(MINUTE, starttime, endtime)) AS avg_ride_time " +
             "FROM RideRecord GROUP BY DATE(starttime);")
     List<Map<String, Object>> getAverageRideTimePerDay();
-    @Select("SELECT * FROM  WHERE starttime BETWEEN #{startDate} AND #{endDate}")
+    @Select("SELECT * FROM RideRecord WHERE starttime BETWEEN #{startDate} AND #{endDate}")
     List<RideRecord> getRideRecordsBetweenDates(@Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
 //    @Select("SELECT startLocationX, startLocationY, COUNT(*) AS ride_count " +
@@ -55,12 +55,12 @@ public interface RideRecordMapper {
 //            "FROM RideRecord GROUP BY bikeid ORDER BY ride_count ASC LIMIT 10;")
 //    List<Map<String, Object>> getLeastFrequentBikes();
 
-    @Select("SELECT r.bikeid, b.brand, b.releaseDate,b.lastusetime, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
+    @Select("SELECT r.bikeid, b.brand, b.releasedate,b.lastusetime, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
             "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
             "GROUP BY r.bikeid ORDER BY ride_count DESC, lastusetime desc LIMIT 10;")
     List<Map<String, Object>> getMostFrequentBikes();
 
-    @Select("SELECT r.bikeid, b.brand, b.releaseDate,b.lastusetime, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
+    @Select("SELECT r.bikeid, b.brand, b.releasedate,b.lastusetime, b.warrantyPeriod, b.LocationX, b.LocationY, b.status, COUNT(*) AS ride_count " +
             "FROM RideRecord r JOIN Bike b ON r.bikeid = b.bikeid " +
             "GROUP BY r.bikeid ORDER BY ride_count ASC ,lastusetime asc LIMIT 10;")
     List<Map<String, Object>> getLeastFrequentBikes();
@@ -69,7 +69,7 @@ public interface RideRecordMapper {
     //    @Select("SELECT userid, COUNT(*) AS ride_count " +
 //            "FROM RideRecord GROUP BY userid ORDER BY ride_count DESC LIMIT 10;")
 //    List<Map<String, Object>> getMostFrequentRiders();
-@Select("SELECT r.userid, r.username, r.gender, r.avatar,r.phoneNumber,r.birthday,COUNT(*) AS ride_count " +
+@Select("SELECT r.userid, r.username, r.gender, r.avatar,r.phonenumber,r.birthday,COUNT(*) AS ride_count " +
         "FROM RideRecord rr JOIN Rider r ON rr.userid = r.userid " +
         "GROUP BY rr.userid ORDER BY ride_count DESC LIMIT 10;")
 List<Map<String, Object>> getMostFrequentRiders();

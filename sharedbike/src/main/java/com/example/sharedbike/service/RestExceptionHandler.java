@@ -4,7 +4,9 @@ import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.result.LoginException;
 //import com.example.sharedbike.result.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -38,7 +40,11 @@ public class RestExceptionHandler {
         log.warn("业务异常 ex={}", e.getMessage(), e);
         return BaseResponse.loginFail("Fail!");
     }
-
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<BaseResponse<String>> handleDuplicateKeyException(DuplicateKeyException ex) {
+        BaseResponse<String> errorResponse = new BaseResponse<>(BaseResponse.ReturnCode.RC999.getCode(), "Duplicate Key: The provided key already exists in the database.", null);
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    }
 
 //    /**
 //     * 处理自定义业务异常。

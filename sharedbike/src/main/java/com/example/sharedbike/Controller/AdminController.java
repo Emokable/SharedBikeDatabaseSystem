@@ -1,5 +1,6 @@
 package com.example.sharedbike.Controller;
 
+import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.DTO.AdminUpdateDTO;
@@ -9,6 +10,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -56,8 +58,13 @@ public class AdminController {
     }
     @RequiresPermissions("superuser")
     @PostMapping("/insert")
-    public void insertAdmin(@RequestBody Admin admin) {
-        adminMapper.insertAdmin(admin);
+    public BaseResponse<String> insertAdmin(@RequestBody Admin admin) {
+            try {
+                adminMapper.insertAdmin(admin);
+                return BaseResponse.success("Admin saved successfully");
+            } catch (DuplicateKeyException ex) {
+                throw new DuplicateKeyException("Admin ID already exists: " + admin.getAdminid());
+            }
     }
     @RequiresPermissions("superuser")
     @PutMapping("/update")
@@ -106,8 +113,8 @@ public class AdminController {
             String encryptedPassword = hash.toHex();
             currentAdmin.setPassword(encryptedPassword);
         }
-        if (adminUpdateDTO.getPhoneNumber() != null) {
-            currentAdmin.setPhonenumber(adminUpdateDTO.getPhoneNumber());
+        if (adminUpdateDTO.getPhonenumber() != null) {
+            currentAdmin.setPhonenumber(adminUpdateDTO.getPhonenumber());
         }
         if (adminUpdateDTO.getAvatar() != null) {
             currentAdmin.setAvatar(adminUpdateDTO.getAvatar());

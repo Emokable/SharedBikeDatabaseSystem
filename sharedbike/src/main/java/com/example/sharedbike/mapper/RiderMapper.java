@@ -8,6 +8,7 @@
  */
 package com.example.sharedbike.mapper;
 
+import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.Rider;
@@ -23,9 +24,9 @@ public interface RiderMapper {
     @Select("SELECT * FROM Rider WHERE userid = #{userid}")
     Rider getRiderById(int userid);
 
-    @Insert("INSERT INTO Rider(userid,username, gender, password, phone_number, avatar, birthday) VALUES(#{userid},#{username}, #{gender}, #{password}, #{phoneNumber}, #{avatar}, #{birthday})")
+    @Insert("INSERT INTO Rider(userid,username, gender, password, phonenumber, avatar, birthday) VALUES(#{userid},#{username}, #{gender}, #{password}, #{phonenumber}, #{avatar}, #{birthday})")
     @Options(useGeneratedKeys = true, keyProperty = "userid")
-    void saveRider(Rider rider);
+    BaseResponse<String> saveRider(Rider rider);
     List<Rider> getAllRiders(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
 
     @Delete("DELETE FROM Rider WHERE userid = #{id}")

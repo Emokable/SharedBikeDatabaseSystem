@@ -1,4 +1,5 @@
 package com.example.sharedbike.mapper;
+import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.entity.Bike;
 import org.apache.ibatis.annotations.*;
 
@@ -11,9 +12,9 @@ public interface BikeMapper {
         @Select("SELECT * FROM Bike WHERE bikeid = #{id}")
         Bike getBikeById(int id);
 
-        @Insert("INSERT INTO Bike(bikeid, brand, releasedate, warrantyperiod, locationx, locationy, status) VALUES(#{bikeid}, #{brand}, #{releaseDate}, #{warrantyPeriod}, #{LocationX}, #{LocationY}, #{status})")
+        @Insert("INSERT INTO Bike(bikeid, brand, releasedate, warrantyperiod, locationx, locationy, status) VALUES(#{bikeid}, #{brand}, #{releasedate}, #{warrantyPeriod}, #{LocationX}, #{LocationY}, #{status})")
         @Options(useGeneratedKeys = true, keyProperty = "bikeid")
-        void saveBike(Bike bike);
+        BaseResponse<String> saveBike(Bike bike);
 
         @Delete("DELETE FROM Bike WHERE bikeid = #{id}")
         void deleteBike(int id);
@@ -35,6 +36,6 @@ public interface BikeMapper {
         int getCount();
          @Select("SELECT  * FROM Bike ORDER BY lastusetime asc limit 10")
          List<Bike> longtimenouse();
-    @Select("SELECT * FROM Bike WHERE locationx BETWEEN #{startX} AND #{endX} AND locationy BETWEEN #{startY} AND #{endY}")
+         @Select("SELECT * FROM Bike WHERE locationx BETWEEN #{startX} AND #{endX} AND locationy BETWEEN #{startY} AND #{endY}")
          List<Bike> searchBikesByApproxLocation(@Param("startX") float startX, @Param("startY") float startY, @Param("endX") float endX, @Param("endY") float endY);
 }
