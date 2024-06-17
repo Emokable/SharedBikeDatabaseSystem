@@ -56,7 +56,7 @@ public class NoParkingZoneController {
         noParkingZoneMapper.deleteNoParkingZone(id);
     }
     @RequiresPermissions(value = {"read_only", "data_modification", "superuser"}, logical = Logical.OR)
-    @DeleteMapping("/maxid")
+    @GetMapping("/maxid")
     public int maxid() {
         return  noParkingZoneMapper.maxid();
     }

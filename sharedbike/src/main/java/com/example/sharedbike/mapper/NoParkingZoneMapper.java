@@ -29,8 +29,8 @@ public interface NoParkingZoneMapper {
     void deleteNoParkingZone(int id);
     @Select("SELECT  COUNT(*) FROM NoParkingZone")
     int getCount();
-   @Select("SELECT  max(zoneid) FROM NoParkingZone")
+    @Select("SELECT  MAX(zoneid) FROM NoParkingZone")
     int maxid();
 
- void updateNPZ(NoParkingZone noParkingZone);
+    void updateNPZ(NoParkingZone noParkingZone);
 }
