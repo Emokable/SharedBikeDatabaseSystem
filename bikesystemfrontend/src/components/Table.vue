@@ -1,27 +1,3 @@
-<!--
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-13 01:29:32
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 15:59:25
--->
-<!--
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-13 01:29:32
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 03:15:42
--->
-<!--
- * @Description: 
- * @Version: 
- * @Author: DZQ
- * @Date: 2024-06-13 01:29:32
- * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 12:14:42
--->
 <template>
     <div class="table">
         <el-table :data="tableData.values" :table-layout="'auto'" v-loading="loading" :stripe="true" :height="800"
@@ -195,7 +171,6 @@ const getTableData = async (moreurl?: string) => {
     } else {
         console.error('Unexpected response structure');
     }
-
     loading.value = false;
     console.log(tableData.values);
 }

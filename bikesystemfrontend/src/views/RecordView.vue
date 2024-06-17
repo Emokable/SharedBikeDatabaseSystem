@@ -4,13 +4,16 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 22:36:00
+ * @LastEditTime: 2024-06-17 23:32:12
 -->
 <template>
     <div class="record-layout">
         <el-container>
             <el-aside width="170px" class="toolbox"
                 style="display: flex; flex-direction: column; justify-content: space-around;">
+                <el-button size="large" type="primary" @click="statusStore.setSelectRecordByTime(true)">
+                    根据时间筛选
+                </el-button>
                 <template v-if="userStore.isSuperuser">
                     <el-button size="large" type="primary" @click="dialogFormVisible = true">
                         登记新的骑行记录
@@ -38,6 +41,11 @@
             </el-container>
         </el-container>
     </div>
+
+    <div class="time-select">
+        <TimeSelect v-if="statusStore.isSelectRecordByTime"></TimeSelect>
+    </div>
+
     <div class="edit-form">
         <el-dialog v-model="dialogFormVisible" title="请输入数据对应orderID, bikeID, userID" width="500">
             <!-- Directly place el-input inside the el-dialog content area -->
@@ -81,6 +89,7 @@ import { onBeforeRouteLeave } from 'vue-router';
 const userStore = useUserStore()
 const dialogFormVisible = ref(false)
 const dialogFormVisible2 = ref(false)
+const timePickerVisible = ref(false)
 const statusStore = useStatusStore()
 const mapStatusStore = useMapStatusStore()
 
@@ -209,9 +218,9 @@ async function checkID() {
     })
 }
 
-    onBeforeRouteLeave(() => {
-        mapStatusStore.setMapDistroiedStatus(true);
-    })
+onBeforeRouteLeave(() => {
+    mapStatusStore.setMapDistroiedStatus(true);
+})
 
 </script>
 

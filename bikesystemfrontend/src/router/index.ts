@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 15:58:14
+ * @LastEditTime: 2024-06-17 23:50:46
  */
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../stores/user' 
@@ -42,6 +42,16 @@ const router = createRouter({
       path: '/insertForm',
       name: 'InsertForm',
       component: () => import('../components/InsertForm.vue')
+    },
+    {
+      path: '/timeSelect',
+      name: 'TimeSelect',
+      component: () => import('../components/TimeSelect.vue')
+    },
+    {
+      path: '/locationSelect',
+      name: 'LocationSelect',
+      component: () => import('../components/LocationSelect.vue')
     },
     {
       path: '/mapForNoParking',

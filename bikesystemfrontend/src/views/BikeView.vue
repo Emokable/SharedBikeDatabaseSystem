@@ -4,13 +4,16 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:31
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 21:59:15
+ * @LastEditTime: 2024-06-18 01:05:51
 -->
 <template>
     <div class="bike-layout">
         <el-container>
             <el-aside width="200px" class="toolbox"
                 style="display: flex; flex-direction: column; justify-content: space-around;">
+                <el-button size="large" type="primary" @click="statusStore.setSelectBikeByLocation(true)">
+                    根据经纬度寻找空闲单车
+                </el-button>
                 <template v-if="userStore.editAble">
                     <el-button size="large" type="primary" @click="dialogFormVisible = true">
                         注册新的单车
@@ -30,6 +33,10 @@
                 </el-main>
             </el-container>
         </el-container>
+    </div>
+
+    <div class="loglin-select">
+        <LocationSelect v-if="statusStore.isSelectBikeByLocation"></LocationSelect>
     </div>
 
     <div class="edit-form">

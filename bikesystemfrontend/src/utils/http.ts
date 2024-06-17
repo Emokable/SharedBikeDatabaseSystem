@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 19:24:26
+ * @LastEditTime: 2024-06-18 00:58:10
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -141,6 +141,58 @@ export const http = {
         }
         if (params.toString()) {
             url += '/locked-in-zone?' + params.toString();
+        }
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
+            url: url,
+            headers: headers,
+        }
+        return request(config);
+    },
+
+    getRecordByTime(url, token?: string, startTime?: string, endTime?: string) {
+        const headers = {};
+        let params = new URLSearchParams();
+        if (startTime) {
+            params.append('startDate', startTime);
+        }
+        if (endTime) {
+            params.append('endDate', endTime);
+        }
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
+            url: url,
+            headers: headers,
+        }
+        return request(config);
+    },
+
+    getBikeByLocation(url, token?: string, startX?: number, startY?: number, endX?: number, endY?: number) {
+        const headers = {};
+        let params = new URLSearchParams();
+        if (startX){
+            params.append('startX', startX.toString());
+        }
+        if (startY){
+            params.append('startY', startY.toString());
+        }
+        if (endX){
+            params.append('endX', endX.toString());
+        }
+        if (endY){
+            params.append('endY', endY.toString());
+        }
+        if (params.toString()) {
+            url += '?' + params.toString();
         }
         if (token) {
             headers['X-Authorization-With'] = token;
