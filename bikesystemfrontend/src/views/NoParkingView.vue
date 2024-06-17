@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:35
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 03:25:59
+ * @LastEditTime: 2024-06-17 13:56:11
 -->
 
 <template>
@@ -19,7 +19,10 @@
         <el-button size="large" type="success" @click="createFinish = true">完成创建</el-button>
         <el-button size="large" type="success" @click="finishEditNoParkingZone">完成编辑</el-button>
         <el-button size="large" type="warning" @click="giveUpOperation">放弃操作</el-button>
-        <el-button size="large" type="primary" @click="showBikeInNPZone">显示禁停区内的单车</el-button>
+        <el-button :type="mapStatusStore.getNoParkingZoneBikeVisibleStatus ? 'info' : 'primary'" size="large"
+          @click="showBikeInNPZone">
+          改变禁停区内的单车显示状态
+        </el-button>
       </div>
       <div v-if="!userStore.editAble"
         style="background-color: lightblue; flex-basis: 16%; color: red; font-size: large;">
@@ -111,11 +114,13 @@ function finishCreateNoParkingZone() {
 }
 
 function finishEditNoParkingZone() {
-  noParkingZoneStore.setEditingNoParkingZone(-1);
+  mapStatusStore.setForNoParkingZoneEditStatus(false);
 }
 
 function showBikeInNPZone() {
-  
+  const status = mapStatusStore.getNoParkingZoneBikeVisibleStatus;
+  console.log("showstatus:"+status);
+  mapStatusStore.setNoParkingZoneBikeVisibleStatus(!status);
 }
 
 function giveUpOperation() {

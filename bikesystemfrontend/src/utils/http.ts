@@ -4,10 +4,11 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-16 15:36:49
+ * @LastEditTime: 2024-06-17 14:48:37
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
+import { Coordinate } from '@element-plus/icons-vue';
 
 export const http = {
     get(url, token?: string) {
@@ -20,7 +21,6 @@ export const http = {
             url: url,
             headers: headers
         };
-
         return request(config);
     },
 
@@ -44,11 +44,25 @@ export const http = {
         }
         const config = {
             method: 'GET',
+            url: url + '/maxid',
+            headers: headers
+        };
+        return request(config);
+    },
+
+    getMaxID(url, token?: string) {
+        const headers = {};
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
             url: url + '/count',
             headers: headers
         };
         return request(config);
     },
+
 
     getSelectCounts(url, token?: string, searchColumn?: string, keyword?: string) {
         const headers = {};
@@ -119,6 +133,28 @@ export const http = {
         return request(config);
     },
 
+    getBikeInZone(url, token?: string, edges?: string) {
+        const headers = {};
+        let params = new URLSearchParams();
+        if (edges) {
+            params.append('coordinates', edges);
+        }
+        if (params.toString()) {
+            url += '/locked-in-zone?' + params.toString();
+        }
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
+            url: url,
+            headers: headers,
+        }
+        return request(config);
+    },
+
+
+
     post(url, data, token?: string) {
         const headers = {};
         if (token) {
@@ -151,9 +187,11 @@ export const http = {
         if (token) {
             headers['X-Authorization-With'] = token;
         }   
+        // 设置要添加的url后缀，如果是修改数据，需要在url后面添加/update, 如果是NoParkingZone需要添加/update1
+        const urlEnd = url.includes('noParkingZones') ? '/update1' : '/update';
         const config = {
             method: 'PUT',
-            url: url+ '/update',
+            url: url + urlEnd,
             data: data,
             headers: headers
         }

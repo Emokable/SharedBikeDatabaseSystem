@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:29:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 03:58:50
+ * @LastEditTime: 2024-06-17 12:23:35
 -->
 <!--
  * @Description: 
@@ -274,6 +274,7 @@ const handleEdit = (row) => {
     statusStore.setEditFinish(false)
     if (props.tableConfig.api == '/noParkingZones') {
         noParkingZoneStore.editingNoParkingZone = row.zoneid
+        mapStatusStore.setForNoParkingZoneEditStatus(true)
     } else {
         formData = row;
         dialogFormVisible.value = true

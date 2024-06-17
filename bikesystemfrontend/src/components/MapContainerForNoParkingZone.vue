@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-16 21:23:13
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 04:21:47
+ * @LastEditTime: 2024-06-17 14:58:56
 -->
 <script setup>
 import { reactive, toRefs, ref, watch } from 'vue'
@@ -69,12 +69,14 @@ onMounted(() => {
                 }
             });
 
+
+            // 编辑创建及上传
             async function getNoParkingZoneData(newValue) {
-            if (newValue !== -1) {
+                if (newValue) {
                     // 根据传入的记录id获取对应的轨迹数据
                     await noParkingZoneStore.getEditingZoneDataByID(userStore.token);
                     // 根据noParkingZoneStore中的editingNoParkingZoneLocation设置轨迹
-                    let path = [];  
+                    let path = [];
                     console.log(noParkingZoneStore.editingNoParkingZoneLocation);
                     for (let i = 0; i < noParkingZoneStore.editingNoParkingZoneLocation.length; i++) {
                         path.push(new AMap.LngLat(noParkingZoneStore.editingNoParkingZoneLocation[i][0], noParkingZoneStore.editingNoParkingZoneLocation[i][1]));
@@ -104,11 +106,68 @@ onMounted(() => {
             }
 
             // 监视是否处于编辑状态
-            watch(() => noParkingZoneStore.editingNoParkingZone, (newValue, oldValue) => {
+            watch(() => mapStatusStore.isForNoParkingZoneEdit, (newValue, oldValue) => {
                 console.log(newValue);
                 // 根据要编辑的记录id获取对应的轨迹数据
                 getNoParkingZoneData(newValue);
+            });
 
+            var labelLayer = new AMap.LabelsLayer({
+                zooms: [3, 20], // 设置显示图层的级别范围
+                zIndex: 100, // 图层叠加的顺序值
+                collision: false, //该层内标注是否避让
+                allowCollision: false, //不同标注层之间是否避让
+            });
+            var markers = [];
+            map.add(labelLayer);
+            // 创建 LabelsLayer 图层
+            function createLabelsLayer() {
+                // https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png
+                const icon = {
+                    type: "image", //图标类型，现阶段只支持 image 类型
+                    image: "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png", //可访问的图片 URL
+                    anchor: 'bottom-center',
+                };
+                for (var j = 0; j < noParkingZoneStore.visibleBikes.length; j++) {
+                    for (var i = 0; i < noParkingZoneStore.visibleBikes[j].bikes.length; i++) {
+                        var curBike = noParkingZoneStore.visibleBikes[j].bikes[i];
+                        // console.log("zoneID:" + noParkingZoneStore.visibleBikes[j].zoneid);
+                        // console.log(curBike);
+                        const text = {
+                            content: "单车编号：" + curBike.bikeid, //要展示的文字内容
+                            direction: "right", //文字方向，有 icon 时为围绕文字的方向，没有 icon 时，则为相对 position 的位置
+                            offset: [-20, -5], //在 direction 基础上的偏移量
+                            //文字样式
+                            style: {
+                                fontSize: 12, //字体大小
+                                fillColor: "#22886f", //字体颜色
+                                strokeColor: "#fff", //描边颜色
+                                strokeWidth: 2, //描边宽度
+                            },
+                        };
+                        var curData = {
+                            position: [curBike.locationX, curBike.locationY],
+                            icon: icon,
+                            text: text,
+                            name: curBike.bikeid
+                        };
+                        var labelMarker = new AMap.LabelMarker(curData);
+
+                        markers.push(labelMarker);
+                    }
+                }
+            }
+
+            // 监视是否需要显示禁停区内单车
+            watch(() => mapStatusStore.isNoParkingZoneBikeVisible, (newValue, oldValue) => {
+                if (newValue) {
+                    createLabelsLayer();
+                    // 一次性将海量点添加到图层
+                    labelLayer.add(markers);
+                } else {
+                    labelLayer.clear();
+                    markers = [];
+                }
             });
 
 
@@ -149,6 +208,14 @@ onMounted(() => {
                     initializeZoneDataMask(newValue);
                     // 将visibleNew设置为-1
                     noParkingZoneStore.setNewVisible(-1);
+                    // 如果此时是显示禁停区内单车状态，则需要重新添加单车
+                    if (mapStatusStore.isNoParkingZoneBikeVisible) {
+                        labelLayer.clear();
+                        markers = [];
+                        createLabelsLayer();
+                        // 一次性将海量点添加到图层
+                        labelLayer.add(markers);
+                    }
                 }
             });
 
@@ -169,19 +236,29 @@ onMounted(() => {
                     removeZoneDataMask(newValue);
                     // 将removeOld设置为-1
                     noParkingZoneStore.setRemoveOld(-1);
+                    // 如果此时是显示禁停区内单车状态，则需要重新添加单车
+                    if (mapStatusStore.isNoParkingZoneBikeVisible) {
+                        labelLayer.clear();
+                        markers = [];
+                        createLabelsLayer();
+                        // 一次性将海量点添加到图层
+                        labelLayer.add(markers);
+                    }
                 }
             });
 
             // 监听是否删除操作完成
             watch(() => noParkingZoneStore.deleteId, (newValue, oldValue) => {
                 console.log(newValue);
-                if (newValue !== -1){
+                if (newValue !== -1) {
                     // 根据传入的记录id删除对应的轨迹
                     removeZoneDataMask(newValue);
                     // 将removeOld设置为-1
                     noParkingZoneStore.setDeleteId(-1);
                 }
             });
+
+
 
 
         })

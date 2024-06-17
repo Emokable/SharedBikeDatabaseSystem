@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 00:08:04
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 03:42:23
+ * @LastEditTime: 2024-06-17 14:16:09
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -12,6 +12,7 @@ import router from '../router'
 import { log } from 'console'
 import { http } from '../utils/http'
 import { noParkingZoneData } from '../types/noParkingZone'
+import { bikeData } from '../types/bike'
 
 interface Location {
     lat: number;
@@ -21,6 +22,11 @@ interface Location {
 interface ZoneRecord {
     zoneid: number;
     edges: Location[];
+}
+
+interface BikesInZone {
+    zoneid: number;
+    bikes: bikeData[];
 }
 
 function convertArrayToString(locationArray) {
@@ -51,6 +57,7 @@ export const useNoParkingZoneStore = defineStore('noParkingZone', {
         editingNoParkingZone: -1,
         editingNoParkingZoneName: '',
         editingNoParkingZoneLocation: [] as Location[],
+        visibleBikes: [] as BikesInZone[],
         newNoparkingZoneName: '',
         visibleNew: -1,
         removeOld: -1,
@@ -95,13 +102,17 @@ export const useNoParkingZoneStore = defineStore('noParkingZone', {
                 name: this.editingNoParkingZoneName,
                 location: pathString,
             };
-            // let response = await http.post('/noParkingZones', data, token);
+            await http.editData('/noParkingZones', token, data);
+            // 清空编辑状态
+            this.editingNoParkingZone = -1;
+            this.editingNoParkingZoneName = '';
+            this.editingNoParkingZoneLocation = [];
         },
 
         async createNoParkingZone(path: Array<Array<number>>, token: string) {
             let pathString = convertArrayToString(path);
             const zoneID = ref(0);
-            const res = await http.getCount('/noParkingZones', token)
+            const res = await http.getMaxID('/noParkingZones', token)
             zoneID.value = res.data.data
             console.log(zoneID);
             let data = {
@@ -118,6 +129,9 @@ export const useNoParkingZoneStore = defineStore('noParkingZone', {
                 http.getByID('/noParkingZones', token, zoneid).then((res) => {
                     this.visiableNoParkingZones.push(res.data.data);
                     let locationArray = convertStringToArray(res.data.data.location);
+                    http.getBikeInZone('/bikes', token, res.data.data.location).then((res2) => {
+                        this.visibleBikes.push({ zoneid: zoneid, bikes: res2.data.data});
+                    });
                     this.recordSides.push({ zoneid: zoneid, edges: locationArray });
                     this.visibleNew = zoneid;
                 });
@@ -130,6 +144,11 @@ export const useNoParkingZoneStore = defineStore('noParkingZone', {
                 this.visiableNoParkingZones.splice(index, 1);
                 this.recordSides.splice(index, 1);
                 this.removeOld = zoneid;
+                // 根据 zoneid 删除 visibleBikes 中的数据
+                const bikeIndex = this.visibleBikes.findIndex((b) => b.zoneid === zoneid);
+                if (bikeIndex !== -1) {
+                    this.visibleBikes.splice(bikeIndex, 1);
+                }
             }
         },
 
