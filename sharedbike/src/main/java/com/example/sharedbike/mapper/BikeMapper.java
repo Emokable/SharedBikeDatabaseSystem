@@ -14,7 +14,7 @@ public interface BikeMapper {
 
         @Insert("INSERT INTO Bike(bikeid, brand, releasedate, warrantyperiod, locationx, locationy, status) VALUES(#{bikeid}, #{brand}, #{releasedate}, #{warrantyPeriod}, #{LocationX}, #{LocationY}, #{status})")
         @Options(useGeneratedKeys = true, keyProperty = "bikeid")
-        BaseResponse<String> saveBike(Bike bike);
+        void saveBike(Bike bike);
 
         @Delete("DELETE FROM Bike WHERE bikeid = #{id}")
         void deleteBike(int id);

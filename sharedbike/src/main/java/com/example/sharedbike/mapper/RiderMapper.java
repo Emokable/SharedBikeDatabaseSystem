@@ -26,7 +26,7 @@ public interface RiderMapper {
 
     @Insert("INSERT INTO Rider(userid,username, gender, password, phonenumber, avatar, birthday) VALUES(#{userid},#{username}, #{gender}, #{password}, #{phonenumber}, #{avatar}, #{birthday})")
     @Options(useGeneratedKeys = true, keyProperty = "userid")
-    BaseResponse<String> saveRider(Rider rider);
+    void saveRider(Rider rider);
     List<Rider> getAllRiders(@Param("offset") int offset, @Param("size") int size, @Param("sortBy") String sortBy, @Param("sortOrder") String sortOrder);
 
     @Delete("DELETE FROM Rider WHERE userid = #{id}")
