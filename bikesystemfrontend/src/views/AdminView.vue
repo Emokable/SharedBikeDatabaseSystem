@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 21:48:12
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 20:43:20
+ * @LastEditTime: 2024-06-18 03:13:05
 -->
 <!--
  * @Description: 
@@ -99,12 +99,10 @@ const adminTableConfig = reactive({
         createColumn('username', '用户名', false, true),
         createColumn('gender', '性别', true, true, ['male', 'female', 'other']),
         createColumn('phonenumber', '手机号', false, true),
-        createColumn('avatar', '头像', false, false),
         createColumn('birthday', '生日', false, true),
     ],
     layout: 'exampleLayout',
 } as TableConfig);
-
 
 // 根据adminData的格式，生成一个新的空白对象
 function createEmptyAdmin() {
@@ -114,12 +112,11 @@ function createEmptyAdmin() {
         gender: '',
         password: '654321',
         phonenumber: '',
-        avatar: '',
+        avatar: 'default.jpg',
         birthday: '',
         privileges: ''
     };
 };
-
 
 var emptyData = reactive(createEmptyAdmin());
 

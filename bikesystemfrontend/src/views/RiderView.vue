@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:00
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 22:05:56
+ * @LastEditTime: 2024-06-18 03:09:31
 -->
 
 <template>
@@ -87,7 +87,6 @@ const riderTableConfig = reactive({
     useMap: false,
     columns: [
         createColumn('userid', '骑行者ID', false, true),
-        createColumn('avatar', '骑行者头像', false, false),
         createColumn('username', '骑行者名称', false, true),
         createColumn('gender', '骑行者性别', true, true, ['male', 'female', 'other']),
         createColumn('password', '骑行者密码', false, true),

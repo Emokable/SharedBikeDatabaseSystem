@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 23:32:12
+ * @LastEditTime: 2024-06-18 04:56:46
 -->
 <template>
     <div class="record-layout">
@@ -14,7 +14,7 @@
                 <el-button size="large" type="primary" @click="statusStore.setSelectRecordByTime(true)">
                     根据时间筛选
                 </el-button>
-                <template v-if="userStore.isSuperuser">
+                <template v-if="userStore.editAble">
                     <el-button size="large" type="primary" @click="dialogFormVisible = true">
                         登记新的骑行记录
                     </el-button>
@@ -22,7 +22,7 @@
                 <template v-else>
                     <div
                         style="background-color: lightblue; color: red; font-size: large; text-align: center; padding: 10px;">
-                        警告：您没有权限进行对应不同用户进行操作
+                        警告：您没有权限进行操作
                     </div>
                 </template>
             </el-aside>

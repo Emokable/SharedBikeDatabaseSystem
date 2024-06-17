@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 14:35:25
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 00:58:10
+ * @LastEditTime: 2024-06-18 03:58:32
  */
 import { el } from 'element-plus/es/locales.mjs';
 import request from './request';
@@ -205,6 +205,30 @@ export const http = {
         return request(config);
     },
 
+    getSchedulePlan(token?: string, startDate?: string, endDate?: string) {
+        const headers = {};
+        let url = '/scheduling/plan';
+        let params = new URLSearchParams();
+        if (startDate) {
+            params.append('startDate', startDate);
+        }
+        if (endDate) {
+            params.append('endDate', endDate);
+        }
+        if (params.toString()) {
+            url += '?' + params.toString();
+        }
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }
+        const config = {
+            method: 'GET',
+            url: url,
+            headers: headers,
+        }
+        return request(config);
+    },
+
 
 
     post(url, data, token?: string) {
@@ -267,6 +291,24 @@ export const http = {
         }
         return request(config);
     },
+
+    changePassWord(url,token?: string, password?: string) {
+        const headers = {};
+        let data = {
+            password: password
+        }
+        console.log(data);
+        if (token) {
+            headers['X-Authorization-With'] = token;
+        }   
+        const config = {
+            method: 'PUT',
+            url: url+ '/update2',
+            data: data,
+            headers: headers
+        }
+        return request(config);
+    }
 
 
     // insertData(url,token?: string, data?: any, moreUrl?: string) {

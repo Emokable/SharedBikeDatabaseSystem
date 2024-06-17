@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 17:28:11
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 00:47:38
+ * @LastEditTime: 2024-06-18 02:51:43
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -15,6 +15,7 @@ export const useStatusStore = defineStore('status', () => {
     const isCreateFinish = ref(false)
     const isSelectRecordByTime = ref(false)
     const isSelectBikeByLocation = ref(false)
+    const isGetingSchedule = ref(false)
 
     const setEditFinish = (status: boolean) => {
         isEditFinish.value = status
@@ -28,7 +29,9 @@ export const useStatusStore = defineStore('status', () => {
     const setSelectBikeByLocation = (status: boolean) => {
         isSelectBikeByLocation.value = status
     }
-    
+    const setGetingSchedule = (status: boolean) => {
+        isGetingSchedule.value = status
+    }
     return {
         isEditFinish,
         isCreateFinish,
@@ -38,5 +41,7 @@ export const useStatusStore = defineStore('status', () => {
         setSelectRecordByTime,
         isSelectBikeByLocation,
         setSelectBikeByLocation,
+        isGetingSchedule,
+        setGetingSchedule
     }
 })

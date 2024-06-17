@@ -116,7 +116,10 @@ public class AdminController {
             currentAdmin.setGender(adminUpdateDTO.getGender());
         }
         if (adminUpdateDTO.getPassword() != null) {
+
+            System.out.println("对应的密码是：" + adminUpdateDTO.getPassword());
             // 盐值
+
             ByteSource salt = ByteSource.Util.bytes(currentAdmin.getUsername());
             // 设置哈希算法和迭代次数
             String hashAlgorithmName = "SHA-1";

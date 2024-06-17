@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 09:50:41
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 23:50:46
+ * @LastEditTime: 2024-06-18 02:43:00
  */
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '../stores/user' 
@@ -47,6 +47,16 @@ const router = createRouter({
       path: '/timeSelect',
       name: 'TimeSelect',
       component: () => import('../components/TimeSelect.vue')
+    },
+    {
+      path: '/lineChart1',
+      name: 'LineChart1',
+      component: () => import('../components/LineChart1.vue')
+    },
+    {
+      path: '/schedulePlan',
+      name: 'SchedulingPlan',
+      component: () => import('../components/SchedulingPlan.vue')
     },
     {
       path: '/locationSelect',

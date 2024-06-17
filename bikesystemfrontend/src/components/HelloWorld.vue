@@ -33,7 +33,7 @@
         <el-input v-model="userForm.username" autocomplete="off" />
       </el-form-item>
       <el-form-item label="密码：" :label-width="formLabelWidth">
-        <el-input v-model="userForm.password" autocomplete="off" />
+        <el-input v-model="userForm.password" show-password autocomplete="off" />
       </el-form-item>
     </el-form>
     <template #footer>

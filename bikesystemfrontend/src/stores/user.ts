@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-12 13:59:19
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-15 00:00:16
+ * @LastEditTime: 2024-06-18 04:55:40
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -23,6 +23,7 @@ export const useUserStore = defineStore('user', () => {
     const username = ref('')
     const authorityLevel = ref('')
     const avatar = ref('')
+    const adminid = ref(0)
 
 
     const register = async (username: string, password: string) => {
@@ -39,11 +40,14 @@ export const useUserStore = defineStore('user', () => {
                 if (successResponse.data.errCode == 0) {
                     window.alert('登录成功')
                     token.value = successResponse.headers['x-authorization-with']
-                    authorityLevel.value = successResponse.data.data
-                    if (successResponse.data.data === 'superuser' || successResponse.data.data === 'data_modification') {
+                    authorityLevel.value = successResponse.data.data.privileges
+                    avatar.value = '/'+successResponse.data.data.avatar
+                    adminid.value = successResponse.data.data.adminid
+                    if (authorityLevel.value === 'superuser' || authorityLevel.value === 'data_modification') {
                         editAble.value = true
                     }
-                    if (successResponse.data.data === 'superuser') {
+                    if (authorityLevel.value === 'superuser') {
+                        console.log(authorityLevel.value)
                         isSuperuser.value = true
                     }
                     isLogged.value = true
@@ -62,6 +66,8 @@ export const useUserStore = defineStore('user', () => {
     const hydrate = async () => {
         if (!token.value) {
           return
+        }else{
+            // 通过
         }
       }
 

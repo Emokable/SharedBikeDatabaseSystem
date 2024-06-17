@@ -1,8 +1,17 @@
+/*
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-14 22:03:08
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-18 03:31:22
+ */
 package com.example.sharedbike.Controller;
 
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.entity.Admin;
 import com.example.sharedbike.jwt.JwtUtils;
@@ -15,6 +24,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Struct;
 
 @RestController
 public class LoginController {
@@ -51,11 +61,17 @@ public class LoginController {
 			// 获取用户的权限信息
 			Admin currentAdmin = (Admin) subject.getPrincipal();
 			String privileges = currentAdmin.getPrivileges().toString();
-
-			// 将权限信息包含在响应中
+			int adminid = currentAdmin.getAdminid();
+			String avatar = currentAdmin.getAvatar();
+			// 把以上3个信息存入data
+			JSONObject data = new JSONObject();
+			data.put("privileges", privileges);
+			data.put("adminid", adminid);
+			data.put("avatar", avatar);
+			ret.setData(data);
 			ret.setErrCode(0);
 			ret.setMsg(msg);
-			ret.setData(privileges);
+
 			return ret;
 		} else {
 			ret.setErrCode(401);
