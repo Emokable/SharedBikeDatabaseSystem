@@ -4,6 +4,7 @@ import com.example.sharedbike.domin.BaseResponse;
 import com.example.sharedbike.entity.Bike;
 import com.example.sharedbike.entity.RideRecord;
 import com.example.sharedbike.entity.Rider;
+import com.example.sharedbike.mapper.BikeMapper;
 import com.example.sharedbike.mapper.RideRecordMapper;
 import com.example.sharedbike.service.RideRecordService;
 import org.apache.ibatis.annotations.Param;
@@ -24,6 +25,9 @@ public class RideRecordController {
     private RideRecordMapper rideRecordMapper;
     @Autowired
     private RideRecordService rideRecordService;
+    @Autowired
+    private BikeMapper bikeMapper;
+
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
     @GetMapping
     public List<RideRecord> getAllRideRecords(
@@ -69,6 +73,11 @@ public class RideRecordController {
     @PostMapping
     public BaseResponse<String> saveRideRecord(@RequestBody RideRecord rideRecord) {
          try {
+             Bike ubike = bikeMapper.getBikeById(rideRecord.getBikeid());
+             ubike.setLastusetime(rideRecord.getEndTime());
+             ubike.setLocationX(rideRecord.getStartLocationX());
+             ubike.setLocationY(rideRecord.getStartLocationY());
+             bikeMapper.updateBike(ubike);
              rideRecordMapper.saveRideRecord(rideRecord);
                 return BaseResponse.success("rideRecord saved successfully");
             } catch (DuplicateKeyException ex) {
