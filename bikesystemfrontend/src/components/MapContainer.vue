@@ -24,11 +24,13 @@ onMounted(() => {
     plugins: ["AMap.MarkerCluster", "AMap.Scale"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
 
   })
-    .then((AMap) => {
-      map = new AMap.Map("container", {
+    .then(async (AMap) => {
+      function createMap (){map = new AMap.Map("container", {
         viewMode: "3D", // 是否为3D地图模式
         zoom: 11, // 初始化地图级别
-      });
+      });}
+
+      await createMap();
 
       AMap.plugin(["AMap.ToolBar", "AMap.Geolocation", "AMap.MouseTool", "AMap.PolygonEditor"], function () { //异步同时加载多个插件
         var toolbar = new AMap.ToolBar(); //创建工具条插件实例
@@ -87,13 +89,6 @@ onMounted(() => {
           massMarks.setMap(null);
         }
       })
-
-      // // 创建用于放置热点区域对应圆形标记的图层
-      // var hotAreaLayer = new AMap.LabelsLayer({
-      //   zooms: [3, 19], //设置显示的级别范围
-      //   zIndex: 100, //图层叠加的顺序
-      // });
-
 
       // polyline数组，用于存储所有的轨迹
       let polylines = [];
@@ -166,9 +161,6 @@ onUnmounted(() => {
   map.destroy();
   //地图对象赋值为null
   map = null
-  //清除地图容器的 DOM 元素
-  mapStatusStore.setMassMarksLoadedStatus(false);
-  mapStatusStore.setTrackLoadedStatus(false);
 
 });
 </script>

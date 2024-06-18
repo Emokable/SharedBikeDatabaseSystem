@@ -1,6 +1,7 @@
 package com.example.sharedbike.entity;
 
 import com.example.sharedbike.entity.Enum.Gender;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -13,6 +14,7 @@ public class Admin {
     private String password;
     private String phonenumber;
     private String avatar;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date birthday;
 
     // Getters and setters

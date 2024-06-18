@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-16 21:23:13
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 21:29:13
+ * @LastEditTime: 2024-06-18 22:42:13
 -->
 <script setup>
 import { reactive, toRefs, ref, watch } from 'vue'
@@ -31,11 +31,15 @@ onMounted(() => {
         plugins: ["AMap.MarkerCluster", "AMap.Scale"], //需要使用的的插件列表，如比例尺'AMap.Scale'，支持添加多个如：['...','...']
 
     })
-        .then((AMap) => {
-            map = new AMap.Map("container", {
-                viewMode: "3D", // 是否为3D地图模式
-                zoom: 11, // 初始化地图级别
-            });
+        .then(async (AMap) => {
+            function createMap() {
+                map = new AMap.Map("container", {
+                    viewMode: "3D", // 是否为3D地图模式
+                    zoom: 11, // 初始化地图级别
+                });
+            }
+
+            await createMap();
 
             AMap.plugin(["AMap.ToolBar", "AMap.Geolocation", "AMap.MouseTool", "AMap.PolygonEditor"], function () { //异步同时加载多个插件
                 var toolbar = new AMap.ToolBar(); //创建工具条插件实例
@@ -273,8 +277,6 @@ onUnmounted(() => {
     map.destroy();
     //地图对象赋值为null
     map = null
-    //清除地图容器的 DOM 元素
-    noParkingZoneStore.clearVisibleNoParkingZone();
 });
 </script>
 

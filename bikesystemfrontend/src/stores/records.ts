@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-15 03:18:58
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 21:53:48
+ * @LastEditTime: 2024-06-18 09:22:20
  */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
@@ -77,22 +77,20 @@ export const useRecordStore = defineStore('record', {
         return sortedPath;
       }
 
-      // 根据recordData.startlocationx和recordData.startlocationy找到起点
+      // 找到起点，即距离最近startlocation的点
       let start = 0;
+      let minDistance = Infinity;
       for (let i = 0; i < coordinatesArray.length; i++) {
-        if (record.startlocationx === coordinatesArray[i].lng && record.startlocationy === coordinatesArray[i].lat) {
+        const distance = haversineDistance(
+          { lat: record.startLocationY, lng: record.startLocationX },
+          coordinatesArray[i]
+        );
+        if (distance < minDistance) {
+          minDistance = distance;
           start = i;
-          break;
         }
       }
-      // 根据recordData.endlocationx和recordData.endlocationy找到终点
-      let end = 0;
-      for (let i = 0; i < coordinatesArray.length; i++) {
-        if (record.endlocationx === coordinatesArray[i].lng && record.endlocationy === coordinatesArray[i].lat) {
-          end = i;
-          break;
-        }
-      }
+
 
       // 使用找到的起点重新排序路径
       let sortedPath = sortPath(coordinatesArray, start);

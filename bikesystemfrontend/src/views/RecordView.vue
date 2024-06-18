@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 04:56:46
+ * @LastEditTime: 2024-06-18 11:09:08
 -->
 <template>
     <div class="record-layout">
@@ -93,12 +93,12 @@ const timePickerVisible = ref(false)
 const statusStore = useStatusStore()
 const mapStatusStore = useMapStatusStore()
 
-function createColumn(prop, label, isEnum, canSort, enumOptions?) {
+function createColumn(prop, label, isEnum, isTime, enumOptions?) {
     return {
         prop,
         label,
         isEnum,
-        canSort,
+        isTime,
         enumOptions,
         formatter: (row) => `Formatted ${row}`,
         width: '240px',
@@ -128,16 +128,16 @@ const recordTableConfig2 = reactive({
     canEdit: false,
     useMap: true,
     columns: [
-        createColumn('orderid', '订单ID', false, true),
-        createColumn('bikeid', '单车ID', false, true),
-        createColumn('userid', '骑行者ID', false, true),
-        createColumn('starttime', '开始时间', false, true),
-        createColumn('endtime', '结束时间', false, true),
-        createColumn('startlocationx', '开始地点_经度', false, true),
-        createColumn('startlocationy', '开始地点_纬度', false, true),
-        createColumn('endlocationx', '结束地点_经度', false, true),
-        createColumn('endlocationy', '结束地点_纬度', false, true),
-        createColumn('track', '骑行轨迹', false, true)
+        createColumn('orderid', '订单ID', false, false),
+        createColumn('bikeid', '单车ID', false, false),
+        createColumn('userid', '骑行者ID', false, false),
+        createColumn('startTime', '开始时间', false, true),
+        createColumn('endTime', '结束时间', false, true),
+        createColumn('startLocationX', '开始地点_经度', false, false),
+        createColumn('startLocationY', '开始地点_纬度', false, false),
+        createColumn('endLocationX', '结束地点_经度', false, false),
+        createColumn('endLocationY', '结束地点_纬度', false, false),
+        createColumn('track', '骑行轨迹', false, false)
     ],
     layout: 'exampleLayout',
 } as TableConfig);
@@ -148,12 +148,12 @@ function createEmptyRecord() {
         orderid: 0,
         bikeid: 0,
         userid: 0,
-        starttime: '',
-        endtime: '',
-        startlocationx: 0,
-        startlocationy: 0,
-        endlocationx: 0,
-        endlocationy: 0,
+        startTime: '',
+        endTime: '',
+        startLocationX: 0,
+        startLocationY: 0,
+        endLocationX: 0,
+        endLocationY: 0,
         track: '',
     };
 };

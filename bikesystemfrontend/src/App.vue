@@ -4,12 +4,15 @@
  * @Author: DZQ
  * @Date: 2024-06-11 21:16:33
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 01:24:49
+ * @LastEditTime: 2024-06-18 23:07:49
 -->
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import navBar from './components/NavBar.vue'
+import { mount } from '@vue/test-utils';
+
+
 </script>
 
 <template>
@@ -25,7 +28,7 @@ import navBar from './components/NavBar.vue'
 <style scoped>
 
 @import "./global.scss";
-  
+
   #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

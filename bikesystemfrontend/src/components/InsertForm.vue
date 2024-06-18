@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 11:32:32
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 22:38:01
+ * @LastEditTime: 2024-06-18 22:07:19
 -->
 <template>
     <el-form :model="props.formData" label-width="auto" style="max-width: 600px">
@@ -15,6 +15,10 @@
                         <el-radio v-for="option in column.enumOptions" :label="option" :key="option">{{ option
                             }}</el-radio>
                     </el-radio-group>
+                </template>
+                <template v-else-if="column.isTime">
+                    <el-date-picker v-model="props.formData[column.prop]" type="datetime" placeholder="Select date and time"
+                     value-format="YYYY-MM-DD HH:mm:ss" />
                 </template>
                 <template v-else-if="!column.prop.endsWith('id')">
                     <el-input v-model="props.formData[column.prop]" />

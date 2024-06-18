@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:31
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 07:14:10
+ * @LastEditTime: 2024-06-18 11:55:34
 -->
 <template>
     <div class="bike-layout">
@@ -71,16 +71,12 @@ const dialogFormVisible = ref(false)
 const dialogFormVisible2 = ref(false)
 const statusStore = useStatusStore()
 
-function createColumn(prop, label, isEnum, canSort, canEdit?, enumOptions?) {
-    if (canEdit === undefined) {
-        canEdit = false;
-    }
+function createColumn(prop, label, isEnum,  isTime, enumOptions?) {
     return {
         prop,
         label,
         isEnum,
-        canSort,
-        canEdit,
+        isTime,
         enumOptions,
         formatter: (row) => `Formatted ${row}`,
         width: '240px',
@@ -96,14 +92,14 @@ const bikeTableConfig = reactive({
     canEdit: userStore.editAble,
     useMap: false,
     columns: [
-        createColumn('bikeid', '单车ID', false, true),
-        createColumn('brand', '单车品牌', false, true),
-        createColumn('status', '单车状态', true, true, true, ['unlocked', 'locked', 'damaged']),
-        createColumn('releasedate', '投放日期', false, true),
-        createColumn('warrantyPeriod', '保修时长', false, true),
-        createColumn('lastusetime', '最后使用时间', false, true),
-        createColumn('locationX', '投放地点_经度', false, true),
-        createColumn('locationY', '投放地点_纬度', false, true),
+        createColumn('bikeid', '单车ID', false, false),
+        createColumn('brand', '单车品牌', false, false, false),
+        createColumn('status', '单车状态', true, false, ['unlocked', 'locked', 'damaged']),
+        createColumn('releasedate', '投放日期', false,true),
+        createColumn('warrantyPeriod', '保修时长', false, false),
+        createColumn('lastusetime', '最后使用时间', false,true ),
+        createColumn('locationX', '投放地点_经度', false, false ),
+        createColumn('locationY', '投放地点_纬度', false, false),
     ],
     layout: 'bike-Layout',
 } as TableConfig);

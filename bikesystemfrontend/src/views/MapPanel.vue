@@ -4,13 +4,13 @@
  * @Author: DZQ
  * @Date: 2024-06-12 01:43:24
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 06:51:34
+ * @LastEditTime: 2024-06-18 09:03:06
 -->
 <template>
   <div class="mapPanel-layout">
     <el-container>
       <el-header class="head">
-        实时地图信息查看
+        信息分析中心
       </el-header>
       <el-container>
         <el-aside class="bordered" width="200px">

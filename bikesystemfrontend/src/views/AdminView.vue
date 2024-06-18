@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-14 21:48:12
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 03:13:05
+ * @LastEditTime: 2024-06-18 22:02:10
 -->
 <!--
  * @Description: 
@@ -74,13 +74,13 @@ const statusStore = useStatusStore()
 
 
 
-function createColumn(prop, label, isEnum, canSort, enumOptions?) {
+function createColumn(prop, label, isEnum, isTime, enumOptions?) {
     return {
         prop,
         label,
         isEnum,
-        canSort,
         enumOptions,
+        isTime,
         formatter: (row) => `Formatted ${row}`,
         width: '240px',
         style: 'AdminStyle',
@@ -94,11 +94,11 @@ const adminTableConfig = reactive({
     canEdit: userStore.isSuperuser,
     useMap: false,
     columns: [
-        createColumn('adminid', '管理员ID', false, true),
-        createColumn('privileges', '权限', true, false, ['superuser', 'data_modification', 'read_only']),
-        createColumn('username', '用户名', false, true),
-        createColumn('gender', '性别', true, true, ['male', 'female', 'other']),
-        createColumn('phonenumber', '手机号', false, true),
+        createColumn('adminid', '管理员ID', false, false),
+        createColumn('privileges', '权限', true,  false, ['superuser', 'data_modification', 'read_only']),
+        createColumn('username', '用户名', false, false),
+        createColumn('gender', '性别', true, false, ['male', 'female', 'other']),
+        createColumn('phonenumber', '手机号', false, false),
         createColumn('birthday', '生日', false, true),
     ],
     layout: 'exampleLayout',

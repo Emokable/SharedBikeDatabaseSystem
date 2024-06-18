@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 10:08:50
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-14 18:01:50
+ * @LastEditTime: 2024-06-18 11:39:09
  */
 export interface TableConfigInterFace {
     api: string;
@@ -17,6 +17,7 @@ export interface TableConfigInterFace {
         isEnum?: boolean;
         canSort?: boolean;
         enumOptions?: string[];
+        isTime?: boolean;
         formatter?: (row: unknown) => string;
         tooltip?: string;
         width?: string;

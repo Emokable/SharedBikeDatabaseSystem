@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:35
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 21:00:10
+ * @LastEditTime: 2024-06-18 22:39:19
 -->
 
 <template>
@@ -18,7 +18,6 @@
         <el-button size="large" type="primary" @click="createNoParkingZone">创建禁停区</el-button>
         <el-button size="large" type="success" @click="createFinish = true">完成创建</el-button>
         <el-button size="large" type="success" @click="finishEditNoParkingZone">完成编辑</el-button>
-        <el-button size="large" type="warning" @click="giveUpOperation">放弃操作</el-button>
         <el-button :type="mapStatusStore.getNoParkingZoneBikeVisibleStatus ? 'info' : 'primary'" size="large"
           @click="showBikeInNPZone">
           改变禁停区内的单车显示状态
@@ -39,7 +38,7 @@
       <el-input v-model="zoneName" autocomplete="off"></el-input>
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="createFinish = false">取消创建</el-button>
+          <el-button @click="createFinish = false">取消</el-button>
           <el-button type="primary" @click="finishCreateNoParkingZone">
             确认
           </el-button>
@@ -51,7 +50,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
+import { onUnmounted, reactive, ref } from 'vue'
 import { TableConfig } from '../types/table'
 import { useUserStore } from '../stores/user'
 import { useMapStatusStore } from '../stores/mapStatus';
@@ -94,7 +93,7 @@ const noParkingZoneTableConfig = reactive({
   layout: 'bike-Layout',
 } as TableConfig);
 
-onBeforeRouteLeave(() => {
+onUnmounted(() => {
   // 所有涉及的mapStatusStore都置零
   mapStatusStore.setForNoParkingZoneCreateStatus(false);
   mapStatusStore.setForNoParkingZoneEditStatus(false);

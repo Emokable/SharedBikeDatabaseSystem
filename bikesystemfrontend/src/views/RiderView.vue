@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:20:00
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 03:09:31
+ * @LastEditTime: 2024-06-18 22:04:56
 -->
 
 <template>
@@ -66,12 +66,12 @@ const dialogFormVisible = ref(false)
 const dialogFormVisible2 = ref(false)
 const statusStore = useStatusStore()
 
-function createColumn(prop, label, isEnum, canSort, enumOptions? ) {
+function createColumn(prop, label, isEnum, isTime, enumOptions? ) {
     return {
         prop,
         label,
         isEnum,
-        canSort,
+        isTime,
         enumOptions,
         formatter: (row) => `Formatted ${row}`,
         width: '240px',
@@ -86,11 +86,10 @@ const riderTableConfig = reactive({
     canEdit: false,
     useMap: false,
     columns: [
-        createColumn('userid', '骑行者ID', false, true),
-        createColumn('username', '骑行者名称', false, true),
-        createColumn('gender', '骑行者性别', true, true, ['male', 'female', 'other']),
-        createColumn('password', '骑行者密码', false, true),
-        createColumn('phonenumber', '骑行者电话', false, true),
+        createColumn('userid', '骑行者ID', false, false),
+        createColumn('username', '骑行者名称', false, false),
+        createColumn('gender', '骑行者性别', true,  false, ['male', 'female', 'other']),
+        createColumn('phonenumber', '骑行者电话', false, false),
         createColumn('birthday', '骑行者生日', false, true),
     ],
     layout: 'exampleLayout',

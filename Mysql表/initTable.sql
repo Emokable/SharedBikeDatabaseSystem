@@ -30,12 +30,12 @@ CREATE TABLE RideRecord (
     orderid INT  PRIMARY KEY,
     bikeid INT,
     userid INT,
-    starttime DATETIME,
-    startlocationx FLOAT,
-    startlocationy FLOAT,
-    endtime DATETIME,
-    endlocationx FLOAT,
-    endlocationy FLOAT,
+    startTime DATETIME,
+    startLocationX FLOAT,
+    startLocationY FLOAT,
+    endTime DATETIME,
+    endLocationX FLOAT,
+    endLocationY FLOAT,
     track TEXT,
     FOREIGN KEY (bikeid) REFERENCES Bike(bikeid),
     FOREIGN KEY (userid) REFERENCES Rider(userid)
@@ -43,8 +43,8 @@ CREATE TABLE RideRecord (
 CREATE INDEX idx_RideRecord_orderid ON RideRecord(orderid);
 CREATE INDEX idx_RideRecord_bikeid ON RideRecord(bikeid);
 CREATE INDEX idx_RideRecord_userid ON RideRecord(userid);
-CREATE INDEX idx_RideRecord_location ON RideRecord(startlocationx,startlocationy);
-CREATE INDEX idx_RideRecord_time ON RideRecord(starttime,endtime);
+CREATE INDEX idx_RideRecord_location ON RideRecord(startLocationX,startLocationY);
+CREATE INDEX idx_RideRecord_time ON RideRecord(startTime,endTime);
 
 -- 创建禁停区表
 CREATE TABLE NoParkingZone (
@@ -124,9 +124,9 @@ BEGIN
         VALUES (NEW.bikeid, 'Hellobike', 
                 DATE_ADD('2016-07-31', INTERVAL -FLOOR(RAND() * 365) DAY), 
                 FLOOR(RAND() * 3) + 1, 
-								NEW.endtime,
-								NEW.endlocationx,
-								NEW.endlocationy,
+								NEW.endTime,
+								NEW.endLocationX,
+								NEW.endLocationY,
                 CASE 
                     WHEN random_status < 6/10 THEN 'locked' 
                     WHEN random_status < 9/10 THEN 'unlocked' 
@@ -135,8 +135,8 @@ BEGIN
     ELSE
         -- Update Bike location
         UPDATE Bike
-        SET locationx = NEW.endlocationx, 
-            locationy = NEW.endlocationy
+        SET locationx = NEW.endLocationX, 
+            locationy = NEW.endLocationY
         WHERE bikeid = NEW.bikeid;
     END IF;
 END;
@@ -149,15 +149,15 @@ select * from bike
 where locationx like "121.51%" and locationy like "%31.30%" 
 
 SELECT 
-    DATE(starttime) AS date, 
-    AVG(TIMESTAMPDIFF(MINUTE, starttime, endtime)) AS avg_ride_time 
+    DATE(startTime) AS date, 
+    AVG(TIMESTAMPDIFF(MINUTE, startTime, endTime)) AS avg_ride_time 
 FROM 
     riderecord 
 GROUP BY 
-    DATE(starttime);
+    DATE(startTime);
 		
 SELECT 
-    AVG(TIMESTAMPDIFF(MINUTE, starttime, endtime)) AS avg_ride_time 
+    AVG(TIMESTAMPDIFF(MINUTE, startTime, endTime)) AS avg_ride_time 
 FROM 
     riderecord 
 
