@@ -79,6 +79,7 @@ export const useUserStore = defineStore('user', () => {
         isLogged.value = false
         authorityLevel.value = ''
         editAble.value = false
+        isSuperuser.value = false
         router.push('/')
     }
 

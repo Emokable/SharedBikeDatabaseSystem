@@ -38,7 +38,6 @@
         SET
             privileges = #{privileges},
             gender = #{gender},
-            password = #{password},
             phonenumber = #{phonenumber},
             avatar = #{avatar},
             birthday = #{birthday}

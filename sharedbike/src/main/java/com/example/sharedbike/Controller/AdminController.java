@@ -83,29 +83,8 @@ public class AdminController {
     @RequiresPermissions("superuser")
     @PutMapping("/update")
     public void updateAdmin(@RequestBody Admin admin) {
-        Subject currentUser = SecurityUtils.getSubject();
-        Admin currentAdmin = (Admin) currentUser.getPrincipal();
-        currentAdmin.setAdminid(admin.getAdminid());
-        currentAdmin.setPrivileges(admin.getPrivileges());
-        currentAdmin.setGender(admin.getGender());
 
-        if (admin.getPassword() != null) {
-            // 盐值
-            ByteSource salt = ByteSource.Util.bytes(currentAdmin.getUsername());
-            // 设置哈希算法和迭代次数
-            String hashAlgorithmName = "SHA-1";
-            int hashIterations = 16;
-            // 使用 SimpleHash 进行加密
-            SimpleHash hash = new SimpleHash(hashAlgorithmName, admin.getPassword(), salt, hashIterations);
-            String encryptedPassword = hash.toHex();
-            currentAdmin.setPassword(encryptedPassword);
-        }
-
-        currentAdmin.setPhonenumber(admin.getPhonenumber());
-        currentAdmin.setAvatar(admin.getAvatar());
-        currentAdmin.setBirthday(admin.getBirthday());
-
-        adminMapper.updateAdmin(currentAdmin);
+        adminMapper.updateAdmin(admin);
     }
 
     @RequiresPermissions(value = {"read_only","data_modification","superuser"},logical= Logical.OR)
