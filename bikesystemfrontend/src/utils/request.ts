@@ -1,4 +1,13 @@
+/*
+ * @Description: 
+ * @Version: 
+ * @Author: DZQ
+ * @Date: 2024-06-12 14:31:12
+ * @LastEditors: DZQ
+ * @LastEditTime: 2024-06-21 12:10:27
+ */
 import axios from 'axios' // 使用前要先安装依赖：npm install axios 
+
 // 创建axios实例
 const service = axios.create({ 
 	// 这里可以放一下公用属性等。
@@ -13,7 +22,7 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(config => {
 	// 这里可以进行请求加密等操作。如添加token,cookie，修改数据传输格式等。
-	config.headers['token'] = '11';
+	config.headers['token'] = '';
 
 	return config;
 })

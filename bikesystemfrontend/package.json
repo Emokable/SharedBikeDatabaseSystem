@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build --force"
+    "type-check": "vue-tsc --build --force",
+    "tree":"treee  -l 20 -f --ignore 'node_modules/' '.git/' -o tree.txt",
+    "treer": "treer --ignore node_modules -e ./treer.txt"
   },
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",

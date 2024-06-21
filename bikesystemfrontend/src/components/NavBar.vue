@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-11 15:01:47
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-17 15:54:40
+ * @LastEditTime: 2024-06-21 11:26:49
 -->
 <template>
     <el-menu
@@ -19,13 +19,6 @@
       active-text-color="#ffd04b"
       v-show="store.isLogged"
     >
-      <!-- <el-menu-item index="0">
-        <img
-          style="width: 100px"
-          src="/images/element-plus-logo.svg"
-          alt="Element logo"
-        />
-      </el-menu-item> -->
       <el-menu-item index="/hello">首页</el-menu-item>
       <div class="flex-grow" />
       <div class="user-visible" v-show="store.isLogged">、

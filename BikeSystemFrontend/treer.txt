@@ -1,0 +1,93 @@
+G:\database_final\SBS2\SharedBikeDatabaseSystem\BikeSystemFrontend
+├─.gitignore
+├─auto-imports.d.ts
+├─components.d.ts
+├─env.d.ts
+├─index.html
+├─package-lock.json
+├─package.json
+├─README.md
+├─tsconfig.app.json
+├─tsconfig.json
+├─tsconfig.node.json
+├─tsconfig.vitest.json
+├─vite.config.ts
+├─vitest.config.ts
+├─src
+|  ├─App.vue
+|  ├─auto-imports.d.ts
+|  ├─components.d.ts
+|  ├─global.scss
+|  ├─main.ts
+|  ├─views
+|  |   ├─AdminView.vue
+|  |   ├─BikeView.vue
+|  |   ├─MapPanel.vue
+|  |   ├─NoParkingView.vue
+|  |   ├─PersonHome.vue
+|  |   ├─RecordView.vue
+|  |   └RiderView.vue
+|  ├─utils
+|  |   ├─http.ts
+|  |   └request.ts
+|  ├─types
+|  |   ├─admin.ts
+|  |   ├─bike.ts
+|  |   ├─error.ts
+|  |   ├─form.ts
+|  |   ├─location.ts
+|  |   ├─noParkingZone.ts
+|  |   ├─record.ts
+|  |   ├─rider.ts
+|  |   └table.ts
+|  ├─stores
+|  |   ├─bikes.ts
+|  |   ├─mapStatus.ts
+|  |   ├─noParkingZone.ts
+|  |   ├─operationStatus.ts
+|  |   ├─records.ts
+|  |   ├─rider.ts
+|  |   └user.ts
+|  ├─router
+|  |   └index.ts
+|  ├─components
+|  |     ├─ColdBikeChart.vue
+|  |     ├─EditForm.vue
+|  |     ├─HelloWorld.vue
+|  |     ├─HotAreaTimePicker.vue
+|  |     ├─HotBikeChart.vue
+|  |     ├─InsertForm.vue
+|  |     ├─LineChart1.vue
+|  |     ├─LocationSelect.vue
+|  |     ├─MapContainer.vue
+|  |     ├─MapContainerForNoParkingZone.vue
+|  |     ├─NavBar.vue
+|  |     ├─SchedulingPlan.vue
+|  |     ├─SwitchAppearence.vue
+|  |     ├─Table.vue
+|  |     ├─TimeChart.vue
+|  |     ├─TimeSelect.vue
+|  |     ├─WelcomeItem.vue
+|  |     ├─__tests__
+|  |     |     └HelloWorld.spec.ts
+|  |     ├─icons
+|  |     |   ├─IconCommunity.vue
+|  |     |   ├─IconDocumentation.vue
+|  |     |   ├─IconEcosystem.vue
+|  |     |   ├─IconSupport.vue
+|  |     |   └IconTooling.vue
+|  ├─assets
+|  |   ├─base.css
+|  |   ├─logo.svg
+|  |   └main.css
+|  ├─api
+|  |  └request.ts
+├─public
+|   ├─chuchu.jpg
+|   ├─default.jpg
+|   ├─favicon (1).ico
+|   ├─img
+|   |  ├─mass0.png
+|   |  └mass1.png
+├─.vscode
+|    └extensions.json

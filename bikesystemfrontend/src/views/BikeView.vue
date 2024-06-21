@@ -4,7 +4,7 @@
  * @Author: DZQ
  * @Date: 2024-06-13 01:06:31
  * @LastEditors: DZQ
- * @LastEditTime: 2024-06-18 11:55:34
+ * @LastEditTime: 2024-06-18 23:39:57
 -->
 <template>
     <div class="bike-layout">
@@ -71,7 +71,7 @@ const dialogFormVisible = ref(false)
 const dialogFormVisible2 = ref(false)
 const statusStore = useStatusStore()
 
-function createColumn(prop, label, isEnum,  isTime, enumOptions?) {
+function createColumn(prop, label, isEnum, isTime, enumOptions?) {
     return {
         prop,
         label,
@@ -93,7 +93,7 @@ const bikeTableConfig = reactive({
     useMap: false,
     columns: [
         createColumn('bikeid', '单车ID', false, false),
-        createColumn('brand', '单车品牌', false, false, false),
+        createColumn('brand', '单车品牌', false, false),
         createColumn('status', '单车状态', true, false, ['unlocked', 'locked', 'damaged']),
         createColumn('releasedate', '投放日期', false,true),
         createColumn('warrantyPeriod', '保修时长', false, false),
