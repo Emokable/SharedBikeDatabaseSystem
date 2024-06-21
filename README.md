@@ -2,7 +2,13 @@
 
 ##### 前端端口为5173，后端端口为8088
 
+安装部署：
 
+后端使用IDEA2024.1 
+
+java jdk版本为openjdk22.01 maven自动安装依赖，运行主程序即可
+
+前端安装npm，执行npm install和npm run dev
 
 ## **1.后端数据库（Mysql）部分设计：**
 
@@ -54,6 +60,12 @@
 
 *status（状态：是否关锁损坏）*
 
+locationx 单车位置
+
+locationy
+
+lastusetime 上次实验时间
+
 **骑行记录（RideRecord）**
 
 *orderid（订单ID）*
@@ -98,7 +110,9 @@
 
 骑行记录（RideRecord） 是典型的弱实体，因为它依赖于 Bike 和 Rider。它的主要标识 orderid 仅在关联的单车和骑行者存在时才有意义。
 
-### **ER**图：（略）
+### **ER**图：
+
+![image-20240621122024119](README/image-20240621122024119.png)
 
 ### **MySQL设计：**
 
@@ -107,13 +121,6 @@
 **代码见查询文件initTable.sql（我转储的本地数据库为backend.sql，可供参考）**
 
 **有什么需要修改的请及时沟通。**
-
-> 2024-6-4:修改了bike类型，加入了结束后的坐标
-
-> 2024-6-5:修改了前端配置，增加了一个登录前端界面和后端controller用于测试前后端连接效果。基本连接可行；
-> 2024-6-5:修改了后端的登录认证和完成了api权限管理
->
-> 2024-6-11: 转ts，引入element plus，vite，vue router等；
 
 后端结构：
 
